@@ -261,14 +261,6 @@ func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
 	turnSpent := false
 	// Equip item...
 	c.Equipment[slot] = o
-	// ...then remove it from inventory.
-	index, err := FindObjectIndex(o, c.Inventory)
-	if err != nil {
-		fmt.Println(err)
-	}
-	copy(c.Inventory[index:], c.Inventory[index+1:])
-	c.Inventory[len(c.Inventory)-1] = nil
-	c.Inventory = c.Inventory[:len(c.Inventory)-1]
 	if c.AIType == PlayerAI {
 		AddMessage("You equipped " + o.Name + ".")
 	}
