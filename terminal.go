@@ -47,7 +47,7 @@ const (
 	LogSizeY    = WindowSizeY - MapSizeY
 	LogPosX     = 0
 	LogPosY     = MapSizeY
-	GameTitle   = "unnamed game"
+	GameTitle   = "Rogue Robbs Trains (7DRL 2019)"
 	FontName    = "UbuntuMono-R.ttf"
 	FontSize    = 18
 )
