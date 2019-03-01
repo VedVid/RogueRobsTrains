@@ -40,13 +40,13 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	turnSpent := false
 	switch k {
 	case blt.TK_UP:
-		turnSpent = p.MoveOrAttack(0, -1, *b, *c)
+		turnSpent = p.MoveOrAttack(0, -1, *b, o, *c)
 	case blt.TK_RIGHT:
-		turnSpent = p.MoveOrAttack(1, 0, *b, *c)
+		turnSpent = p.MoveOrAttack(1, 0, *b, o, *c)
 	case blt.TK_DOWN:
-		turnSpent = p.MoveOrAttack(0, 1, *b, *c)
+		turnSpent = p.MoveOrAttack(0, 1, *b, o, *c)
 	case blt.TK_LEFT:
-		turnSpent = p.MoveOrAttack(-1, 0, *b, *c)
+		turnSpent = p.MoveOrAttack(-1, 0, *b, o, *c)
 
 	case blt.TK_F:
 		turnSpent = p.Target(*b, *o, *c)
