@@ -91,11 +91,7 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	var enemyEq = EquipmentComponent{Objects{w1, w2, wm}, Objects{}}
 	enemy.EquipmentComponent = enemyEq
 	*c = Creatures{player, enemy}
-	obj, err := NewObject(24, 15, "heal.json")
-	*o = Objects{obj}
-	if err != nil {
-		fmt.Println(err)
-	}
+	*o = Objects{}
 	var c2 = Creatures{}
 	*b, c2, err = LoadJsonMap("smallInn.json")
 	if err != nil {
