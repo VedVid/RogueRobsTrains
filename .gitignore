@@ -1,0 +1,11 @@
+.idea/
+*.backup
+*.sublime-project
+*.sublime-workspace
+*.dll
+*.exe
+*.gob
+*.orig
+*.txt
+*.ttf
+*.png
