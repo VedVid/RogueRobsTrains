@@ -158,7 +158,8 @@ func (c *Creature) PickUp(o *Objects) bool {
 			if c.AIType == PlayerAI {
 				AddMessage("You found " + obj[i].Name + ".")
 			}
-			c.Inventory = append(c.Inventory, obj[i])
+			c.DropFromEquipment(o, obj[i].Slot)
+			c.EquipItem(obj[i], obj[i].Slot)
 			copy(obj[i:], obj[i+1:])
 			obj[len(obj)-1] = nil
 			*o = obj[:len(obj)-1]
