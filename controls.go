@@ -52,8 +52,8 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 		turnSpent = p.Target(*b, *o, *c)
 	case blt.TK_L:
 		p.Look(*b, *o, *c) // Looking is free action.
-	//case blt.TK_G:
-	//	turnSpent = p.PickUp(o)
+	case blt.TK_G:
+		turnSpent = p.PickUp(o)
 	}
 	return turnSpent
 }
