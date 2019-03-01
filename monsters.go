@@ -45,6 +45,7 @@ type Creature struct {
 	CollisionProperties
 	FighterProperties
 	EquipmentComponent
+	ActiveWeapon int
 }
 
 // Creatures holds every creature on map.
@@ -91,6 +92,9 @@ func NewCreature(x, y int, monsterFile string) (*Creature, error) {
 	if monster.Defense < 0 {
 		txt := InitialDefenseError(monster.Defense)
 		err2 = errors.New("Creature defense value is smaller than 0." + txt)
+	}
+	if monster.ActiveWeapon < 0 || monster.ActiveWeapon >= SlotMax {
+		err2 = errors.New("ActiveWeapon of Creature is out of bounds.")
 	}
 	return monster, err2
 }

@@ -84,5 +84,6 @@
             "Slot":-1,
             "Use":1
         }
-    ]
+    ],
+	"ActiveWeapon": 0
 }
