@@ -14,5 +14,6 @@
     "Use":0,
 	"Ranges": [25, 50, 75],
 	"AmmoMax": 7,
-	"AmmoCurrent": 7
+	"AmmoCurrent": 7,
+	"Cock": false
 }

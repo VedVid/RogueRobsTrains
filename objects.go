@@ -85,6 +85,7 @@ type Object struct {
 	Ranges []int
 	AmmoMax int
 	AmmoCurrent int
+	Cock bool
 }
 
 // Objects holds every object on map.
