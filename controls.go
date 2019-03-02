@@ -53,13 +53,43 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			if p.Equipment[p.ActiveWeapon].AmmoCurrent <= 0 {
 				AddMessage("You need to reload!")
 			} else {
-				turnSpent = p.Target(*b, o, *c)
-				if turnSpent == true {
-					p.Equipment[p.ActiveWeapon].AmmoCurrent--
+				if (p.Equipment[p.ActiveWeapon].Cock == true &&
+					p.Equipment[p.ActiveWeapon].Cocked == true) ||
+					p.Equipment[p.ActiveWeapon].Cock == false {
+					turnSpent = p.Target(*b, o, *c)
+					if turnSpent == true {
+						p.Equipment[p.ActiveWeapon].AmmoCurrent--
+						if p.Equipment[p.ActiveWeapon].Cock == true {
+							p.Equipment[p.ActiveWeapon].Cocked = false
+						}
+					}
+				} else {
+					p.Equipment[p.ActiveWeapon].Cocked = true
+					turnSpent = true
+					AddMessage("Gun cocked.")
 				}
 			}
 		} else {
 			AddMessage("You are using melee weapon.")
+		}
+	case blt.TK_R:
+		if p.ActiveWeapon != SlotWeaponMelee {
+			if p.Equipment[p.ActiveWeapon].Cock == false {
+				if p.Equipment[p.ActiveWeapon].AmmoCurrent < p.Equipment[p.ActiveWeapon].AmmoMax {
+					p.Equipment[p.ActiveWeapon].AmmoCurrent = p.Equipment[p.ActiveWeapon].AmmoMax
+					turnSpent = true
+				}
+			} else {
+				if p.Equipment[p.ActiveWeapon].Cocked == true {
+					p.Equipment[p.ActiveWeapon].Cocked = false
+					AddMessage("Gun uncocked.")
+					turnSpent = true
+				} else {
+					if p.Equipment[p.ActiveWeapon].AmmoCurrent < p.Equipment[p.ActiveWeapon].AmmoMax {
+						p.Equipment[p.ActiveWeapon].AmmoCurrent++
+					}
+				}
+			}
 		}
 	case blt.TK_L:
 		p.Look(*b, *o, *c) // Looking is free action.

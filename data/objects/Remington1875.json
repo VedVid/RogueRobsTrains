@@ -15,5 +15,6 @@
 	"Ranges": [60, 90, 10],
 	"AmmoMax": 6,
 	"AmmoCurrent": 6,
-	"Cock:" true
+	"Cock": true,
+	"Cocked": true
 }

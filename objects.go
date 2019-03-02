@@ -86,6 +86,7 @@ type Object struct {
 	AmmoMax int
 	AmmoCurrent int
 	Cock bool
+	Cocked bool
 }
 
 // Objects holds every object on map.

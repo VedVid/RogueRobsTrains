@@ -58,7 +58,7 @@ func NilToObject() *Object {
 		VisibilityProperties{0, false},
 		CollisionProperties{false, false},
 		ObjectProperties{false, false, false, 0, 0},
-		[]int{0, 0, 0}, 0, 0, false}
+		[]int{0, 0, 0}, 0, 0, false, false}
 	return placeholder
 }
 
