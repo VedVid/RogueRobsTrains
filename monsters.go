@@ -125,15 +125,19 @@ func (c *Creature) MoveOrAttack(tx, ty int, b Board, o *Objects, all Creatures) 
 		}
 	}
 	if target != nil {
-		c.AttackTarget(target, o)
-		turnSpent = true
+		if c.ActiveWeapon == SlotWeaponMelee {
+			c.AttackTarget(target, o)
+			turnSpent = true
+		} else {
+			AddMessage("You need melee weapon to do it.")
+		}
 	} else {
-		turnSpent = c.Move(tx, ty, b)
+		turnSpent = c.Move(tx, ty, b, all)
 	}
 	return turnSpent
 }
 
-func (c *Creature) Move(tx, ty int, b Board) bool {
+func (c *Creature) Move(tx, ty int, b Board, cs Creatures) bool {
 	/* Move is method of Creature; it takes target x, y as arguments;
 	   check if next move won't put Creature off the screen, then updates
 	   Creature coords. */
@@ -143,7 +147,8 @@ func (c *Creature) Move(tx, ty int, b Board) bool {
 		newX <= MapSizeX-1 &&
 		newY >= 0 &&
 		newY <= MapSizeY-1 {
-		if b[newX][newY].Blocked == false {
+		if b[newX][newY].Blocked == false &&
+			GetAliveCreatureFromTile(newX, newY, cs) == nil {
 			c.X = newX
 			c.Y = newY
 			turnSpent = true

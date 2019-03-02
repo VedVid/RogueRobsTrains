@@ -49,7 +49,11 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 		turnSpent = p.MoveOrAttack(-1, 0, *b, o, *c)
 
 	case blt.TK_F:
-		turnSpent = p.Target(*b, o, *c)
+		if p.ActiveWeapon != SlotWeaponMelee {
+			turnSpent = p.Target(*b, o, *c)
+		} else {
+			AddMessage("You are using melee weapon.")
+		}
 	case blt.TK_L:
 		p.Look(*b, *o, *c) // Looking is free action.
 	case blt.TK_G:

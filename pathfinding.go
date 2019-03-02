@@ -158,7 +158,7 @@ func (c *Creature) MoveTowardsPath(b Board, cs Creatures, tx, ty int) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	c.Move(dx, dy, b)
+	c.Move(dx, dy, b, cs)
 }
 
 func BacktrackPath(nodes [][]*Node, start *Node) (int, int, error) {
@@ -254,16 +254,16 @@ func (c *Creature) MoveTowards(b Board, cs Creatures, tx, ty int, ai int) {
 	}
 	newX, newY := c.X+ddx, c.Y+ddy
 	if b[newX][newY].Blocked == false && GetAliveCreatureFromTile(newX, newY, cs) == nil {
-		c.Move(ddx, ddy, b)
+		c.Move(ddx, ddy, b, cs)
 	} else {
 		if ai == MeleeDumbAI || ai == RangedDumbAI {
 			if ddx != 0 {
 				if b[newX][c.Y].Blocked == false && GetAliveCreatureFromTile(newX, c.Y, cs) == nil {
-					c.Move(ddx, 0, b)
+					c.Move(ddx, 0, b, cs)
 				}
 			} else if ddy != 0 {
 				if b[c.X][newY].Blocked == false && GetAliveCreatureFromTile(c.X, newY, cs) == nil {
-					c.Move(0, ddy, b)
+					c.Move(0, ddy, b, cs)
 				}
 			}
 		} else if ai == MeleePatherAI || ai == RangedPatherAI {
