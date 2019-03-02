@@ -115,51 +115,80 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 		}
 	case RangedDumbAI:
 		if c.AITriggered == true {
-			if c.Equipment[SlotWeaponPrimary] != nil {
-				// Use primary ranged weapon.
-				if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
-					// TODO:
-					// For now, every ranged skill has range equal to FOVLength-1
-					// but it should change in future.
-					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+			if c.Equipment[c.ActiveWeapon] != nil {
+				if c.ActiveWeapon == SlotWeaponMelee {
+					if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
+						// TODO:
+						// For now, every ranged skill has range equal to FOVLength-1
+						// but it should change in future.
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						c.AttackTarget(cs[0], &o)
+					}
 				} else {
-					// DumbAI will not check if target is valid
-					vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
-					if err != nil {
-						fmt.Println(err)
-					}
-					_ = ComputeVector(vec)
-					_, _, target, _ := ValidateVector(vec, b, cs, o)
-					if target != nil {
-						c.AttackTarget(target, &o)
-					}
-				}
-			} else if c.Equipment[SlotWeaponSecondary] != nil {
-				// Use secondary ranged weapon.
-				if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
-					// TODO:
-					// For now, every ranged skill has range equal to FOVLength-1
-					// but it should change in future.
-					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
-				} else {
-					// DumbAI will not check if target is valid
-					vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
-					if err != nil {
-						fmt.Println(err)
-					}
-					_ = ComputeVector(vec)
-					_, _, target, _ := ValidateVector(vec, b, cs, o)
-					if target != nil {
-						c.AttackTarget(target, &o)
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 { // should it use DistanceTo, instead of ComputeVector?
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						// DumbAI will not check if target is valid
+						vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+						if err != nil {
+							fmt.Println(err)
+						}
+						_ = ComputeVector(vec)
+						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						if target != nil {
+							c.AttackTarget(target, &o)
+						}
 					}
 				}
 			} else {
-				if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
-					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+				if c.Equipment[SlotWeaponPrimary] != nil {
+					// Use primary ranged weapon.
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+						// TODO:
+						// For now, every ranged skill has range equal to FOVLength-1
+						// but it should change in future.
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						// DumbAI will not check if target is valid
+						vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+						if err != nil {
+							fmt.Println(err)
+						}
+						_ = ComputeVector(vec)
+						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						if target != nil {
+							c.AttackTarget(target, &o)
+						}
+					}
+				} else if c.Equipment[SlotWeaponSecondary] != nil {
+					// Use secondary ranged weapon.
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+						// TODO:
+						// For now, every ranged skill has range equal to FOVLength-1
+						// but it should change in future.
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						// DumbAI will not check if target is valid
+						vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+						if err != nil {
+							fmt.Println(err)
+						}
+						_ = ComputeVector(vec)
+						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						if target != nil {
+							c.AttackTarget(target, &o)
+						}
+					}
 				} else {
-					c.AttackTarget(cs[0], &o)
+					if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						c.AttackTarget(cs[0], &o)
+					}
 				}
 			}
+
 		} else {
 			dx := RandRange(-1, 1)
 			dy := RandRange(-1, 1)
