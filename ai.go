@@ -139,6 +139,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 						_, _, target, _ := ValidateVector(vec, b, cs, o)
 						if target != nil {
 							c.AttackTarget(target, &o)
+							c.Equipment[c.ActiveWeapon].AmmoCurrent--
 						}
 					}
 				}
@@ -160,6 +161,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 						_, _, target, _ := ValidateVector(vec, b, cs, o)
 						if target != nil {
 							c.AttackTarget(target, &o)
+							c.Equipment[SlotWeaponPrimary].AmmoCurrent--
 						}
 					}
 				} else if c.Equipment[SlotWeaponSecondary] != nil {
@@ -179,6 +181,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 						_, _, target, _ := ValidateVector(vec, b, cs, o)
 						if target != nil {
 							c.AttackTarget(target, &o)
+							c.Equipment[SlotWeaponSecondary].AmmoCurrent--
 						}
 					}
 				} else {
@@ -226,6 +229,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 							c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 						} else {
 							c.AttackTarget(target, &o)
+							c.Equipment[c.ActiveWeapon].AmmoCurrent--
 						}
 					}
 				}
@@ -247,6 +251,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 							c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 						} else {
 							c.AttackTarget(target, &o)
+							c.Equipment[SlotWeaponPrimary].AmmoCurrent--
 						}
 					}
 				} else if c.Equipment[SlotWeaponSecondary] != nil {
@@ -266,6 +271,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 							c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 						} else {
 							c.AttackTarget(target, &o)
+							c.Equipment[SlotWeaponSecondary].AmmoCurrent--
 						}
 					}
 				} else {
