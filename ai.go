@@ -241,9 +241,27 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 				}
 			}
 		} else {
-			dx := RandRange(-1, 1)
-			dy := RandRange(-1, 1)
-			c.Move(dx, dy, b, cs)
+			if c.Equipment[c.ActiveWeapon] != nil &&
+				c.Equipment[c.ActiveWeapon].AmmoCurrent <= c.Equipment[c.ActiveWeapon].AmmoMax {
+				if c.Equipment[c.ActiveWeapon].Cock == false {
+					c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
+					AddMessage("Enemy reloads gun!")
+					break
+				} else if c.Equipment[c.ActiveWeapon].Cock == true {
+					if c.Equipment[c.ActiveWeapon].Cocked == true {
+						c.Equipment[c.ActiveWeapon].Cocked = false
+						AddMessage("Enemy uncocks gun!")
+						break
+					} else {
+						c.Equipment[c.ActiveWeapon].AmmoCurrent++
+						AddMessage("Enemy reloads gun!")
+					}
+				}
+			} else {
+				dx := RandRange(-1, 1)
+				dy := RandRange(-1, 1)
+				c.Move(dx, dy, b, cs)
+			}
 		}
 	case RangedPatherAI: // It will depend on ranged weapons and equipment implementation
 		if c.AITriggered == true {
@@ -379,9 +397,27 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 				}
 			}
 		} else {
-			dx := RandRange(-1, 1)
-			dy := RandRange(-1, 1)
-			c.Move(dx, dy, b, cs)
+			if c.Equipment[c.ActiveWeapon] != nil &&
+				c.Equipment[c.ActiveWeapon].AmmoCurrent <= c.Equipment[c.ActiveWeapon].AmmoMax {
+				if c.Equipment[c.ActiveWeapon].Cock == false {
+					c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
+					AddMessage("Enemy reloads gun!")
+					break
+				} else if c.Equipment[c.ActiveWeapon].Cock == true {
+					if c.Equipment[c.ActiveWeapon].Cocked == true {
+						c.Equipment[c.ActiveWeapon].Cocked = false
+						AddMessage("Enemy uncocks gun!")
+						break
+					} else {
+						c.Equipment[c.ActiveWeapon].AmmoCurrent++
+						AddMessage("Enemy reloads gun!")
+					}
+				}
+			} else {
+				dx := RandRange(-1, 1)
+				dy := RandRange(-1, 1)
+				c.Move(dx, dy, b, cs)
+			}
 		}
 	}
 }
