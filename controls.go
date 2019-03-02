@@ -59,11 +59,20 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	case blt.TK_G:
 		turnSpent = p.PickUp(o)
 	case blt.TK_1:
-		p.ActiveWeapon = SlotWeaponPrimary
+		if p.ActiveWeapon != SlotWeaponPrimary {
+			p.ActiveWeapon = SlotWeaponPrimary
+			turnSpent = true
+		}
 	case blt.TK_2:
-		p.ActiveWeapon = SlotWeaponSecondary
+		if p.ActiveWeapon != SlotWeaponSecondary {
+			p.ActiveWeapon = SlotWeaponSecondary
+			turnSpent = true
+		}
 	case blt.TK_3:
-		p.ActiveWeapon = SlotWeaponMelee
+		if p.ActiveWeapon != SlotWeaponMelee {
+			p.ActiveWeapon = SlotWeaponMelee
+			turnSpent = true
+		}
 	}
 	return turnSpent
 }
