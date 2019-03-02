@@ -195,49 +195,78 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 		}
 	case RangedPatherAI: // It will depend on ranged weapons and equipment implementation
 		if c.AITriggered == true {
-			if c.Equipment[SlotWeaponPrimary] != nil {
-				if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
-					// TODO:
-					// For now, every ranged skill has range equal to FOVLength-1
-					// but it should change in future.
-					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
-				} else {
-					vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
-					if err != nil {
-						fmt.Println(err)
-					}
-					_ = ComputeVector(vec)
-					_, _, target, _ := ValidateVector(vec, b, cs, o)
-					if target != cs[0] {
+			if c.Equipment[c.ActiveWeapon] != nil {
+				if c.ActiveWeapon == SlotWeaponMelee {
+					if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
-						c.AttackTarget(target, &o)
+						c.AttackTarget(cs[0], &o)
 					}
-				}
-			} else if c.Equipment[SlotWeaponSecondary] != nil {
-				if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
-					// TODO:
-					// For now, every ranged skill has range equal to FOVLength-1
-					// but it should change in future.
-					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 				} else {
-					vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
-					if err != nil {
-						fmt.Println(err)
-					}
-					_ = ComputeVector(vec)
-					_, _, target, _ := ValidateVector(vec, b, cs, o)
-					if target != cs[0] {
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+						// TODO:
+						// For now, every ranged skill has range equal to FOVLength-1
+						// but it should change in future.
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
-						c.AttackTarget(target, &o)
+						vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+						if err != nil {
+							fmt.Println(err)
+						}
+						_ = ComputeVector(vec)
+						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						if target != cs[0] {
+							c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+						} else {
+							c.AttackTarget(target, &o)
+						}
 					}
 				}
 			} else {
-				if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
-					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+				if c.Equipment[SlotWeaponPrimary] != nil {
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+						// TODO:
+						// For now, every ranged skill has range equal to FOVLength-1
+						// but it should change in future.
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+						if err != nil {
+							fmt.Println(err)
+						}
+						_ = ComputeVector(vec)
+						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						if target != cs[0] {
+							c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+						} else {
+							c.AttackTarget(target, &o)
+						}
+					}
+				} else if c.Equipment[SlotWeaponSecondary] != nil {
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+						// TODO:
+						// For now, every ranged skill has range equal to FOVLength-1
+						// but it should change in future.
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+						if err != nil {
+							fmt.Println(err)
+						}
+						_ = ComputeVector(vec)
+						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						if target != cs[0] {
+							c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+						} else {
+							c.AttackTarget(target, &o)
+						}
+					}
 				} else {
-					c.AttackTarget(cs[0], &o)
+					if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						c.AttackTarget(cs[0], &o)
+					}
 				}
 			}
 		} else {
@@ -245,6 +274,5 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			dy := RandRange(-1, 1)
 			c.Move(dx, dy, b)
 		}
-
 	}
 }
