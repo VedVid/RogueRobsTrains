@@ -73,7 +73,8 @@ func TriggerAI(b Board, p, c *Creature) {
 }
 
 func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
-	/* HandleAI is robust function that takes Board, Creatures, Objects,
+	/* TODO: This docstring needs update!
+	   HandleAI is robust function that takes Board, Creatures, Objects,
 	   and specific Creature as arguments. The most notable argument is
 	   the last one - behavior of this entity will be decided in function body.
 	   Its behavior will be decided regarding to AIType.
