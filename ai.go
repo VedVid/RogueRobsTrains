@@ -175,8 +175,21 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 						_ = ComputeVector(vec)
 						_, _, target, _ := ValidateVector(vec, b, cs, o)
 						if target != nil {
-							c.AttackTarget(target, &o)
-							c.Equipment[c.ActiveWeapon].AmmoCurrent--
+							if c.Equipment[c.ActiveWeapon].Cock == false {
+								c.AttackTarget(target, &o)
+								c.Equipment[c.ActiveWeapon].AmmoCurrent--
+							} else {
+								if c.Equipment[c.ActiveWeapon].Cock == true {
+									if c.Equipment[c.ActiveWeapon].Cocked == true {
+										c.AttackTarget(target, &o)
+										c.Equipment[c.ActiveWeapon].AmmoCurrent--
+										c.Equipment[c.ActiveWeapon].Cocked = false
+									} else {
+										c.Equipment[c.ActiveWeapon].Cocked = true
+										AddMessage("Enemy cocks gun.")
+									}
+								}
+							}
 						}
 					}
 				}
@@ -234,8 +247,21 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 						_ = ComputeVector(vec)
 						_, _, target, _ := ValidateVector(vec, b, cs, o)
 						if target != nil {
-							c.AttackTarget(target, &o)
-							c.Equipment[SlotWeaponPrimary].AmmoCurrent--
+							if c.Equipment[SlotWeaponPrimary].Cock == false {
+								c.AttackTarget(target, &o)
+								c.Equipment[SlotWeaponPrimary].AmmoCurrent--
+							} else {
+								if c.Equipment[SlotWeaponPrimary].Cock == true {
+									if c.Equipment[SlotWeaponPrimary].Cocked == true {
+										c.AttackTarget(target, &o)
+										c.Equipment[SlotWeaponPrimary].AmmoCurrent--
+										c.Equipment[SlotWeaponPrimary].Cocked = false
+									} else {
+										c.Equipment[SlotWeaponPrimary].Cocked = true
+										AddMessage("Enemy cocks gun.")
+									}
+								}
+							}
 						}
 					}
 				} else if c.Equipment[SlotWeaponSecondary] != nil {
@@ -291,8 +317,21 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 						_ = ComputeVector(vec)
 						_, _, target, _ := ValidateVector(vec, b, cs, o)
 						if target != nil {
-							c.AttackTarget(target, &o)
-							c.Equipment[SlotWeaponSecondary].AmmoCurrent--
+							if c.Equipment[SlotWeaponSecondary].Cock == false {
+								c.AttackTarget(target, &o)
+								c.Equipment[SlotWeaponSecondary].AmmoCurrent--
+							} else {
+								if c.Equipment[SlotWeaponSecondary].Cock == true {
+									if c.Equipment[SlotWeaponSecondary].Cocked == true {
+										c.AttackTarget(target, &o)
+										c.Equipment[SlotWeaponSecondary].AmmoCurrent--
+										c.Equipment[SlotWeaponSecondary].Cocked = false
+									} else {
+										c.Equipment[SlotWeaponSecondary].Cocked = true
+										AddMessage("Enemy cocks gun.")
+									}
+								}
+							}
 						}
 					}
 				} else {
