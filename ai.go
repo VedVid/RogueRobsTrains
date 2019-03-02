@@ -162,6 +162,22 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			} else {
 				if c.Equipment[SlotWeaponPrimary] != nil {
 					// Use primary ranged weapon.
+					if c.Equipment[SlotWeaponPrimary].AmmoCurrent <= 0 {
+						if c.Equipment[SlotWeaponPrimary].Cock == false {
+							c.Equipment[SlotWeaponPrimary].AmmoCurrent = c.Equipment[SlotWeaponPrimary].AmmoMax
+							AddMessage("Enemy reloads gun!")
+							break
+						} else if c.Equipment[SlotWeaponPrimary].Cock == true {
+							if c.Equipment[SlotWeaponPrimary].Cocked == true {
+								c.Equipment[SlotWeaponPrimary].Cocked = false
+								AddMessage("Enemy uncocks gun!")
+								break
+							} else {
+								c.Equipment[SlotWeaponPrimary].AmmoCurrent++
+								AddMessage("Enemy reloads gun!")
+							}
+						}
+					}
 					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
 						// TODO:
 						// For now, every ranged skill has range equal to FOVLength-1
@@ -182,6 +198,22 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					}
 				} else if c.Equipment[SlotWeaponSecondary] != nil {
 					// Use secondary ranged weapon.
+					if c.Equipment[SlotWeaponSecondary].AmmoCurrent <= 0 {
+						if c.Equipment[SlotWeaponSecondary].Cock == false {
+							c.Equipment[SlotWeaponSecondary].AmmoCurrent = c.Equipment[SlotWeaponSecondary].AmmoMax
+							AddMessage("Enemy reloads gun!")
+							break
+						} else if c.Equipment[SlotWeaponSecondary].Cock == true {
+							if c.Equipment[SlotWeaponSecondary].Cocked == true {
+								c.Equipment[SlotWeaponSecondary].Cocked = false
+								AddMessage("Enemy uncocks gun!")
+								break
+							} else {
+								c.Equipment[SlotWeaponSecondary].AmmoCurrent++
+								AddMessage("Enemy reloads gun!")
+							}
+						}
+					}
 					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
 						// TODO:
 						// For now, every ranged skill has range equal to FOVLength-1
