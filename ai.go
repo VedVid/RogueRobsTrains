@@ -130,16 +130,22 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					if c.Equipment[c.ActiveWeapon].AmmoCurrent <= 0 {
 						if c.Equipment[c.ActiveWeapon].Cock == false {
 							c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
-							AddMessage("Enemy reloads gun!")
+							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+								AddMessage("Enemy reloads gun!")
+							}
 							break
 						} else if c.Equipment[c.ActiveWeapon].Cock == true {
 							if c.Equipment[c.ActiveWeapon].Cocked == true {
 								c.Equipment[c.ActiveWeapon].Cocked = false
-								AddMessage("Enemy uncocks gun!")
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy uncocks gun!")
+								}
 								break
 							} else {
 								c.Equipment[c.ActiveWeapon].AmmoCurrent++
-								AddMessage("Enemy reloads gun!")
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy reloads gun!")
+								}
 							}
 						}
 					} else if c.Equipment[c.ActiveWeapon].AmmoCurrent < c.Equipment[c.ActiveWeapon].AmmoMax &&
@@ -179,16 +185,22 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					if c.Equipment[SlotWeaponPrimary].AmmoCurrent <= 0 {
 						if c.Equipment[SlotWeaponPrimary].Cock == false {
 							c.Equipment[SlotWeaponPrimary].AmmoCurrent = c.Equipment[SlotWeaponPrimary].AmmoMax
-							AddMessage("Enemy reloads gun!")
+							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+								AddMessage("Enemy reloads gun!")
+							}
 							break
 						} else if c.Equipment[SlotWeaponPrimary].Cock == true {
 							if c.Equipment[SlotWeaponPrimary].Cocked == true {
 								c.Equipment[SlotWeaponPrimary].Cocked = false
-								AddMessage("Enemy uncocks gun!")
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy uncocks gun!")
+								}
 								break
 							} else {
 								c.Equipment[SlotWeaponPrimary].AmmoCurrent++
-								AddMessage("Enemy reloads gun!")
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy reloads gun!")
+								}
 							}
 						}
 					} else if c.Equipment[SlotWeaponPrimary].AmmoCurrent < c.Equipment[SlotWeaponPrimary].AmmoMax &&
@@ -229,16 +241,22 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					if c.Equipment[SlotWeaponSecondary].AmmoCurrent <= 0 {
 						if c.Equipment[SlotWeaponSecondary].Cock == false {
 							c.Equipment[SlotWeaponSecondary].AmmoCurrent = c.Equipment[SlotWeaponSecondary].AmmoMax
-							AddMessage("Enemy reloads gun!")
+							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+								AddMessage("Enemy reloads gun!")
+							}
 							break
 						} else if c.Equipment[SlotWeaponSecondary].Cock == true {
 							if c.Equipment[SlotWeaponSecondary].Cocked == true {
 								c.Equipment[SlotWeaponSecondary].Cocked = false
-								AddMessage("Enemy uncocks gun!")
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy uncocks gun!")
+								}
 								break
 							} else {
 								c.Equipment[SlotWeaponSecondary].AmmoCurrent++
-								AddMessage("Enemy reloads gun!")
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy reloads gun!")
+								}
 							}
 						}
 					} else if c.Equipment[SlotWeaponSecondary].AmmoCurrent < c.Equipment[SlotWeaponSecondary].AmmoMax &&
@@ -318,16 +336,22 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					if c.Equipment[c.ActiveWeapon].AmmoCurrent <= 0 {
 						if c.Equipment[c.ActiveWeapon].Cock == false {
 							c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
-							AddMessage("Enemy reloads gun!")
+							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+								AddMessage("Enemy reloads gun!")
+							}
 							break
 						} else if c.Equipment[c.ActiveWeapon].Cock == true {
 							if c.Equipment[c.ActiveWeapon].Cocked == true {
 								c.Equipment[c.ActiveWeapon].Cocked = false
-								AddMessage("Enemy uncocks gun!")
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy uncocks gun!")
+								}
 								break
 							} else {
 								c.Equipment[c.ActiveWeapon].AmmoCurrent++
-								AddMessage("Enemy reloads gun!")
+									if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+										AddMessage("Enemy reloads gun!")
+									}
 							}
 						}
 					} else if c.Equipment[c.ActiveWeapon].AmmoCurrent < c.Equipment[c.ActiveWeapon].AmmoMax &&
@@ -376,16 +400,22 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					if c.Equipment[SlotWeaponPrimary].AmmoCurrent <= 0 {
 						if c.Equipment[SlotWeaponPrimary].Cock == false {
 							c.Equipment[SlotWeaponPrimary].AmmoCurrent = c.Equipment[SlotWeaponPrimary].AmmoMax
-							AddMessage("Enemy reloads gun!")
+							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+								AddMessage("Enemy reloads gun!")
+							}
 							break
 						} else if c.Equipment[SlotWeaponPrimary].Cock == true {
 							if c.Equipment[SlotWeaponPrimary].Cocked == true {
 								c.Equipment[SlotWeaponPrimary].Cocked = false
-								AddMessage("Enemy uncocks gun!")
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy uncocks gun!")
+								}
 								break
 							} else {
 								c.Equipment[SlotWeaponPrimary].AmmoCurrent++
-								AddMessage("Enemy reloads gun!")
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy reloads gun!")
+								}
 							}
 						}
 					} else if c.Equipment[SlotWeaponPrimary].AmmoCurrent < c.Equipment[SlotWeaponPrimary].AmmoMax &&
@@ -426,16 +456,22 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					if c.Equipment[SlotWeaponSecondary].AmmoCurrent <= 0 {
 						if c.Equipment[SlotWeaponSecondary].Cock == false {
 							c.Equipment[SlotWeaponSecondary].AmmoCurrent = c.Equipment[SlotWeaponSecondary].AmmoMax
-							AddMessage("Enemy reloads gun!")
+							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+								AddMessage("Enemy reloads gun!")
+							}
 							break
 						} else if c.Equipment[SlotWeaponSecondary].Cock == true {
 							if c.Equipment[SlotWeaponSecondary].Cocked == true {
 								c.Equipment[SlotWeaponSecondary].Cocked = false
-								AddMessage("Enemy uncocks gun!")
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy uncocks gun!")
+								}
 								break
 							} else {
 								c.Equipment[SlotWeaponSecondary].AmmoCurrent++
-								AddMessage("Enemy reloads gun!")
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy reloads gun!")
+								}
 							}
 						}
 					} else if c.Equipment[SlotWeaponSecondary].AmmoCurrent < c.Equipment[SlotWeaponSecondary].AmmoMax &&
