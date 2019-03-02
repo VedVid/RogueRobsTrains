@@ -188,7 +188,6 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					}
 				}
 			}
-
 		} else {
 			dx := RandRange(-1, 1)
 			dy := RandRange(-1, 1)
