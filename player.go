@@ -83,6 +83,15 @@ func NewPlayer(x, y int) (*Creature, error) {
 		txt := InitialDefenseError(player.Defense)
 		err2 = errors.New("Creature defense value is smaller than 0." + txt)
 	}
+	if player.ActiveWeapon < 0 || player.ActiveWeapon >= SlotMax {
+		err2 = errors.New("ActiveWeapon of Player is out of bounds.")
+	}
+	if player.Equipment == nil {
+		player.Equipment = Objects{}
+	}
+	if player.Inventory == nil {
+		player.Inventory = Objects{}
+	}
 	return player, err2
 }
 

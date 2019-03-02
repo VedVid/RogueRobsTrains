@@ -96,6 +96,12 @@ func NewCreature(x, y int, monsterFile string) (*Creature, error) {
 	if monster.ActiveWeapon < 0 || monster.ActiveWeapon >= SlotMax {
 		err2 = errors.New("ActiveWeapon of Creature is out of bounds.")
 	}
+	if monster.Equipment == nil {
+		monster.Equipment = Objects{}
+	}
+	if monster.Inventory == nil {
+		monster.Inventory = Objects{}
+	}
 	return monster, err2
 }
 
