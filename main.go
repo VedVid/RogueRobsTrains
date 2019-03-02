@@ -111,6 +111,19 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 		fmt.Println(err)
 	}
 	*c = append(*c, c2...)
+	for i := 0; i < len(*c); i++ {
+		monster := (*c)[i]
+		weapon := monster.ActiveWeapon
+		if monster.Equipment[weapon] == nil {
+			if weapon == SlotWeaponMelee {
+				monster.Equipment[weapon], _ = NewObject(0, 0, "BowieKnife.json")
+			} else if weapon == SlotWeaponSecondary {
+				monster.Equipment[weapon], _ = NewObject(0, 0, "Remington1875.json")
+			} else if weapon == SlotWeaponPrimary {
+				monster.Equipment[weapon], _ = NewObject(0 ,0, "SpencerRepeater.json")
+			}
+		}
+	}
 }
 
 func StartGame(b *Board, c *Creatures, o *Objects) {
