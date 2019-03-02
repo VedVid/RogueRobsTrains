@@ -127,6 +127,22 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 						c.AttackTarget(cs[0], &o)
 					}
 				} else {
+					if c.Equipment[c.ActiveWeapon].AmmoCurrent <= 0 {
+						if c.Equipment[c.ActiveWeapon].Cock == false {
+							c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
+							AddMessage("Enemy reloads gun!")
+							break
+						} else if c.Equipment[c.ActiveWeapon].Cock == true {
+							if c.Equipment[c.ActiveWeapon].Cocked == true {
+								c.Equipment[c.ActiveWeapon].Cocked = false
+								AddMessage("Enemy uncocks gun!")
+								break
+							} else {
+								c.Equipment[c.ActiveWeapon].AmmoCurrent++
+								AddMessage("Enemy reloads gun!")
+							}
+						}
+					}
 					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 { // should it use DistanceTo, instead of ComputeVector?
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
