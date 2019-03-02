@@ -13,5 +13,6 @@
     "Slot":0,
     "Use":0,
 	"Ranges": [25, 50, 75],
-	"Ammo": 7
+	"AmmoMax": 7,
+	"AmmoCurrent": 7
 }

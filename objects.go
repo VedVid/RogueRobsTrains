@@ -83,7 +83,8 @@ type Object struct {
 	CollisionProperties
 	ObjectProperties
 	Ranges []int
-	Ammo int
+	AmmoMax int
+	AmmoCurrent int
 }
 
 // Objects holds every object on map.
