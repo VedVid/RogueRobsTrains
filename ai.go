@@ -146,6 +146,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
 									AddMessage("Enemy reloads gun!")
 								}
+								break
 							}
 						}
 					} else if c.Equipment[c.ActiveWeapon].AmmoCurrent < c.Equipment[c.ActiveWeapon].AmmoMax &&
@@ -201,6 +202,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
 									AddMessage("Enemy reloads gun!")
 								}
+								break
 							}
 						}
 					} else if c.Equipment[SlotWeaponPrimary].AmmoCurrent < c.Equipment[SlotWeaponPrimary].AmmoMax &&
@@ -257,6 +259,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
 									AddMessage("Enemy reloads gun!")
 								}
+								break
 							}
 						}
 					} else if c.Equipment[SlotWeaponSecondary].AmmoCurrent < c.Equipment[SlotWeaponSecondary].AmmoMax &&
@@ -315,6 +318,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					} else {
 						c.Equipment[c.ActiveWeapon].AmmoCurrent++
 						AddMessage("Enemy reloads gun!")
+						break
 					}
 				}
 			} else {
@@ -352,6 +356,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 									if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
 										AddMessage("Enemy reloads gun!")
 									}
+								break
 							}
 						}
 					} else if c.Equipment[c.ActiveWeapon].AmmoCurrent < c.Equipment[c.ActiveWeapon].AmmoMax &&
@@ -416,6 +421,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
 									AddMessage("Enemy reloads gun!")
 								}
+								break
 							}
 						}
 					} else if c.Equipment[SlotWeaponPrimary].AmmoCurrent < c.Equipment[SlotWeaponPrimary].AmmoMax &&
@@ -472,6 +478,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
 									AddMessage("Enemy reloads gun!")
 								}
+								break
 							}
 						}
 					} else if c.Equipment[SlotWeaponSecondary].AmmoCurrent < c.Equipment[SlotWeaponSecondary].AmmoMax &&
@@ -531,6 +538,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					} else {
 						c.Equipment[c.ActiveWeapon].AmmoCurrent++
 						AddMessage("Enemy reloads gun!")
+						break
 					}
 				}
 			} else {
