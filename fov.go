@@ -31,7 +31,7 @@ import "math"
 const (
 	// Values for handling field of view algorithm execution.
 	FOVRays   = 360 // Whole area around player; it may not work properly with other values.
-	FOVLength = 5   // Sight range.
+	FOVLength = 30   // Sight range.
 	FOVStep   = 1
 )
 
