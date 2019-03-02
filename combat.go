@@ -26,46 +26,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package main
 
+import "fmt"
+
 func (c *Creature) AttackTarget(t *Creature, o *Objects) {
 	/* Method Attack handles damage rolls for combat. Receiver "c" is attacker,
-	   argument "t" is target. Critical hit is if attack roll is the same as receiver
-	   attack attribute.
-	   Result of attack is displayed in combat log, but messages need more polish. */
-	att := RandInt(c.Attack) //basic attack roll
-	att2 := 0                //critical bonus
-	def := t.Defense         //opponent's defense
-	dmg := 0                 //dmg delivered
-	crit := false            //was it critical hit?
-	if att == c.Attack {     //critical hit!
-		crit = true
-		att2 = RandInt(c.Attack)
+	   argument "t" is target.
+	   "att" roll needs to be smaller or equal than weapon's effective range on given
+	   distance (c.Equipment.Ranges). */
+	att := RandInt(100)
+	var dist int
+	v, err := NewVector(c.X, c.Y, t.X, t.Y)
+	if err != nil {
+		fmt.Println(err)
 	}
-	switch {
-	case att < def: // Attack score if lower than target defense.
-		if crit == false {
-			AddMessage("Attack deflected!")
-		} else {
-			dmg = att2 // Critical hit, but against heavily armored enemy.
-			AddMessage("Critical hit! <heavily armored enemy>")
-		}
-	case att == def: // Attack score is equal to target defense.
-		if crit == false {
-			dmg = 1 // It's just a scratch...
-			AddMessage("Attack successful, but it is just a scratch...")
-		} else {
-			dmg = att
-			AddMessage("Critical hit, but it barely bypassed opponent's armor.")
-		}
-	case att > def: // Attack score is bigger than target defense.
-		if crit == false {
-			dmg = att
-			AddMessage("Successful attack!")
-		} else {
-			dmg = att + att2 // Critical attack!
-			AddMessage("Critical attack!")
-		}
+	dist = ComputeVector(v)
+	var i int
+	if dist <= RangeShort {
+		i = 0
+	} else if dist <= RangeMedium {
+		i = 1
+	} else {
+		i = 2
 	}
-	t.TakeDamage(dmg, o)
+	weapon := c.Equipment[c.ActiveWeapon]
+	weaponRange := weapon.Ranges[i]
+	if att <= weaponRange {
+		t.TakeDamage(1, o)
+	}
 }
 
 func (c *Creature) TakeDamage(dmg int, o *Objects) {
