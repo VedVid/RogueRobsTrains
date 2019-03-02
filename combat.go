@@ -51,7 +51,10 @@ func (c *Creature) AttackTarget(t *Creature, o *Objects) {
 	weapon := c.Equipment[c.ActiveWeapon]
 	weaponRange := weapon.Ranges[i]
 	if att <= weaponRange {
+		AddMessage(c.Name + " hits " + t.Name + ".")
 		t.TakeDamage(1, o)
+	} else {
+		AddMessage(c.Name + " misses " + t.Name + ".")
 	}
 }
 
