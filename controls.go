@@ -40,13 +40,13 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	turnSpent := false
 	switch k {
 	case blt.TK_UP:
-		turnSpent = p.MoveOrAttack(0, -1, *b, *c)
+		turnSpent = p.MoveOrAttack(0, -1, *b, o, *c)
 	case blt.TK_RIGHT:
-		turnSpent = p.MoveOrAttack(1, 0, *b, *c)
+		turnSpent = p.MoveOrAttack(1, 0, *b, o, *c)
 	case blt.TK_DOWN:
-		turnSpent = p.MoveOrAttack(0, 1, *b, *c)
+		turnSpent = p.MoveOrAttack(0, 1, *b, o, *c)
 	case blt.TK_LEFT:
-		turnSpent = p.MoveOrAttack(-1, 0, *b, *c)
+		turnSpent = p.MoveOrAttack(-1, 0, *b, o, *c)
 
 	case blt.TK_F:
 		turnSpent = p.Target(*b, *o, *c)
@@ -54,10 +54,12 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 		p.Look(*b, *o, *c) // Looking is free action.
 	case blt.TK_G:
 		turnSpent = p.PickUp(o)
-	case blt.TK_I:
-		turnSpent = p.InventoryMenu(o)
-	case blt.TK_E:
-		turnSpent = p.EquipmentMenu(o)
+	case blt.TK_1:
+		p.ActiveWeapon = SlotWeaponPrimary
+	case blt.TK_2:
+		p.ActiveWeapon = SlotWeaponSecondary
+	case blt.TK_3:
+		p.ActiveWeapon = SlotWeaponMelee
 	}
 	return turnSpent
 }

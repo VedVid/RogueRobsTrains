@@ -20,5 +20,6 @@
     ],
     "Inventory":[
         null
-    ]
+    ],
+	"ActiveWeapon": 2
 }

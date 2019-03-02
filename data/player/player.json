@@ -67,22 +67,7 @@
         }
     ],
     "Inventory":[
-        {
-            "Layer":4,
-            "X":0,
-            "Y":0,
-            "Char":"O",
-            "Name":"heal",
-            "Color":"blue",
-            "ColorDark":"dark blue",
-            "AlwaysVisible":true,
-            "Blocked":false,
-            "BlocksSight":false,
-            "Pickable":true,
-            "Equippable":false,
-            "Consumable":true,
-            "Slot":-1,
-            "Use":1
-        }
-    ]
+        null
+    ],
+	"ActiveWeapon": 0
 }

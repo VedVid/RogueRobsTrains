@@ -45,6 +45,7 @@ type Creature struct {
 	CollisionProperties
 	FighterProperties
 	EquipmentComponent
+	ActiveWeapon int
 }
 
 // Creatures holds every creature on map.
@@ -90,12 +91,15 @@ func NewCreature(x, y int, monsterFile string) (*Creature, error) {
 	}
 	if monster.Defense < 0 {
 		txt := InitialDefenseError(monster.Defense)
-		err = errors.New("Creature defense value is smaller than 0." + txt)
+		err2 = errors.New("Creature defense value is smaller than 0." + txt)
+	}
+	if monster.ActiveWeapon < 0 || monster.ActiveWeapon >= SlotMax {
+		err2 = errors.New("ActiveWeapon of Creature is out of bounds.")
 	}
 	return monster, err2
 }
 
-func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
+func (c *Creature) MoveOrAttack(tx, ty int, b Board, o *Objects, all Creatures) bool {
 	/* Method MoveOrAttack decides if Creature will move or attack other Creature;
 	   It has *Creature receiver, and takes tx, ty (coords) integers as arguments,
 	   and map of current level, and list of all Creatures.
@@ -115,7 +119,7 @@ func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
 		}
 	}
 	if target != nil {
-		c.AttackTarget(target)
+		c.AttackTarget(target, o)
 		turnSpent = true
 	} else {
 		turnSpent = c.Move(tx, ty, b)
@@ -158,7 +162,8 @@ func (c *Creature) PickUp(o *Objects) bool {
 			if c.AIType == PlayerAI {
 				AddMessage("You found " + obj[i].Name + ".")
 			}
-			c.Inventory = append(c.Inventory, obj[i])
+			c.DropFromEquipment(&obj, obj[i].Slot)
+			c.EquipItem(obj[i], obj[i].Slot)
 			copy(obj[i:], obj[i+1:])
 			obj[len(obj)-1] = nil
 			*o = obj[:len(obj)-1]
@@ -256,14 +261,6 @@ func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
 	turnSpent := false
 	// Equip item...
 	c.Equipment[slot] = o
-	// ...then remove it from inventory.
-	index, err := FindObjectIndex(o, c.Inventory)
-	if err != nil {
-		fmt.Println(err)
-	}
-	copy(c.Inventory[index:], c.Inventory[index+1:])
-	c.Inventory[len(c.Inventory)-1] = nil
-	c.Inventory = c.Inventory[:len(c.Inventory)-1]
 	if c.AIType == PlayerAI {
 		AddMessage("You equipped " + o.Name + ".")
 	}
@@ -290,7 +287,7 @@ func (c *Creature) DequipItem(slot int) (bool, error) {
 	return turnSpent, err
 }
 
-func (c *Creature) Die() {
+func (c *Creature) Die(o *Objects) {
 	/* Method Die is called when Creature's HP drops below zero.
 	   Die() has *Creature as receiver.
 	   Receiver properties changes to fit better to corpse. */
@@ -302,6 +299,7 @@ func (c *Creature) Die() {
 	c.Blocked = false
 	c.BlocksSight = false
 	c.AIType = NoAI
+	c.DropFromEquipment(o, c.ActiveWeapon)
 	ZeroLastTarget(c)
 }
 
