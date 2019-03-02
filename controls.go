@@ -50,9 +50,13 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 
 	case blt.TK_F:
 		if p.ActiveWeapon != SlotWeaponMelee {
-			turnSpent = p.Target(*b, o, *c)
-			if turnSpent == true {
-				p.Equipment[p.ActiveWeapon].AmmoCurrent--
+			if p.Equipment[p.ActiveWeapon].AmmoCurrent <= 0 {
+				AddMessage("You need to reload!")
+			} else {
+				turnSpent = p.Target(*b, o, *c)
+				if turnSpent == true {
+					p.Equipment[p.ActiveWeapon].AmmoCurrent--
+				}
 			}
 		} else {
 			AddMessage("You are using melee weapon.")
