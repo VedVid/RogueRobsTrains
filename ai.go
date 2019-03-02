@@ -330,6 +330,20 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								AddMessage("Enemy reloads gun!")
 							}
 						}
+					} else if c.Equipment[c.ActiveWeapon].AmmoCurrent < c.Equipment[c.ActiveWeapon].AmmoMax &&
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false {
+						if c.Equipment[c.ActiveWeapon].Cock == false {
+							c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
+							break
+						} else {
+							if c.Equipment[c.ActiveWeapon].Cocked == true {
+								c.Equipment[c.ActiveWeapon].Cocked = false
+								break
+							} else {
+								c.Equipment[c.ActiveWeapon].AmmoCurrent++
+								break
+							}
+						}
 					}
 					bestDistance := FindMaxInSlice(c.Equipment[c.ActiveWeapon].Ranges)
 					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
@@ -374,6 +388,20 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								AddMessage("Enemy reloads gun!")
 							}
 						}
+					} else if c.Equipment[SlotWeaponPrimary].AmmoCurrent < c.Equipment[SlotWeaponPrimary].AmmoMax &&
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false {
+						if c.Equipment[SlotWeaponPrimary].Cock == false {
+							c.Equipment[SlotWeaponPrimary].AmmoCurrent = c.Equipment[SlotWeaponPrimary].AmmoMax
+							break
+						} else {
+							if c.Equipment[SlotWeaponPrimary].Cocked == true {
+								c.Equipment[SlotWeaponPrimary].Cocked = false
+								break
+							} else {
+								c.Equipment[SlotWeaponPrimary].AmmoCurrent++
+								break
+							}
+						}
 					}
 					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
 						// TODO:
@@ -408,6 +436,20 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 							} else {
 								c.Equipment[SlotWeaponSecondary].AmmoCurrent++
 								AddMessage("Enemy reloads gun!")
+							}
+						}
+					} else if c.Equipment[SlotWeaponSecondary].AmmoCurrent < c.Equipment[SlotWeaponSecondary].AmmoMax &&
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false {
+						if c.Equipment[SlotWeaponSecondary].Cock == false {
+							c.Equipment[SlotWeaponSecondary].AmmoCurrent = c.Equipment[SlotWeaponSecondary].AmmoMax
+							break
+						} else {
+							if c.Equipment[SlotWeaponSecondary].Cocked == true {
+								c.Equipment[SlotWeaponSecondary].Cocked = false
+								break
+							} else {
+								c.Equipment[SlotWeaponSecondary].AmmoCurrent++
+								break
 							}
 						}
 					}
