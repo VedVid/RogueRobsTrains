@@ -242,7 +242,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			}
 		} else {
 			if c.Equipment[c.ActiveWeapon] != nil &&
-				c.Equipment[c.ActiveWeapon].AmmoCurrent <= c.Equipment[c.ActiveWeapon].AmmoMax {
+				c.Equipment[c.ActiveWeapon].AmmoCurrent < c.Equipment[c.ActiveWeapon].AmmoMax {
 				if c.Equipment[c.ActiveWeapon].Cock == false {
 					c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
 					AddMessage("Enemy reloads gun!")
@@ -398,7 +398,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			}
 		} else {
 			if c.Equipment[c.ActiveWeapon] != nil &&
-				c.Equipment[c.ActiveWeapon].AmmoCurrent <= c.Equipment[c.ActiveWeapon].AmmoMax {
+				c.Equipment[c.ActiveWeapon].AmmoCurrent < c.Equipment[c.ActiveWeapon].AmmoMax {
 				if c.Equipment[c.ActiveWeapon].Cock == false {
 					c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
 					AddMessage("Enemy reloads gun!")
