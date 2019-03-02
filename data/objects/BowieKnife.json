@@ -1,8 +1,8 @@
 {
-    "Char":"|",
-    "Name":"melee1",
-    "Color":"yellow",
-    "ColorDark":"dark yellow",
+    "Char":"{",
+    "Name":"Bowie knife",
+    "Color":"flame",
+    "ColorDark":"dark flame",
 	"Layer":4,
     "AlwaysVisible":true,
     "Blocked":false,
@@ -11,5 +11,6 @@
     "Equippable":true,
     "Consumable":false,
     "Slot":2,
-    "Use":0
+    "Use":0,
+	"Ranges": [90, 0, 0]
 }

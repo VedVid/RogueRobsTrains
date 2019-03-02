@@ -72,19 +72,32 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	playerMelee, err := NewObject(0, 0, "BowieKnife.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+	playerSecondary, err := NewObject(0, 0, "Remington1875.json")
+	if err  != nil {
+		fmt.Println(err)
+	}
+	playerPrimary, err := NewObject(0,0, "SpencerRepeater.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+	player.Equipment = Objects{playerPrimary, playerSecondary, playerMelee}
 	enemy, err := NewCreature(MapSizeX-2, MapSizeY-2, "patherRanged.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	w1, err := NewObject(0, 0, "weapon1.json")
+	w1, err := NewObject(0, 0, "SpencerRepeater.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	w2, err := NewObject(0, 0, "weapon2.json")
+	w2, err := NewObject(0, 0, "Remington1875.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	wm, err := NewObject(0, 0, "melee.json")
+	wm, err := NewObject(0, 0, "BowieKnife.json")
 	if err != nil {
 		fmt.Println(err)
 	}

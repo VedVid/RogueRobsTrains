@@ -1,8 +1,8 @@
 {
     "Char":"}",
-    "Name":"weapon1",
-    "Color":"red",
-    "ColorDark":"dark red",
+    "Name":"Remington 1875",
+    "Color":"amber",
+    "ColorDark":"dark amber",
     "Layer":4,
 	"AlwaysVisible":true,
     "Blocked":false,
@@ -10,6 +10,7 @@
     "Pickable":true,
     "Equippable":true,
     "Consumable":false,
-    "Slot":0,
-    "Use":0
+    "Slot":1,
+    "Use":0,
+	"Ranges": [60, 90, 10]
 }

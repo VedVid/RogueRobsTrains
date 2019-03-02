@@ -75,6 +75,7 @@ type Object struct {
 	VisibilityProperties
 	CollisionProperties
 	ObjectProperties
+	Ranges []int
 }
 
 // Objects holds every object on map.

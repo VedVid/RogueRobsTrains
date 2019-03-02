@@ -1,8 +1,8 @@
 {
-    "Char":"{",
-    "Name":"weapon2",
-    "Color":"purple",
-    "ColorDark":"dark purple",
+    "Char":"}",
+    "Name":"Spencer Repeater",
+    "Color":"yellow",
+    "ColorDark":"dark yellow",
     "Layer":4,
 	"AlwaysVisible":true,
     "Blocked":false,
@@ -10,6 +10,7 @@
     "Pickable":true,
     "Equippable":true,
     "Consumable":false,
-    "Slot":1,
-    "Use":0
+    "Slot":0,
+    "Use":0,
+	"Ranges": [25, 50, 75]
 }
