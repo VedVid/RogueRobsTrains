@@ -12,5 +12,6 @@
     "Consumable":false,
     "Slot":1,
     "Use":0,
-	"Ranges": [60, 90, 10]
+	"Ranges": [60, 90, 10],
+	"Ammo": 6
 }
