@@ -153,6 +153,9 @@ func PrintUI(c *Creature) {
 		}
 		blt.Print(UIPosX, UIPosY+pos,
 			color + strconv.Itoa(i+1) + ". " + c.Equipment[i].Name)
+		for j := 0; j < c.Equipment[i].Ammo; j++ {
+			blt.Print(UIPosX+j, UIPosY+pos+1, "[color=dark yellow]|")
+		}
 		pos += 2
 	}
 }
