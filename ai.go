@@ -255,6 +255,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								break
 							}
 						}
+					}
 					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
 						// TODO:
 						// For now, every ranged skill has range equal to FOVLength-1
