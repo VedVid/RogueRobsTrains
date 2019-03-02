@@ -77,10 +77,10 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 		fmt.Println(err)
 	}
 	playerSecondary, err := NewObject(0, 0, "Remington1875.json")
-	if err  != nil {
+	if err != nil {
 		fmt.Println(err)
 	}
-	playerPrimary, err := NewObject(0,0, "SpencerRepeater.json")
+	playerPrimary, err := NewObject(0, 0, "SpencerRepeater.json")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -120,7 +120,7 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 			} else if weapon == SlotWeaponSecondary {
 				monster.Equipment[weapon], _ = NewObject(0, 0, "Remington1875.json")
 			} else if weapon == SlotWeaponPrimary {
-				monster.Equipment[weapon], _ = NewObject(0 ,0, "SpencerRepeater.json")
+				monster.Equipment[weapon], _ = NewObject(0, 0, "SpencerRepeater.json")
 			}
 		}
 	}
