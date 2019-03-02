@@ -159,6 +159,16 @@ func PrintUI(c *Creature) {
 		for k := c.Equipment[i].AmmoCurrent; k < c.Equipment[i].AmmoMax; k++ {
 			blt.Print(UIPosX+k, UIPosY+pos+1, "[color=darkest yellow]|")
 		}
+		if c.Equipment[i].Cock == true {
+			cockedPosX := UIPosX + c.Equipment[i].AmmoMax + 1
+			cockedIcon := "Φ"
+			if c.Equipment[i].Cocked == true {
+				cockedIcon = "[color=dark green]" + cockedIcon
+			} else {
+				cockedIcon = "[color=dark red]" + cockedIcon
+			}
+			blt.Print(cockedPosX, UIPosY+pos+1, cockedIcon)
+		}
 		pos += 2
 	}
 }
