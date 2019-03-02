@@ -42,8 +42,8 @@ const (
 	UIPosX      = MapSizeX
 	UIPosY      = 0
 	UISizeX     = WindowSizeX - MapSizeX
-	UISizeY     = WindowSizeY
-	LogSizeX    = WindowSizeX - UISizeX
+	UISizeY     = WindowSizeY - LogSizeY
+	LogSizeX    = WindowSizeX
 	LogSizeY    = WindowSizeY - MapSizeY
 	LogPosX     = 0
 	LogPosY     = MapSizeY
