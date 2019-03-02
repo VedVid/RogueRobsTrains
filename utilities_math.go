@@ -27,11 +27,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package main
 
 import (
+	blt "bearlibterminal"
 	"errors"
 	"math"
 	"math/rand"
-
-	blt "bearlibterminal"
 )
 
 const (
@@ -96,6 +95,18 @@ func FindObjectIndex(item *Object, arr Objects) (int, error) {
 		err = errors.New("*Object not found in []*Object.")
 	}
 	return index, err
+}
+
+func FindBiggestIntIndex(arr []int) int {
+	item := arr[0]
+	index := 0
+	for i := 0; i < len(arr); i++ {
+		if item < arr[i] {
+			item = arr[i]
+			index = i
+		}
+	}
+	return index
 }
 
 func FindCreatureIndex(creature *Creature, arr Creatures) (int, error) {
