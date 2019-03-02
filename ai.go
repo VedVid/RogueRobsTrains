@@ -203,12 +203,13 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 						c.AttackTarget(cs[0], &o)
 					}
 				} else {
+					bestDistance := FindMaxInSlice(c.Equipment[c.ActiveWeapon].Ranges)
 					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
 						// TODO:
 						// For now, every ranged skill has range equal to FOVLength-1
 						// but it should change in future.
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
-					} else if c.DistanceTo(cs[0].X, cs[0].Y) > FindBiggestIntIndex(c.Equipment[c.ActiveWeapon].Ranges) {
+					} else if c.DistanceTo(cs[0].X, cs[0].Y) >  bestDistance {
 						// If distance between creature and target is bigger than
 						// optimal effective range of currently wielded weapon,
 						// move towards target.

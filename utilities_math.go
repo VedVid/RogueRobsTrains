@@ -31,6 +31,7 @@ import (
 	"errors"
 	"math"
 	"math/rand"
+	"sort"
 )
 
 const (
@@ -97,16 +98,9 @@ func FindObjectIndex(item *Object, arr Objects) (int, error) {
 	return index, err
 }
 
-func FindBiggestIntIndex(arr []int) int {
-	item := arr[0]
-	index := 0
-	for i := 0; i < len(arr); i++ {
-		if item < arr[i] {
-			item = arr[i]
-			index = i
-		}
-	}
-	return index
+func FindMaxInSlice(arr []int) int {
+	sort.Ints(arr)
+	return arr[len(arr)-1]
 }
 
 func FindCreatureIndex(creature *Creature, arr Creatures) (int, error) {
