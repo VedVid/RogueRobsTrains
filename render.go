@@ -145,9 +145,16 @@ func PrintUI(c *Creature) {
 	blt.Print(UIPosX, UIPosY, name)
 	hp := "[color=red]HP: " + strconv.Itoa(c.HPCurrent) + "\\" + strconv.Itoa(c.HPMax)
 	blt.Print(UIPosX, UIPosY+1, hp)
-	blt.Print(UIPosX, UIPosY+3, "1. " + c.Equipment[SlotWeaponPrimary].Name)
-	blt.Print(UIPosX, UIPosY+5, "2. " + c.Equipment[SlotWeaponSecondary].Name)
-	blt.Print(UIPosX, UIPosY+7, "3. " + c.Equipment[SlotWeaponMelee].Name)
+	pos := 3
+	for i := 0; i < len(c.Equipment); i++ {
+		color := "[color=gray]"
+		if i == c.ActiveWeapon {
+			color = "[color=white]"
+		}
+		blt.Print(UIPosX, UIPosY+pos,
+			color + strconv.Itoa(i+1) + ". " + c.Equipment[i].Name)
+		pos += 2
+	}
 }
 
 func PrintLog() {
