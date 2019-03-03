@@ -204,7 +204,9 @@ Loop:
 		if x == vec.StartX && y == vec.StartY {
 			continue
 		}
-		if b[x][y].Blocked == true || b[x][y].Name == "door" || b[x][y].Name == "doors" {
+		if (b[x][y].Blocked == true ||
+			b[x][y].Name == "door" || b[x][y].Name == "doors") &&
+			b[x][y].Name != "railing" && b[x][y].Name != "railings" {
 			// Breaks on blocked tiles.
 			tile = b[x][y]
 			break
