@@ -37,7 +37,7 @@ const (
 	// Setting BearLibTerminal window.
 	WindowSizeX = 50
 	WindowSizeY = 25
-	MapSizeX    = 30
+	MapSizeX    = 46
 	MapSizeY    = 20
 	UIPosX      = MapSizeX
 	UIPosY      = 0
