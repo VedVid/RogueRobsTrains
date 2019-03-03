@@ -68,7 +68,7 @@ func main() {
 func NewGame(b *Board, c *Creatures, o *Objects) {
 	/* Function NewGame initializes game state - creates player, monsters, and game map.
 	   This implementation is generic-placeholder, for testing purposes. */
-	player, err := NewPlayer(1, 1)
+	player, err := NewPlayer(11, 6)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -107,7 +107,7 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	*c = Creatures{player, enemy}
 	*o = Objects{}
 	var c2 = Creatures{}
-	*b, c2, err = LoadJsonMap("smallInn.json")
+	*b, c2, err = LoadJsonMap("train1.json")
 	if err != nil {
 		fmt.Println(err)
 	}
