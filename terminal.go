@@ -35,9 +35,9 @@ import (
 
 const (
 	// Setting BearLibTerminal window.
-	WindowSizeX = 50
+	WindowSizeX = 66
 	WindowSizeY = 25
-	MapSizeX    = 30
+	MapSizeX    = 46
 	MapSizeY    = 20
 	UIPosX      = MapSizeX
 	UIPosY      = 0
@@ -67,6 +67,7 @@ func InitializeBLT() {
 	sizeFont := strconv.Itoa(FontSize)
 	window := "window: size=" + sizeX + "x" + sizeY
 	blt.Set(window + ", title=' " + GameTitle + "'; font: " + FontName + ", size=" + sizeFont)
+	blt.Set("draw font: " + FontName + ", size=" + sizeFont + "x" + sizeFont + ";")
 	blt.Clear()
 	blt.Refresh()
 }

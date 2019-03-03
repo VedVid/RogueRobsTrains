@@ -82,11 +82,11 @@ type Object struct {
 	VisibilityProperties
 	CollisionProperties
 	ObjectProperties
-	Ranges []int
-	AmmoMax int
+	Ranges      []int
+	AmmoMax     int
 	AmmoCurrent int
-	Cock bool
-	Cocked bool
+	Cock        bool
+	Cocked      bool
 }
 
 // Objects holds every object on map.
