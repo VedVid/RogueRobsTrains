@@ -67,7 +67,7 @@ func InitializeBLT() {
 	sizeFont := strconv.Itoa(FontSize)
 	window := "window: size=" + sizeX + "x" + sizeY
 	blt.Set(window + ", title=' " + GameTitle + "'; font: " + FontName + ", size=" + sizeFont)
-	blt.Set("draw font: " + FontName + ", size=" + sizeFont+"x"+sizeFont + ";")
+	blt.Set("draw font: " + FontName + ", size=" + sizeFont + "x" + sizeFont + ";")
 	blt.Clear()
 	blt.Refresh()
 }

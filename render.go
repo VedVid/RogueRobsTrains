@@ -72,7 +72,7 @@ func PrintBoard(b Board, c Creatures) {
 					ch = t.Char + t.Char
 				}
 				if IsInFOV(b, c[0].X, c[0].Y, t.X, t.Y) == true {
-					glyph := "[color=" + t.Color + "]"+"[font=draw]" + ch
+					glyph := "[color=" + t.Color + "]" + "[font=draw]" + ch
 					blt.Print(t.X, t.Y, glyph)
 				} else {
 					if t.AlwaysVisible == true {
@@ -152,7 +152,7 @@ func PrintUI(c *Creature) {
 			color = "[color=white]"
 		}
 		blt.Print(UIPosX, UIPosY+pos,
-			color + strconv.Itoa(i+1) + ". " + c.Equipment[i].Name)
+			color+strconv.Itoa(i+1)+". "+c.Equipment[i].Name)
 		for j := 0; j < c.Equipment[i].AmmoCurrent; j++ {
 			blt.Print(UIPosX+j, UIPosY+pos+1, "[color=dark yellow]|")
 		}
