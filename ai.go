@@ -179,7 +179,6 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								c.AttackTarget(target, &o)
 								c.Equipment[c.ActiveWeapon].AmmoCurrent--
 							} else {
-								if c.Equipment[c.ActiveWeapon].Cock == true {
 									if c.Equipment[c.ActiveWeapon].Cocked == true {
 										c.AttackTarget(target, &o)
 										c.Equipment[c.ActiveWeapon].AmmoCurrent--
@@ -188,7 +187,6 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 										c.Equipment[c.ActiveWeapon].Cocked = true
 										AddMessage("Enemy cocks gun.")
 									}
-								}
 							}
 						}
 					}
@@ -251,7 +249,6 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								c.AttackTarget(target, &o)
 								c.Equipment[SlotWeaponPrimary].AmmoCurrent--
 							} else {
-								if c.Equipment[SlotWeaponPrimary].Cock == true {
 									if c.Equipment[SlotWeaponPrimary].Cocked == true {
 										c.AttackTarget(target, &o)
 										c.Equipment[SlotWeaponPrimary].AmmoCurrent--
@@ -260,7 +257,6 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 										c.Equipment[SlotWeaponPrimary].Cocked = true
 										AddMessage("Enemy cocks gun.")
 									}
-								}
 							}
 						}
 					}
@@ -321,7 +317,6 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								c.AttackTarget(target, &o)
 								c.Equipment[SlotWeaponSecondary].AmmoCurrent--
 							} else {
-								if c.Equipment[SlotWeaponSecondary].Cock == true {
 									if c.Equipment[SlotWeaponSecondary].Cocked == true {
 										c.AttackTarget(target, &o)
 										c.Equipment[SlotWeaponSecondary].AmmoCurrent--
@@ -331,7 +326,6 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 										AddMessage("Enemy cocks gun.")
 									}
 								}
-							}
 						}
 					}
 				} else {
@@ -438,7 +432,6 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								c.AttackTarget(target, &o)
 								c.Equipment[c.ActiveWeapon].AmmoCurrent--
 							} else {
-								if c.Equipment[c.ActiveWeapon].Cock == true {
 									if c.Equipment[c.ActiveWeapon].Cocked == true {
 										c.AttackTarget(target, &o)
 										c.Equipment[c.ActiveWeapon].Cocked = false
@@ -446,7 +439,6 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 										c.Equipment[c.ActiveWeapon].Cocked = true
 										AddMessage("Enemy cocks gun.")
 									}
-								}
 							}
 						}
 					}
@@ -509,7 +501,6 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								c.AttackTarget(target, &o)
 								c.Equipment[SlotWeaponPrimary].AmmoCurrent--
 							} else {
-								if c.Equipment[SlotWeaponPrimary].Cock == true {
 									if c.Equipment[SlotWeaponPrimary].Cocked == true {
 										c.AttackTarget(target, &o)
 										c.Equipment[SlotWeaponPrimary].Cocked = false
@@ -518,7 +509,6 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 										AddMessage("Enemy cocks gun.")
 									}
 								}
-							}
 						}
 					}
 				} else if c.Equipment[SlotWeaponSecondary] != nil {
@@ -578,7 +568,6 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 								c.AttackTarget(target, &o)
 								c.Equipment[SlotWeaponSecondary].AmmoCurrent--
 							} else {
-								if c.Equipment[SlotWeaponSecondary].Cock == true {
 									if c.Equipment[SlotWeaponSecondary].Cocked == true {
 										c.AttackTarget(target, &o)
 										c.Equipment[SlotWeaponSecondary].Cocked = false
@@ -586,7 +575,6 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 										c.Equipment[SlotWeaponSecondary].Cocked = true
 										AddMessage("Enemy cocks gun.")
 									}
-								}
 							}
 						}
 					}
