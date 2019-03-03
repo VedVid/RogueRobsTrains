@@ -103,6 +103,7 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	}
 	var enemyEq = EquipmentComponent{Objects{w1, w2, wm}, Objects{}}
 	enemy.EquipmentComponent = enemyEq
+	enemy.ActiveWeapon = SlotWeaponSecondary
 	*c = Creatures{player, enemy}
 	*o = Objects{}
 	var c2 = Creatures{}
