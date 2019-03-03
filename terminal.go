@@ -48,8 +48,8 @@ const (
 	LogPosX     = 0
 	LogPosY     = MapSizeY
 	GameTitle   = "Rogue Robs Trains (7DRL 2019)"
-	FontName    = "UbuntuMono-R.ttf"
-	FontSize    = 18
+	FontName    = "Deferral-Square.ttf"
+	FontSize    = 14
 )
 
 func constrainThreads() {
@@ -67,7 +67,6 @@ func InitializeBLT() {
 	sizeFont := strconv.Itoa(FontSize)
 	window := "window: size=" + sizeX + "x" + sizeY
 	blt.Set(window + ", title=' " + GameTitle + "'; font: " + FontName + ", size=" + sizeFont)
-	blt.Set("draw font: " + FontName + ", size=" + sizeFont + "x" + sizeFont + ";")
 	blt.Clear()
 	blt.Refresh()
 }
