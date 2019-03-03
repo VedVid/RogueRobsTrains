@@ -145,6 +145,32 @@ func PrintUI(c *Creature) {
 	blt.Print(UIPosX, UIPosY, name)
 	hp := "[color=red]HP: " + strconv.Itoa(c.HPCurrent) + "\\" + strconv.Itoa(c.HPMax)
 	blt.Print(UIPosX, UIPosY+1, hp)
+	pos := 3
+	for i := 0; i < len(c.Equipment); i++ {
+		color := "[color=gray]"
+		if i == c.ActiveWeapon {
+			color = "[color=white]"
+		}
+		blt.Print(UIPosX, UIPosY+pos,
+			color + strconv.Itoa(i+1) + ". " + c.Equipment[i].Name)
+		for j := 0; j < c.Equipment[i].AmmoCurrent; j++ {
+			blt.Print(UIPosX+j, UIPosY+pos+1, "[color=dark yellow]|")
+		}
+		for k := c.Equipment[i].AmmoCurrent; k < c.Equipment[i].AmmoMax; k++ {
+			blt.Print(UIPosX+k, UIPosY+pos+1, "[color=darkest yellow]|")
+		}
+		if c.Equipment[i].Cock == true {
+			cockedPosX := UIPosX + c.Equipment[i].AmmoMax + 1
+			cockedIcon := "Φ"
+			if c.Equipment[i].Cocked == true {
+				cockedIcon = "[color=dark green]" + cockedIcon
+			} else {
+				cockedIcon = "[color=dark red]" + cockedIcon
+			}
+			blt.Print(cockedPosX, UIPosY+pos+1, cockedIcon)
+		}
+		pos += 2
+	}
 }
 
 func PrintLog() {

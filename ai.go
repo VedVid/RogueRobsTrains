@@ -73,7 +73,8 @@ func TriggerAI(b Board, p, c *Creature) {
 }
 
 func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
-	/* HandleAI is robust function that takes Board, Creatures, Objects,
+	/* TODO: This docstring needs update!
+	   HandleAI is robust function that takes Board, Creatures, Objects,
 	   and specific Creature as arguments. The most notable argument is
 	   the last one - behavior of this entity will be decided in function body.
 	   Its behavior will be decided regarding to AIType.
@@ -97,7 +98,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 		} else {
 			dx := RandRange(-1, 1)
 			dy := RandRange(-1, 1)
-			c.Move(dx, dy, b)
+			c.Move(dx, dy, b, cs)
 		}
 	case MeleePatherAI:
 		// The same set of functions as for DumbAI.
@@ -111,112 +112,503 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 		} else {
 			dx := RandRange(-1, 1)
 			dy := RandRange(-1, 1)
-			c.Move(dx, dy, b)
+			c.Move(dx, dy, b, cs)
 		}
 	case RangedDumbAI:
 		if c.AITriggered == true {
-			if c.Equipment[SlotWeaponPrimary] != nil {
-				// Use primary ranged weapon.
-				if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
-					// TODO:
-					// For now, every ranged skill has range equal to FOVLength-1
-					// but it should change in future.
-					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+			if c.Equipment[c.ActiveWeapon] != nil {
+				if c.ActiveWeapon == SlotWeaponMelee {
+					if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
+						// TODO:
+						// For now, every ranged skill has range equal to FOVLength-1
+						// but it should change in future.
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						c.AttackTarget(cs[0], &o)
+					}
 				} else {
-					// DumbAI will not check if target is valid
-					vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
-					if err != nil {
-						fmt.Println(err)
+					if c.Equipment[c.ActiveWeapon].AmmoCurrent <= 0 {
+						if c.Equipment[c.ActiveWeapon].Cock == false {
+							c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
+							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+								AddMessage("Enemy reloads gun!")
+							}
+							break
+						} else if c.Equipment[c.ActiveWeapon].Cock == true {
+							if c.Equipment[c.ActiveWeapon].Cocked == true {
+								c.Equipment[c.ActiveWeapon].Cocked = false
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy uncocks gun!")
+								}
+								break
+							} else {
+								c.Equipment[c.ActiveWeapon].AmmoCurrent++
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy reloads gun!")
+								}
+								break
+							}
+						}
+					} else if c.Equipment[c.ActiveWeapon].AmmoCurrent < c.Equipment[c.ActiveWeapon].AmmoMax &&
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false {
+						if c.Equipment[c.ActiveWeapon].Cock == false {
+							c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
+							break
+						} else {
+							if c.Equipment[c.ActiveWeapon].Cocked == true {
+								c.Equipment[c.ActiveWeapon].Cocked = false
+								break
+							} else {
+								c.Equipment[c.ActiveWeapon].AmmoCurrent++
+								break
+							}
+						}
 					}
-					_ = ComputeVector(vec)
-					_, _, target, _ := ValidateVector(vec, b, cs, o)
-					if target != nil {
-						c.AttackTarget(target, &o)
-					}
-				}
-			} else if c.Equipment[SlotWeaponSecondary] != nil {
-				// Use secondary ranged weapon.
-				if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
-					// TODO:
-					// For now, every ranged skill has range equal to FOVLength-1
-					// but it should change in future.
-					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
-				} else {
-					// DumbAI will not check if target is valid
-					vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
-					if err != nil {
-						fmt.Println(err)
-					}
-					_ = ComputeVector(vec)
-					_, _, target, _ := ValidateVector(vec, b, cs, o)
-					if target != nil {
-						c.AttackTarget(target, &o)
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 { // should it use DistanceTo, instead of ComputeVector?
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						// DumbAI will not check if target is valid
+						vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+						if err != nil {
+							fmt.Println(err)
+						}
+						_ = ComputeVector(vec)
+						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						if target != nil {
+							if c.Equipment[c.ActiveWeapon].Cock == false {
+								c.AttackTarget(target, &o)
+								c.Equipment[c.ActiveWeapon].AmmoCurrent--
+							} else {
+									if c.Equipment[c.ActiveWeapon].Cocked == true {
+										c.AttackTarget(target, &o)
+										c.Equipment[c.ActiveWeapon].AmmoCurrent--
+										c.Equipment[c.ActiveWeapon].Cocked = false
+									} else {
+										c.Equipment[c.ActiveWeapon].Cocked = true
+										AddMessage("Enemy cocks gun.")
+									}
+							}
+						}
 					}
 				}
 			} else {
-				if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
-					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+				if c.Equipment[SlotWeaponPrimary] != nil {
+					// Use primary ranged weapon.
+					if c.Equipment[SlotWeaponPrimary].AmmoCurrent <= 0 {
+						if c.Equipment[SlotWeaponPrimary].Cock == false {
+							c.Equipment[SlotWeaponPrimary].AmmoCurrent = c.Equipment[SlotWeaponPrimary].AmmoMax
+							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+								AddMessage("Enemy reloads gun!")
+							}
+							break
+						} else if c.Equipment[SlotWeaponPrimary].Cock == true {
+							if c.Equipment[SlotWeaponPrimary].Cocked == true {
+								c.Equipment[SlotWeaponPrimary].Cocked = false
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy uncocks gun!")
+								}
+								break
+							} else {
+								c.Equipment[SlotWeaponPrimary].AmmoCurrent++
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy reloads gun!")
+								}
+								break
+							}
+						}
+					} else if c.Equipment[SlotWeaponPrimary].AmmoCurrent < c.Equipment[SlotWeaponPrimary].AmmoMax &&
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false {
+						if c.Equipment[SlotWeaponPrimary].Cock == false {
+							c.Equipment[SlotWeaponPrimary].AmmoCurrent = c.Equipment[SlotWeaponPrimary].AmmoMax
+							break
+						} else {
+							if c.Equipment[SlotWeaponPrimary].Cocked == true {
+								c.Equipment[SlotWeaponPrimary].Cocked = false
+								break
+							} else {
+								c.Equipment[SlotWeaponPrimary].AmmoCurrent++
+								break
+							}
+						}
+					}
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+						// TODO:
+						// For now, every ranged skill has range equal to FOVLength-1
+						// but it should change in future.
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						// DumbAI will not check if target is valid
+						vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+						if err != nil {
+							fmt.Println(err)
+						}
+						_ = ComputeVector(vec)
+						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						if target != nil {
+							if c.Equipment[SlotWeaponPrimary].Cock == false {
+								c.AttackTarget(target, &o)
+								c.Equipment[SlotWeaponPrimary].AmmoCurrent--
+							} else {
+									if c.Equipment[SlotWeaponPrimary].Cocked == true {
+										c.AttackTarget(target, &o)
+										c.Equipment[SlotWeaponPrimary].AmmoCurrent--
+										c.Equipment[SlotWeaponPrimary].Cocked = false
+									} else {
+										c.Equipment[SlotWeaponPrimary].Cocked = true
+										AddMessage("Enemy cocks gun.")
+									}
+							}
+						}
+					}
+				} else if c.Equipment[SlotWeaponSecondary] != nil {
+					// Use secondary ranged weapon.
+					if c.Equipment[SlotWeaponSecondary].AmmoCurrent <= 0 {
+						if c.Equipment[SlotWeaponSecondary].Cock == false {
+							c.Equipment[SlotWeaponSecondary].AmmoCurrent = c.Equipment[SlotWeaponSecondary].AmmoMax
+							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+								AddMessage("Enemy reloads gun!")
+							}
+							break
+						} else if c.Equipment[SlotWeaponSecondary].Cock == true {
+							if c.Equipment[SlotWeaponSecondary].Cocked == true {
+								c.Equipment[SlotWeaponSecondary].Cocked = false
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy uncocks gun!")
+								}
+								break
+							} else {
+								c.Equipment[SlotWeaponSecondary].AmmoCurrent++
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy reloads gun!")
+								}
+								break
+							}
+						}
+					} else if c.Equipment[SlotWeaponSecondary].AmmoCurrent < c.Equipment[SlotWeaponSecondary].AmmoMax &&
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false {
+						if c.Equipment[SlotWeaponSecondary].Cock == false {
+							c.Equipment[SlotWeaponSecondary].AmmoCurrent = c.Equipment[SlotWeaponSecondary].AmmoMax
+							break
+						} else {
+							if c.Equipment[SlotWeaponSecondary].Cocked == true {
+								c.Equipment[SlotWeaponSecondary].Cocked = false
+								break
+							} else {
+								c.Equipment[SlotWeaponSecondary].AmmoCurrent++
+								break
+							}
+						}
+					}
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+						// TODO:
+						// For now, every ranged skill has range equal to FOVLength-1
+						// but it should change in future.
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						// DumbAI will not check if target is valid
+						vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+						if err != nil {
+							fmt.Println(err)
+						}
+						_ = ComputeVector(vec)
+						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						if target != nil {
+							if c.Equipment[SlotWeaponSecondary].Cock == false {
+								c.AttackTarget(target, &o)
+								c.Equipment[SlotWeaponSecondary].AmmoCurrent--
+							} else {
+									if c.Equipment[SlotWeaponSecondary].Cocked == true {
+										c.AttackTarget(target, &o)
+										c.Equipment[SlotWeaponSecondary].AmmoCurrent--
+										c.Equipment[SlotWeaponSecondary].Cocked = false
+									} else {
+										c.Equipment[SlotWeaponSecondary].Cocked = true
+										AddMessage("Enemy cocks gun.")
+									}
+								}
+						}
+					}
 				} else {
-					c.AttackTarget(cs[0], &o)
+					if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						c.AttackTarget(cs[0], &o)
+					}
 				}
 			}
 		} else {
-			dx := RandRange(-1, 1)
-			dy := RandRange(-1, 1)
-			c.Move(dx, dy, b)
+			if c.Equipment[c.ActiveWeapon] != nil &&
+				c.Equipment[c.ActiveWeapon].AmmoCurrent < c.Equipment[c.ActiveWeapon].AmmoMax {
+				if c.Equipment[c.ActiveWeapon].Cock == false {
+					c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
+					AddMessage("Enemy reloads gun!")
+					break
+				} else if c.Equipment[c.ActiveWeapon].Cock == true {
+					if c.Equipment[c.ActiveWeapon].Cocked == true {
+						c.Equipment[c.ActiveWeapon].Cocked = false
+						AddMessage("Enemy uncocks gun!")
+						break
+					} else {
+						c.Equipment[c.ActiveWeapon].AmmoCurrent++
+						AddMessage("Enemy reloads gun!")
+						break
+					}
+				}
+			} else {
+				dx := RandRange(-1, 1)
+				dy := RandRange(-1, 1)
+				c.Move(dx, dy, b, cs)
+			}
 		}
 	case RangedPatherAI: // It will depend on ranged weapons and equipment implementation
 		if c.AITriggered == true {
-			if c.Equipment[SlotWeaponPrimary] != nil {
-				if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
-					// TODO:
-					// For now, every ranged skill has range equal to FOVLength-1
-					// but it should change in future.
-					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
-				} else {
-					vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
-					if err != nil {
-						fmt.Println(err)
-					}
-					_ = ComputeVector(vec)
-					_, _, target, _ := ValidateVector(vec, b, cs, o)
-					if target != cs[0] {
+			if c.Equipment[c.ActiveWeapon] != nil {
+				if c.ActiveWeapon == SlotWeaponMelee {
+					if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
-						c.AttackTarget(target, &o)
+						c.AttackTarget(cs[0], &o)
 					}
-				}
-			} else if c.Equipment[SlotWeaponSecondary] != nil {
-				if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
-					// TODO:
-					// For now, every ranged skill has range equal to FOVLength-1
-					// but it should change in future.
-					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 				} else {
-					vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
-					if err != nil {
-						fmt.Println(err)
+					if c.Equipment[c.ActiveWeapon].AmmoCurrent <= 0 {
+						if c.Equipment[c.ActiveWeapon].Cock == false {
+							c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
+							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+								AddMessage("Enemy reloads gun!")
+							}
+							break
+						} else if c.Equipment[c.ActiveWeapon].Cock == true {
+							if c.Equipment[c.ActiveWeapon].Cocked == true {
+								c.Equipment[c.ActiveWeapon].Cocked = false
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy uncocks gun!")
+								}
+								break
+							} else {
+								c.Equipment[c.ActiveWeapon].AmmoCurrent++
+									if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+										AddMessage("Enemy reloads gun!")
+									}
+								break
+							}
+						}
+					} else if c.Equipment[c.ActiveWeapon].AmmoCurrent < c.Equipment[c.ActiveWeapon].AmmoMax &&
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false {
+						if c.Equipment[c.ActiveWeapon].Cock == false {
+							c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
+							break
+						} else {
+							if c.Equipment[c.ActiveWeapon].Cocked == true {
+								c.Equipment[c.ActiveWeapon].Cocked = false
+								break
+							} else {
+								c.Equipment[c.ActiveWeapon].AmmoCurrent++
+								break
+							}
+						}
 					}
-					_ = ComputeVector(vec)
-					_, _, target, _ := ValidateVector(vec, b, cs, o)
-					if target != cs[0] {
+					bestDistance := FindMaxInSlice(c.Equipment[c.ActiveWeapon].Ranges)
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+						// TODO:
+						// For now, every ranged skill has range equal to FOVLength-1
+						// but it should change in future.
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else if c.DistanceTo(cs[0].X, cs[0].Y) >  bestDistance {
+						// If distance between creature and target is bigger than
+						// optimal effective range of currently wielded weapon,
+						// move towards target.
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
-						c.AttackTarget(target, &o)
+						vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+						if err != nil {
+							fmt.Println(err)
+						}
+						_ = ComputeVector(vec)
+						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						if target != cs[0] {
+							c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+						} else {
+							if c.Equipment[c.ActiveWeapon].Cock == false {
+								c.AttackTarget(target, &o)
+								c.Equipment[c.ActiveWeapon].AmmoCurrent--
+							} else {
+									if c.Equipment[c.ActiveWeapon].Cocked == true {
+										c.AttackTarget(target, &o)
+										c.Equipment[c.ActiveWeapon].Cocked = false
+									} else {
+										c.Equipment[c.ActiveWeapon].Cocked = true
+										AddMessage("Enemy cocks gun.")
+									}
+							}
+						}
 					}
 				}
 			} else {
-				if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
-					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+				if c.Equipment[SlotWeaponPrimary] != nil {
+					if c.Equipment[SlotWeaponPrimary].AmmoCurrent <= 0 {
+						if c.Equipment[SlotWeaponPrimary].Cock == false {
+							c.Equipment[SlotWeaponPrimary].AmmoCurrent = c.Equipment[SlotWeaponPrimary].AmmoMax
+							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+								AddMessage("Enemy reloads gun!")
+							}
+							break
+						} else if c.Equipment[SlotWeaponPrimary].Cock == true {
+							if c.Equipment[SlotWeaponPrimary].Cocked == true {
+								c.Equipment[SlotWeaponPrimary].Cocked = false
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy uncocks gun!")
+								}
+								break
+							} else {
+								c.Equipment[SlotWeaponPrimary].AmmoCurrent++
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy reloads gun!")
+								}
+								break
+							}
+						}
+					} else if c.Equipment[SlotWeaponPrimary].AmmoCurrent < c.Equipment[SlotWeaponPrimary].AmmoMax &&
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false {
+						if c.Equipment[SlotWeaponPrimary].Cock == false {
+							c.Equipment[SlotWeaponPrimary].AmmoCurrent = c.Equipment[SlotWeaponPrimary].AmmoMax
+							break
+						} else {
+							if c.Equipment[SlotWeaponPrimary].Cocked == true {
+								c.Equipment[SlotWeaponPrimary].Cocked = false
+								break
+							} else {
+								c.Equipment[SlotWeaponPrimary].AmmoCurrent++
+								break
+							}
+						}
+					}
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+						// TODO:
+						// For now, every ranged skill has range equal to FOVLength-1
+						// but it should change in future.
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+						if err != nil {
+							fmt.Println(err)
+						}
+						_ = ComputeVector(vec)
+						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						if target != cs[0] {
+							c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+						} else {
+							if c.Equipment[SlotWeaponPrimary].Cock == false {
+								c.AttackTarget(target, &o)
+								c.Equipment[SlotWeaponPrimary].AmmoCurrent--
+							} else {
+									if c.Equipment[SlotWeaponPrimary].Cocked == true {
+										c.AttackTarget(target, &o)
+										c.Equipment[SlotWeaponPrimary].Cocked = false
+									} else {
+										c.Equipment[SlotWeaponPrimary].Cocked = true
+										AddMessage("Enemy cocks gun.")
+									}
+								}
+						}
+					}
+				} else if c.Equipment[SlotWeaponSecondary] != nil {
+					if c.Equipment[SlotWeaponSecondary].AmmoCurrent <= 0 {
+						if c.Equipment[SlotWeaponSecondary].Cock == false {
+							c.Equipment[SlotWeaponSecondary].AmmoCurrent = c.Equipment[SlotWeaponSecondary].AmmoMax
+							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+								AddMessage("Enemy reloads gun!")
+							}
+							break
+						} else if c.Equipment[SlotWeaponSecondary].Cock == true {
+							if c.Equipment[SlotWeaponSecondary].Cocked == true {
+								c.Equipment[SlotWeaponSecondary].Cocked = false
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy uncocks gun!")
+								}
+								break
+							} else {
+								c.Equipment[SlotWeaponSecondary].AmmoCurrent++
+								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
+									AddMessage("Enemy reloads gun!")
+								}
+								break
+							}
+						}
+					} else if c.Equipment[SlotWeaponSecondary].AmmoCurrent < c.Equipment[SlotWeaponSecondary].AmmoMax &&
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false {
+						if c.Equipment[SlotWeaponSecondary].Cock == false {
+							c.Equipment[SlotWeaponSecondary].AmmoCurrent = c.Equipment[SlotWeaponSecondary].AmmoMax
+							break
+						} else {
+							if c.Equipment[SlotWeaponSecondary].Cocked == true {
+								c.Equipment[SlotWeaponSecondary].Cocked = false
+								break
+							} else {
+								c.Equipment[SlotWeaponSecondary].AmmoCurrent++
+								break
+							}
+						}
+					}
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+						// TODO:
+						// For now, every ranged skill has range equal to FOVLength-1
+						// but it should change in future.
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+						if err != nil {
+							fmt.Println(err)
+						}
+						_ = ComputeVector(vec)
+						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						if target != cs[0] {
+							c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+						} else {
+							if c.Equipment[SlotWeaponSecondary].Cock == false {
+								c.AttackTarget(target, &o)
+								c.Equipment[SlotWeaponSecondary].AmmoCurrent--
+							} else {
+									if c.Equipment[SlotWeaponSecondary].Cocked == true {
+										c.AttackTarget(target, &o)
+										c.Equipment[SlotWeaponSecondary].Cocked = false
+									} else {
+										c.Equipment[SlotWeaponSecondary].Cocked = true
+										AddMessage("Enemy cocks gun.")
+									}
+							}
+						}
+					}
 				} else {
-					c.AttackTarget(cs[0], &o)
+					if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
+						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
+					} else {
+						c.AttackTarget(cs[0], &o)
+					}
 				}
 			}
 		} else {
-			dx := RandRange(-1, 1)
-			dy := RandRange(-1, 1)
-			c.Move(dx, dy, b)
+			if c.Equipment[c.ActiveWeapon] != nil &&
+				c.Equipment[c.ActiveWeapon].AmmoCurrent < c.Equipment[c.ActiveWeapon].AmmoMax {
+				if c.Equipment[c.ActiveWeapon].Cock == false {
+					c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
+					AddMessage("Enemy reloads gun!")
+					break
+				} else if c.Equipment[c.ActiveWeapon].Cock == true {
+					if c.Equipment[c.ActiveWeapon].Cocked == true {
+						c.Equipment[c.ActiveWeapon].Cocked = false
+						AddMessage("Enemy uncocks gun!")
+						break
+					} else {
+						c.Equipment[c.ActiveWeapon].AmmoCurrent++
+						AddMessage("Enemy reloads gun!")
+						break
+					}
+				}
+			} else {
+				dx := RandRange(-1, 1)
+				dy := RandRange(-1, 1)
+				c.Move(dx, dy, b, cs)
+			}
 		}
-
 	}
 }

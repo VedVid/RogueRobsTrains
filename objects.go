@@ -67,6 +67,13 @@ const (
 	ItemUse    = "use"
 )
 
+const (
+	// Ranges of weapons.
+	RangeShort  = 10
+	RangeMedium = 20
+	RangeLong   = 30
+)
+
 type Object struct {
 	/* Objects are every other things on map;
 	   statues, tables, chairs; but also weapons,
@@ -75,6 +82,11 @@ type Object struct {
 	VisibilityProperties
 	CollisionProperties
 	ObjectProperties
+	Ranges []int
+	AmmoMax int
+	AmmoCurrent int
+	Cock bool
+	Cocked bool
 }
 
 // Objects holds every object on map.

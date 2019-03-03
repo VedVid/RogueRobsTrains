@@ -49,17 +49,67 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 		turnSpent = p.MoveOrAttack(-1, 0, *b, o, *c)
 
 	case blt.TK_F:
-		turnSpent = p.Target(*b, *o, *c)
+		if p.ActiveWeapon != SlotWeaponMelee {
+			if p.Equipment[p.ActiveWeapon].AmmoCurrent <= 0 {
+				AddMessage("You need to reload!")
+			} else {
+				if (p.Equipment[p.ActiveWeapon].Cock == true &&
+					p.Equipment[p.ActiveWeapon].Cocked == true) ||
+					p.Equipment[p.ActiveWeapon].Cock == false {
+					turnSpent = p.Target(*b, o, *c)
+					if turnSpent == true {
+						p.Equipment[p.ActiveWeapon].AmmoCurrent--
+						if p.Equipment[p.ActiveWeapon].Cock == true {
+							p.Equipment[p.ActiveWeapon].Cocked = false
+						}
+					}
+				} else {
+					p.Equipment[p.ActiveWeapon].Cocked = true
+					turnSpent = true
+					AddMessage("Gun cocked.")
+				}
+			}
+		} else {
+			AddMessage("You are using melee weapon.")
+		}
+	case blt.TK_R:
+		if p.ActiveWeapon != SlotWeaponMelee {
+			if p.Equipment[p.ActiveWeapon].Cock == false {
+				if p.Equipment[p.ActiveWeapon].AmmoCurrent < p.Equipment[p.ActiveWeapon].AmmoMax {
+					p.Equipment[p.ActiveWeapon].AmmoCurrent = p.Equipment[p.ActiveWeapon].AmmoMax
+					turnSpent = true
+				}
+			} else {
+				if p.Equipment[p.ActiveWeapon].Cocked == true {
+					p.Equipment[p.ActiveWeapon].Cocked = false
+					AddMessage("Gun uncocked.")
+					turnSpent = true
+				} else {
+					if p.Equipment[p.ActiveWeapon].AmmoCurrent < p.Equipment[p.ActiveWeapon].AmmoMax {
+						p.Equipment[p.ActiveWeapon].AmmoCurrent++
+					}
+				}
+			}
+		}
 	case blt.TK_L:
 		p.Look(*b, *o, *c) // Looking is free action.
 	case blt.TK_G:
 		turnSpent = p.PickUp(o)
 	case blt.TK_1:
-		p.ActiveWeapon = SlotWeaponPrimary
+		if p.ActiveWeapon != SlotWeaponPrimary {
+			p.ActiveWeapon = SlotWeaponPrimary
+			turnSpent = true
+		}
 	case blt.TK_2:
-		p.ActiveWeapon = SlotWeaponSecondary
+		if p.ActiveWeapon != SlotWeaponSecondary {
+			p.ActiveWeapon = SlotWeaponSecondary
+			turnSpent = true
+		}
 	case blt.TK_3:
-		p.ActiveWeapon = SlotWeaponMelee
+		if p.ActiveWeapon != SlotWeaponMelee {
+			p.ActiveWeapon = SlotWeaponMelee
+			turnSpent = true
+		}
 	}
 	return turnSpent
 }

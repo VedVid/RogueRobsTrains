@@ -68,7 +68,7 @@ func NewPlayer(x, y int) (*Creature, error) {
 	}
 	if player.AIType != PlayerAI {
 		txt := PlayerAIError(player.AIType)
-		err = errors.New("Warning: Player AI is supposed to be " +
+		err2 = errors.New("Warning: Player AI is supposed to be " +
 			strconv.Itoa(PlayerAI) + "." + txt)
 	}
 	if player.HPMax < 0 {
@@ -81,7 +81,16 @@ func NewPlayer(x, y int) (*Creature, error) {
 	}
 	if player.Defense < 0 {
 		txt := InitialDefenseError(player.Defense)
-		err = errors.New("Creature defense value is smaller than 0." + txt)
+		err2 = errors.New("Creature defense value is smaller than 0." + txt)
+	}
+	if player.ActiveWeapon < 0 || player.ActiveWeapon >= SlotMax {
+		err2 = errors.New("ActiveWeapon of Player is out of bounds.")
+	}
+	if player.Equipment == nil {
+		player.Equipment = Objects{}
+	}
+	if player.Inventory == nil {
+		player.Inventory = Objects{}
 	}
 	return player, err2
 }

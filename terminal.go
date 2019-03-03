@@ -42,12 +42,12 @@ const (
 	UIPosX      = MapSizeX
 	UIPosY      = 0
 	UISizeX     = WindowSizeX - MapSizeX
-	UISizeY     = WindowSizeY
-	LogSizeX    = WindowSizeX - UISizeX
+	UISizeY     = WindowSizeY - LogSizeY
+	LogSizeX    = WindowSizeX
 	LogSizeY    = WindowSizeY - MapSizeY
 	LogPosX     = 0
 	LogPosY     = MapSizeY
-	GameTitle   = "Rogue Robbs Trains (7DRL 2019)"
+	GameTitle   = "Rogue Robs Trains (7DRL 2019)"
 	FontName    = "UbuntuMono-R.ttf"
 	FontSize    = 18
 )

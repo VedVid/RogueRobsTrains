@@ -27,11 +27,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package main
 
 import (
+	blt "bearlibterminal"
 	"errors"
 	"math"
 	"math/rand"
-
-	blt "bearlibterminal"
+	"sort"
 )
 
 const (
@@ -96,6 +96,11 @@ func FindObjectIndex(item *Object, arr Objects) (int, error) {
 		err = errors.New("*Object not found in []*Object.")
 	}
 	return index, err
+}
+
+func FindMaxInSlice(arr []int) int {
+	sort.Ints(arr)
+	return arr[len(arr)-1]
 }
 
 func FindCreatureIndex(creature *Creature, arr Creatures) (int, error) {
