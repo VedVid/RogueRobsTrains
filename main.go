@@ -54,11 +54,8 @@ func main() {
 	for {
 		if G.Alive == 0 {
 			G.Alive = -1
-			fmt.Println(len((*cells)[0]))
-			fmt.Println(len(*cells))
 			for x := len(*cells)-8; x < len(*cells); x++ {
 				for y := 0; y < len((*cells)[0]); y++ {
-					fmt.Println(x, y)
 					if (*cells)[x][y].Name == "doors to next carriage" {
 						(*cells)[x][y].Color = "#FFCC00"
 						(*cells)[x][y].ColorDark = "#FFCC00"
