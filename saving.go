@@ -165,17 +165,17 @@ func loadObjects(o *Objects) error {
 	return err
 }
 
-func saveGame(g Game) error {
-	err := writeGob(GamePathGob, g)
+func saveGame() error {
+	err := writeGob(GamePathGob, G)
 	return err
 }
 
-func loadGame(g *Game) error {
-	err := readGob(GamePathGob, g)
+func loadGame() error {
+	err := readGob(GamePathGob, &G)
 	return err
 }
 
-func SaveGame(b Board, c Creatures, o Objects, g Game) error {
+func SaveGame(b Board, c Creatures, o Objects) error {
 	/* Function SaveGame encodes game map, monsters, objects into
 	   save files, using Go's gob format. This function may need better
 	   error handling - it relies on gob's built-in errors that are
@@ -193,14 +193,14 @@ func SaveGame(b Board, c Creatures, o Objects, g Game) error {
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = saveGame(g)
+	err = saveGame()
 	if err != nil {
 		fmt.Println(err)
 	}
 	return err
 }
 
-func LoadGame(b *Board, c *Creatures, o *Objects, g *Game) error {
+func LoadGame(b *Board, c *Creatures, o *Objects) error {
 	/* Function LoadGame decoded save files (their names and paths are
 	   specified as constants on the top of this file) into
 	   game map, monsters and objects. As SaveGame, it may need
@@ -218,7 +218,7 @@ func LoadGame(b *Board, c *Creatures, o *Objects, g *Game) error {
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = loadGame(g)
+	err = loadGame()
 	if err != nil {
 		fmt.Println(err)
 	}

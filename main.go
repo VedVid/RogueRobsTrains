@@ -38,6 +38,7 @@ type Game struct {
 	LevelInt int
 	LevelStr string
 	Levels   []string
+	Alive int
 }
 
 var MsgBuf = []string{}
@@ -49,7 +50,7 @@ func main() {
 	var cells = new(Board)
 	var objs = new(Objects)
 	var actors = new(Creatures)
-	StartGame(cells, actors, objs, G)
+	StartGame(cells, actors, objs)
 	for {
 		if G.LevelStr != G.Levels[G.LevelInt] {
 			var err error
@@ -61,6 +62,7 @@ func main() {
 			player.X, player.Y = (*actors)[0].X, (*actors)[0].Y
 			(*actors)[0] = player
 			G.LevelStr = G.Levels[G.LevelInt]
+			G.Alive = len(*actors)-1
 			for i := 0; i < len(*objs); i++ {
 				(*objs)[i] = nil
 			}
@@ -69,7 +71,7 @@ func main() {
 		RenderAll(*cells, *objs, *actors)
 		key := blt.Read()
 		if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
-			err := SaveGame(*cells, *actors, *objs, *G)
+			err := SaveGame(*cells, *actors, *objs)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -88,7 +90,7 @@ func main() {
 	blt.Close()
 }
 
-func NewGame(b *Board, c *Creatures, o *Objects, g *Game) {
+func NewGame(b *Board, c *Creatures, o *Objects) {
 	/* Function NewGame initializes game state - creates player, monsters, and game map.
 	   This implementation is generic-placeholder, for testing purposes. */
 	playerMelee, err := NewObject(0, 0, "BowieKnife.json")
@@ -109,18 +111,19 @@ func NewGame(b *Board, c *Creatures, o *Objects, g *Game) {
 		fmt.Println(err)
 	}
 	(*c)[0].Equipment = Objects{playerPrimary, playerSecondary, playerMelee}
-	g.LevelInt = 0
-	g.Levels = []string{"trainStart.json"}
+	G.LevelInt = 0
+	G.Levels = []string{"trainStart.json"}
 	var middleLevels = []string{"train1.json", "train2.json", "train3.json", "train4.json"}
 	rand.Shuffle(len(middleLevels), func(i, j int) {
 		middleLevels[i], middleLevels[j] = middleLevels[j], middleLevels[i]
 	})
-	g.Levels = append(g.Levels, middleLevels...)
-	g.Levels = append(g.Levels, "trainFinal1.json", "trainFinal2.json")
-	g.LevelStr = g.Levels[g.LevelInt]
+	G.Levels = append(G.Levels, middleLevels...)
+	G.Levels = append(G.Levels, "trainFinal1.json", "trainFinal2.json")
+	G.LevelStr = G.Levels[G.LevelInt]
+	G.Alive = len(*c)-1
 }
 
-func StartGame(b *Board, c *Creatures, o *Objects, g *Game) {
+func StartGame(b *Board, c *Creatures, o *Objects) {
 	/* Function StartGame determines if game save is present (and valid), then
 	   loads data, or initializes new game.
 	   Panics if some-but-not-all save files are missing. */
@@ -129,9 +132,9 @@ func StartGame(b *Board, c *Creatures, o *Objects, g *Game) {
 	_, errObjects := os.Stat(ObjectsPathGob)
 	_, errGame := os.Stat(GamePathGob)
 	if errBoard == nil && errCreatures == nil && errObjects == nil && errGame == nil {
-		LoadGame(b, c, o, g)
+		LoadGame(b, c, o)
 	} else if errBoard != nil && errCreatures != nil && errObjects != nil && errGame != nil {
-		NewGame(b, c, o, g)
+		NewGame(b, c, o)
 	} else {
 		txt := CorruptedSaveError(errBoard, errCreatures, errObjects)
 		fmt.Println("Error: save files are corrupted: " + txt)
