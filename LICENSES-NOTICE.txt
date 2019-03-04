@@ -1,4 +1,11 @@
-RAWIG use following libraries:
+RAWIG use following libraries and assets:
 1. BearLibTerminal -- http://foo.wyrd.name/en:bearlibterminal (access 20190211)
+   Library that creates terminal-like window.
+   Made by Cfyz.
    Licensed under the MIT license.
    Text included in ./licenses/BearLibTerminal/
+2. Deferral-Square.ttf -- https://github.com/brianbruggeman/Deferral (access 20190304)
+   Square true type font.
+   Made by Brian Bruggeman
+   Licensed under the MIT license.
+   Text included in ./licenses/Deferral-Squal/

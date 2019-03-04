@@ -34,8 +34,17 @@ import (
 	"time"
 )
 
+type Game struct {
+	LevelInt int
+	LevelStr string
+	Levels   []string
+	Alive int
+}
+
 var MsgBuf = []string{}
 var LastTarget *Creature
+
+var G = new(Game)
 
 func main() {
 	var cells = new(Board)
@@ -43,6 +52,33 @@ func main() {
 	var actors = new(Creatures)
 	StartGame(cells, actors, objs)
 	for {
+		if G.Alive == 0 {
+			G.Alive = -1
+			for x := len(*cells)-8; x < len(*cells); x++ {
+				for y := 0; y < len((*cells)[0]); y++ {
+					if (*cells)[x][y].Name == "doors to next carriage" {
+						(*cells)[x][y].Color = "#FFCC00"
+						(*cells)[x][y].ColorDark = "#FFCC00"
+					}
+				}
+			}
+		}
+		if G.LevelStr != G.Levels[G.LevelInt] {
+			var err error
+			player := (*actors)[0]
+			*cells, *actors, err = LoadJsonMap(G.Levels[G.LevelInt])
+			if err != nil {
+				fmt.Println(err)
+			}
+			player.X, player.Y = (*actors)[0].X, (*actors)[0].Y
+			(*actors)[0] = player
+			G.LevelStr = G.Levels[G.LevelInt]
+			G.Alive = len(*actors)-1
+			for i := 0; i < len(*objs); i++ {
+				(*objs)[i] = nil
+			}
+			*objs = (*objs)[:0]
+		}
 		RenderAll(*cells, *objs, *actors)
 		key := blt.Read()
 		if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
@@ -68,10 +104,6 @@ func main() {
 func NewGame(b *Board, c *Creatures, o *Objects) {
 	/* Function NewGame initializes game state - creates player, monsters, and game map.
 	   This implementation is generic-placeholder, for testing purposes. */
-	player, err := NewPlayer(11, 6)
-	if err != nil {
-		fmt.Println(err)
-	}
 	playerMelee, err := NewObject(0, 0, "BowieKnife.json")
 	if err != nil {
 		fmt.Println(err)
@@ -84,47 +116,22 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	player.Equipment = Objects{playerPrimary, playerSecondary, playerMelee}
-	enemy, err := NewCreature(MapSizeX-2, MapSizeY-2, "patherRanged.json")
-	if err != nil {
-		fmt.Println(err)
-	}
-	w1, err := NewObject(0, 0, "SpencerRepeater.json")
-	if err != nil {
-		fmt.Println(err)
-	}
-	w2, err := NewObject(0, 0, "Remington1875.json")
-	if err != nil {
-		fmt.Println(err)
-	}
-	wm, err := NewObject(0, 0, "BowieKnife.json")
-	if err != nil {
-		fmt.Println(err)
-	}
-	var enemyEq = EquipmentComponent{Objects{w1, w2, wm}, Objects{}}
-	enemy.EquipmentComponent = enemyEq
-	enemy.ActiveWeapon = SlotWeaponSecondary
-	*c = Creatures{player, enemy}
 	*o = Objects{}
-	var c2 = Creatures{}
-	*b, c2, err = LoadJsonMap("trainFinal1.json")
+	*b, *c, err = LoadJsonMap("trainStart.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	*c = append(*c, c2...)
-	for i := 0; i < len(*c); i++ {
-		monster := (*c)[i]
-		weapon := monster.ActiveWeapon
-		if monster.Equipment[weapon] == nil {
-			if weapon == SlotWeaponMelee {
-				monster.Equipment[weapon], _ = NewObject(0, 0, "BowieKnife.json")
-			} else if weapon == SlotWeaponSecondary {
-				monster.Equipment[weapon], _ = NewObject(0, 0, "Remington1875.json")
-			} else if weapon == SlotWeaponPrimary {
-				monster.Equipment[weapon], _ = NewObject(0, 0, "SpencerRepeater.json")
-			}
-		}
-	}
+	(*c)[0].Equipment = Objects{playerPrimary, playerSecondary, playerMelee}
+	G.LevelInt = 0
+	G.Levels = []string{"trainStart.json"}
+	var middleLevels = []string{"train1.json", "train2.json", "train3.json", "train4.json"}
+	rand.Shuffle(len(middleLevels), func(i, j int) {
+		middleLevels[i], middleLevels[j] = middleLevels[j], middleLevels[i]
+	})
+	G.Levels = append(G.Levels, middleLevels...)
+	G.Levels = append(G.Levels, "trainFinal1.json", "trainFinal2.json")
+	G.LevelStr = G.Levels[G.LevelInt]
+	G.Alive = len(*c)-1
 }
 
 func StartGame(b *Board, c *Creatures, o *Objects) {
@@ -134,9 +141,10 @@ func StartGame(b *Board, c *Creatures, o *Objects) {
 	_, errBoard := os.Stat(MapPathGob)
 	_, errCreatures := os.Stat(CreaturesPathGob)
 	_, errObjects := os.Stat(ObjectsPathGob)
-	if errBoard == nil && errCreatures == nil && errObjects == nil {
+	_, errGame := os.Stat(GamePathGob)
+	if errBoard == nil && errCreatures == nil && errObjects == nil && errGame == nil {
 		LoadGame(b, c, o)
-	} else if errBoard != nil && errCreatures != nil && errObjects != nil {
+	} else if errBoard != nil && errCreatures != nil && errObjects != nil && errGame != nil {
 		NewGame(b, c, o)
 	} else {
 		txt := CorruptedSaveError(errBoard, errCreatures, errObjects)

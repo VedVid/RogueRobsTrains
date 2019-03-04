@@ -191,13 +191,48 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 		txt := MapMonstersCoordsAiError(len(coords), len(aiTypes), mapFile)
 		err = errors.New("Length of MonstersCoords and MonstersTypes does not match. " + txt)
 	}
+	var enemies = []string{"dumbMelee.json", "patherMelee.json", "patherMelee.json", "dumbRanged.json",
+		"dumbRanged.json", "patherRanged.json", "patherRanged.json", "patherRanged.json"}
 	var creatures = Creatures{}
 	for j := 0; j < len(coords); j++ {
-		monster, err := NewCreature(coords[j][0], coords[j][1], aiTypes[j]+".json")
+		if aiTypes[j] == "player" {
+			player, err := NewPlayer(coords[j][0], coords[j][1])
+			if err != nil {
+				fmt.Println(err)
+			}
+			creatures = append(creatures, player)
+			continue
+		}
+		aitype := aiTypes[j] + ".json"
+		if aiTypes[j] == "any" {
+			aitype = enemies[RandRange(0, len(enemies)-1)]
+		}
+		monster, err := NewCreature(coords[j][0], coords[j][1], aitype)
 		if err != nil {
 			fmt.Println(err)
 		}
 		creatures = append(creatures, monster)
+	}
+	var melees = []string{"BowieKnife.json"}
+	var pistols = []string{"Remington1875.json"}
+	var rifles = []string{"SpencerRepeater.json"}
+	for i := 0; i < len(creatures); i++ {
+		monster := creatures[i]
+		if monster.AIType == MeleeDumbAI || monster.AIType == MeleePatherAI {
+			monster.ActiveWeapon = SlotWeaponMelee
+		} else {
+			monster.ActiveWeapon = RandRange(0, 1)
+		}
+		weapon := monster.ActiveWeapon
+		if monster.Equipment[weapon] == nil {
+			if weapon == SlotWeaponMelee {
+				monster.Equipment[weapon], _ = NewObject(0, 0, melees[RandRange(0, len(melees)-1)])
+			} else if weapon == SlotWeaponSecondary {
+				monster.Equipment[weapon], _ = NewObject(0, 0, pistols[RandRange(0, len(pistols)-1)])
+			} else if weapon == SlotWeaponPrimary {
+				monster.Equipment[weapon], _ = NewObject(0, 0, rifles[RandRange(0, len(rifles)-1)])
+			}
+		}
 	}
 	return thisMap, creatures, err
 }

@@ -97,11 +97,17 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 		turnSpent = p.PickUp(o)
 	case blt.TK_1:
 		if p.ActiveWeapon != SlotWeaponPrimary {
+			if p.Equipment[p.ActiveWeapon].Cock == true {
+				p.Equipment[p.ActiveWeapon].Cocked = false
+			}
 			p.ActiveWeapon = SlotWeaponPrimary
 			turnSpent = true
 		}
 	case blt.TK_2:
 		if p.ActiveWeapon != SlotWeaponSecondary {
+			if p.Equipment[p.ActiveWeapon].Cock == true {
+				p.Equipment[p.ActiveWeapon].Cocked = false
+			}
 			p.ActiveWeapon = SlotWeaponSecondary
 			turnSpent = true
 		}

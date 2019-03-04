@@ -40,6 +40,8 @@ const (
 	CreaturesPathGob = "./" + CreaturesNameGob
 	ObjectsNameGob   = "objects.gob"
 	ObjectsPathGob   = "./" + ObjectsNameGob
+	GameNameGob      = "game.gob"
+	GamePathGob      = "./" + GameNameGob
 )
 
 const (
@@ -163,6 +165,16 @@ func loadObjects(o *Objects) error {
 	return err
 }
 
+func saveGame() error {
+	err := writeGob(GamePathGob, G)
+	return err
+}
+
+func loadGame() error {
+	err := readGob(GamePathGob, &G)
+	return err
+}
+
 func SaveGame(b Board, c Creatures, o Objects) error {
 	/* Function SaveGame encodes game map, monsters, objects into
 	   save files, using Go's gob format. This function may need better
@@ -178,6 +190,10 @@ func SaveGame(b Board, c Creatures, o Objects) error {
 		fmt.Println(err)
 	}
 	err = saveObjects(o)
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = saveGame()
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -202,6 +218,10 @@ func LoadGame(b *Board, c *Creatures, o *Objects) error {
 	if err != nil {
 		fmt.Println(err)
 	}
+	err = loadGame()
+	if err != nil {
+		fmt.Println(err)
+	}
 	return err
 }
 
@@ -221,5 +241,9 @@ func DeleteSaves() {
 	_, err = os.Stat(ObjectsPathGob)
 	if err == nil {
 		os.Remove(ObjectsPathGob)
+	}
+	_, err = os.Stat(GamePathGob)
+	if err == nil {
+		os.Remove(GamePathGob)
 	}
 }

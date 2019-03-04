@@ -152,6 +152,8 @@ func (c *Creature) Move(tx, ty int, b Board, cs Creatures) bool {
 			c.X = newX
 			c.Y = newY
 			turnSpent = true
+		} else if c == cs[0] && b[newX][newY].Name == "doors to next carriage" && G.Alive <= 0 {
+			G.LevelInt++
 		}
 	}
 	return turnSpent
@@ -312,6 +314,7 @@ func (c *Creature) Die(o *Objects) {
 	c.AIType = NoAI
 	c.DropFromEquipment(o, c.ActiveWeapon)
 	ZeroLastTarget(c)
+	G.Alive--
 }
 
 func FindMonsterByXY(x, y int, c Creatures) *Creature {
