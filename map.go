@@ -207,6 +207,9 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 		}
 		creatures = append(creatures, monster)
 	}
+	var melees = []string{"BowieKnife.json"}
+	var pistols = []string{"Remington1875.json"}
+	var rifles = []string{"SpencerRepeater.json"}
 	for i := 0; i < len(creatures); i++ {
 		monster := creatures[i]
 		if monster.AIType == MeleeDumbAI || monster.AIType == MeleePatherAI {
@@ -217,11 +220,11 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 		weapon := monster.ActiveWeapon
 		if monster.Equipment[weapon] == nil {
 			if weapon == SlotWeaponMelee {
-				monster.Equipment[weapon], _ = NewObject(0, 0, "BowieKnife.json")
+				monster.Equipment[weapon], _ = NewObject(0, 0, melees[RandRange(0, len(melees)-1)])
 			} else if weapon == SlotWeaponSecondary {
-				monster.Equipment[weapon], _ = NewObject(0, 0, "Remington1875.json")
+				monster.Equipment[weapon], _ = NewObject(0, 0, pistols[RandRange(0, len(pistols)-1)])
 			} else if weapon == SlotWeaponPrimary {
-				monster.Equipment[weapon], _ = NewObject(0, 0, "SpencerRepeater.json")
+				monster.Equipment[weapon], _ = NewObject(0, 0, rifles[RandRange(0, len(rifles)-1)])
 			}
 		}
 	}
