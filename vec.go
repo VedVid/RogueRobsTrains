@@ -204,14 +204,6 @@ Loop:
 		if x == vec.StartX && y == vec.StartY {
 			continue
 		}
-		if (b[x][y].Blocked == true ||
-			b[x][y].Name == "door" || b[x][y].Name == "doors") &&
-			b[x][y].Name != "railing" && b[x][y].Name != "railings" &&
-			b[x][y].Name != "table" && b[x][y].Name != "wadrobe" {
-			// Breaks on blocked tiles.
-			tile = b[x][y]
-			break
-		}
 		for j := 0; j < len(c); j++ {
 			if x == c[j].X && y == c[j].Y && c[j].Blocked == true {
 				// Breaks on first enemy.
@@ -219,6 +211,14 @@ Loop:
 				monster = c[j]
 				break Loop
 			}
+		}
+		if (b[x][y].Blocked == true ||
+			b[x][y].Name == "door" || b[x][y].Name == "doors") &&
+			b[x][y].Name != "railing" && b[x][y].Name != "railings" &&
+			b[x][y].Name != "table" && b[x][y].Name != "wadrobe" {
+			// Breaks on blocked tiles.
+			tile = b[x][y]
+			break
 		}
 		for k := 0; k < len(o); k++ {
 			if x == o[k].X && y == o[k].Y && o[k].Blocked == true {
