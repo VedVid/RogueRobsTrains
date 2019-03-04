@@ -460,11 +460,11 @@
 	"MonstersCoords":
 	            [
 				    [11, 11],
-					[11, 14]
+					[5, 15]
 				],
 	"MonstersTypes":
 	            [
-				    "patherRanged",
-					"dumbMelee"
+				    "dumbMelee",
+					"patherRanged"
 				]
 }
