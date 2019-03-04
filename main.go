@@ -107,7 +107,7 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	*c = Creatures{player, enemy}
 	*o = Objects{}
 	var c2 = Creatures{}
-	*b, c2, err = LoadJsonMap("trainStart.json")
+	*b, c2, err = LoadJsonMap("train1.json")
 	if err != nil {
 		fmt.Println(err)
 	}
