@@ -110,8 +110,13 @@ func NewGame(b *Board, c *Creatures, o *Objects, g *Game) {
 	}
 	(*c)[0].Equipment = Objects{playerPrimary, playerSecondary, playerMelee}
 	g.LevelInt = 0
-	g.Levels = []string{"trainStart.json", "train1.json", "train2.json", "train3.json", "train4.json",
-		"trainFinal1.json", "trainFinal2.json"}
+	g.Levels = []string{"trainStart.json"}
+	var middleLevels = []string{"train1.json", "train2.json", "train3.json", "train4.json"}
+	rand.Shuffle(len(middleLevels), func(i, j int) {
+		middleLevels[i], middleLevels[j] = middleLevels[j], middleLevels[i]
+	})
+	g.Levels = append(g.Levels, middleLevels...)
+	g.Levels = append(g.Levels, "trainFinal1.json", "trainFinal2.json")
 	g.LevelStr = g.Levels[g.LevelInt]
 }
 
