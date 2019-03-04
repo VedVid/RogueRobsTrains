@@ -185,7 +185,8 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 			fmt.Println(err)
 		}
 		_ = ComputeVector(vec)
-		_, _, monsterHit, _ := ValidateVector(vec, b, targets, *o)
+		valid, _, monsterHit, _ := ValidateVector(vec, b, targets, *o)
+		fmt.Println(monsterHit)
 		PrintVector(vec, VectorColorGood, VectorColorBad, b, *o, cs)
 		if monsterHit != nil {
 			msg := "There is " + monsterHit.Name + " here."
@@ -197,7 +198,9 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 		}
 		if key == blt.TK_F {
 			monsterAimed := FindMonsterByXY(targetX, targetY, cs)
-			if monsterAimed != nil && monsterAimed != c && monsterAimed.HPCurrent > 0 {
+			fmt.Println(monsterAimed)
+			if monsterAimed != nil && monsterAimed != c && monsterAimed.HPCurrent > 0 && valid == true {
+				fmt.Println(monsterAimed)
 				LastTarget = monsterAimed
 				c.AttackTarget(monsterAimed, o)
 			} else {
@@ -206,6 +209,7 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 				}
 				if monsterHit != nil {
 					if monsterHit.HPCurrent > 0 {
+						fmt.Println(monsterHit)
 						LastTarget = monsterHit
 						c.AttackTarget(monsterHit, o)
 					}
@@ -213,6 +217,7 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 					vx, vy := FindVectorDirection(vec)
 					v := ExtrapolateVector(vec, vx, vy)
 					_, _, monsterHitIndirectly, _ := ValidateVector(v, b, targets, *o)
+					fmt.Println(monsterHitIndirectly)
 					if monsterHitIndirectly != nil {
 						c.AttackTarget(monsterHitIndirectly, o)
 					}
