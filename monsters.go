@@ -154,7 +154,7 @@ func (c *Creature) Move(tx, ty int, b Board, cs Creatures) bool {
 			turnSpent = true
 		} else if c == cs[0] &&
 			(b[newX][newY].Name == "door (locked)" || b[newX][newY].Name == "doors (locked)") {
-				G.LevelInt++
+			G.LevelInt++
 		}
 	}
 	return turnSpent

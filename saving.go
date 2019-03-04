@@ -40,8 +40,8 @@ const (
 	CreaturesPathGob = "./" + CreaturesNameGob
 	ObjectsNameGob   = "objects.gob"
 	ObjectsPathGob   = "./" + ObjectsNameGob
-	GameNameGob = "game.gob"
-	GamePathGob = "./" + GameNameGob
+	GameNameGob      = "game.gob"
+	GamePathGob      = "./" + GameNameGob
 )
 
 const (

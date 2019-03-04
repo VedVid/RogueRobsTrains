@@ -35,9 +35,9 @@ import (
 )
 
 type Game struct {
-	LevelInt  int
+	LevelInt int
 	LevelStr string
-	Levels []string
+	Levels   []string
 }
 
 var MsgBuf = []string{}
@@ -107,7 +107,7 @@ func NewGame(b *Board, c *Creatures, o *Objects, g *Game) {
 	(*c)[0].Equipment = Objects{playerPrimary, playerSecondary, playerMelee}
 	g.LevelInt = 0
 	g.Levels = []string{"trainStart.json", "train1.json", "train2.json", "train3.json", "train4.json",
-						"trainFinal1.json", "trainFinal2.json"}
+		"trainFinal1.json", "trainFinal2.json"}
 	g.LevelStr = g.Levels[g.LevelInt]
 }
 
