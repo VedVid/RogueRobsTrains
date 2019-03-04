@@ -105,19 +105,6 @@ func NewGame(b *Board, c *Creatures, o *Objects, g *Game) {
 		fmt.Println(err)
 	}
 	(*c)[0].Equipment = Objects{playerPrimary, playerSecondary, playerMelee}
-	for i := 0; i < len(*c); i++ {
-		monster := (*c)[i]
-		weapon := monster.ActiveWeapon
-		if monster.Equipment[weapon] == nil {
-			if weapon == SlotWeaponMelee {
-				monster.Equipment[weapon], _ = NewObject(0, 0, "BowieKnife.json")
-			} else if weapon == SlotWeaponSecondary {
-				monster.Equipment[weapon], _ = NewObject(0, 0, "Remington1875.json")
-			} else if weapon == SlotWeaponPrimary {
-				monster.Equipment[weapon], _ = NewObject(0, 0, "SpencerRepeater.json")
-			}
-		}
-	}
 	g.LevelInt = 0
 	g.Levels = []string{"trainStart.json", "train1.json", "train2.json", "train3.json", "train4.json",
 						"trainFinal1.json", "trainFinal2.json"}
