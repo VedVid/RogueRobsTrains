@@ -79,9 +79,9 @@
 				"h": "furnace",
 				"n": "furnace",
 				"b": "furnace",
-				"1": "door (closed)",
-				"2": "door (closed)",
-				"3": "door (closed)",
+				"1": "door (locked)",
+				"2": "door (locked)",
+				"3": "door (locked)",
 				"4": "window",
 				"'": "railroad",
 				"`": "railroad"

@@ -460,12 +460,14 @@
 	"MonstersCoords":
 	            [
 					[5, 8],
+					[11, 10],
 				    [24, 12],
 					[36, 10]
 				],
 	"MonstersTypes":
 	            [
 					"player",
+					"any",
 				    "any",
 					"any"
 				]
