@@ -42,11 +42,12 @@ type Game struct {
 var MsgBuf = []string{}
 var LastTarget *Creature
 
+var game = new(Game)
+
 func main() {
 	var cells = new(Board)
 	var objs = new(Objects)
 	var actors = new(Creatures)
-	var game = new(Game)
 	StartGame(cells, actors, objs, game)
 	for {
 		RenderAll(*cells, *objs, *actors)
