@@ -52,16 +52,14 @@ func main() {
 	StartGame(cells, actors, objs, G)
 	for {
 		if G.LevelStr != G.Levels[G.LevelInt] {
-			var monsters = new(Creatures)
 			var err error
-			*cells, *monsters, err = LoadJsonMap(G.Levels[G.LevelInt])
+			player := (*actors)[0]
+			*cells, *actors, err = LoadJsonMap(G.Levels[G.LevelInt])
 			if err != nil {
 				fmt.Println(err)
 			}
-			actors = &Creatures{(*actors)[0]}
-			*actors = append(*actors, *monsters...)
-			(*actors)[0].X = 10
-			(*actors)[0].Y = 10
+			player.X, player.Y = (*actors)[0].X, (*actors)[0].Y
+			(*actors)[0] = player
 			G.LevelStr = G.Levels[G.LevelInt]
 		}
 		RenderAll(*cells, *objs, *actors)
@@ -89,10 +87,6 @@ func main() {
 func NewGame(b *Board, c *Creatures, o *Objects, g *Game) {
 	/* Function NewGame initializes game state - creates player, monsters, and game map.
 	   This implementation is generic-placeholder, for testing purposes. */
-	player, err := NewPlayer(11, 6)
-	if err != nil {
-		fmt.Println(err)
-	}
 	playerMelee, err := NewObject(0, 0, "BowieKnife.json")
 	if err != nil {
 		fmt.Println(err)
@@ -105,34 +99,12 @@ func NewGame(b *Board, c *Creatures, o *Objects, g *Game) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	player.Equipment = Objects{playerPrimary, playerSecondary, playerMelee}
-	enemy, err := NewCreature(MapSizeX-2, MapSizeY-2, "patherRanged.json")
-	if err != nil {
-		fmt.Println(err)
-	}
-	w1, err := NewObject(0, 0, "SpencerRepeater.json")
-	if err != nil {
-		fmt.Println(err)
-	}
-	w2, err := NewObject(0, 0, "Remington1875.json")
-	if err != nil {
-		fmt.Println(err)
-	}
-	wm, err := NewObject(0, 0, "BowieKnife.json")
-	if err != nil {
-		fmt.Println(err)
-	}
-	var enemyEq = EquipmentComponent{Objects{w1, w2, wm}, Objects{}}
-	enemy.EquipmentComponent = enemyEq
-	enemy.ActiveWeapon = SlotWeaponSecondary
-	*c = Creatures{player, enemy}
 	*o = Objects{}
-	var c2 = Creatures{}
-	*b, c2, err = LoadJsonMap("trainStart.json")
+	*b, *c, err = LoadJsonMap("trainStart.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	*c = append(*c, c2...)
+	(*c)[0].Equipment = Objects{playerPrimary, playerSecondary, playerMelee}
 	for i := 0; i < len(*c); i++ {
 		monster := (*c)[i]
 		weapon := monster.ActiveWeapon

@@ -193,6 +193,14 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 	}
 	var creatures = Creatures{}
 	for j := 0; j < len(coords); j++ {
+		if aiTypes[j] == "player" {
+			player, err := NewPlayer(coords[j][0], coords[j][1])
+			if err != nil {
+				fmt.Println(err)
+			}
+			creatures = append(creatures, player)
+			continue
+		}
 		monster, err := NewCreature(coords[j][0], coords[j][1], aiTypes[j]+".json")
 		if err != nil {
 			fmt.Println(err)

@@ -517,11 +517,13 @@
 			},
 	"MonstersCoords":
 	            [
+					[1, 9],
 				    [11, 11],
 					[11, 14]
 				],
 	"MonstersTypes":
 	            [
+					"player",
 				    "patherRanged",
 					"dumbMelee"
 				]
