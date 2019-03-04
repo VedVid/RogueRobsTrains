@@ -152,7 +152,7 @@ func (c *Creature) Move(tx, ty int, b Board, cs Creatures) bool {
 			c.X = newX
 			c.Y = newY
 			turnSpent = true
-		} else if c == cs[0] && b[newX][newY].Name == "doors to next carriage" && G.Alive == 0 {
+		} else if c == cs[0] && b[newX][newY].Name == "doors to next carriage" && G.Alive <= 0 {
 			G.LevelInt++
 		}
 	}
