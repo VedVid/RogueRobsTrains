@@ -191,6 +191,8 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 		txt := MapMonstersCoordsAiError(len(coords), len(aiTypes), mapFile)
 		err = errors.New("Length of MonstersCoords and MonstersTypes does not match. " + txt)
 	}
+	var enemies = []string{"dumbMelee.json", "patherMelee.json", "patherMelee.json", "dumbRanged.json",
+							"dumbRanged.json", "patherRanged.json", "patherRanged.json, patherRanged.json"}
 	var creatures = Creatures{}
 	for j := 0; j < len(coords); j++ {
 		if aiTypes[j] == "player" {
@@ -201,7 +203,11 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 			creatures = append(creatures, player)
 			continue
 		}
-		monster, err := NewCreature(coords[j][0], coords[j][1], aiTypes[j]+".json")
+		aitype := aiTypes[j]+".json"
+		if aiTypes[j] == "any" {
+			aitype = enemies[RandRange(0, len(enemies)-1)]
+		}
+		monster, err := NewCreature(coords[j][0], coords[j][1], aitype)
 		if err != nil {
 			fmt.Println(err)
 		}
