@@ -34,6 +34,11 @@ import (
 	"time"
 )
 
+type Game struct {
+	Level  int
+	Levels []string
+}
+
 var MsgBuf = []string{}
 var LastTarget *Creature
 
@@ -41,12 +46,13 @@ func main() {
 	var cells = new(Board)
 	var objs = new(Objects)
 	var actors = new(Creatures)
-	StartGame(cells, actors, objs)
+	var game = new(Game)
+	StartGame(cells, actors, objs, game)
 	for {
 		RenderAll(*cells, *objs, *actors)
 		key := blt.Read()
 		if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
-			err := SaveGame(*cells, *actors, *objs)
+			err := SaveGame(*cells, *actors, *objs, *game)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -65,7 +71,7 @@ func main() {
 	blt.Close()
 }
 
-func NewGame(b *Board, c *Creatures, o *Objects) {
+func NewGame(b *Board, c *Creatures, o *Objects, g *Game) {
 	/* Function NewGame initializes game state - creates player, monsters, and game map.
 	   This implementation is generic-placeholder, for testing purposes. */
 	player, err := NewPlayer(11, 6)
@@ -125,19 +131,23 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 			}
 		}
 	}
+	g.Level = 0
+	g.Levels = []string{"trainStart.json", "train1.json", "train2.json", "train3.json", "train4.json",
+						"trainFinal1.json", "trainFinal2.json"}
 }
 
-func StartGame(b *Board, c *Creatures, o *Objects) {
+func StartGame(b *Board, c *Creatures, o *Objects, g *Game) {
 	/* Function StartGame determines if game save is present (and valid), then
 	   loads data, or initializes new game.
 	   Panics if some-but-not-all save files are missing. */
 	_, errBoard := os.Stat(MapPathGob)
 	_, errCreatures := os.Stat(CreaturesPathGob)
 	_, errObjects := os.Stat(ObjectsPathGob)
-	if errBoard == nil && errCreatures == nil && errObjects == nil {
-		LoadGame(b, c, o)
-	} else if errBoard != nil && errCreatures != nil && errObjects != nil {
-		NewGame(b, c, o)
+	_, errGame := os.Stat(GamePathGob)
+	if errBoard == nil && errCreatures == nil && errObjects == nil && errGame == nil {
+		LoadGame(b, c, o, g)
+	} else if errBoard != nil && errCreatures != nil && errObjects != nil && errGame != nil {
+		NewGame(b, c, o, g)
 	} else {
 		txt := CorruptedSaveError(errBoard, errCreatures, errObjects)
 		fmt.Println("Error: save files are corrupted: " + txt)
