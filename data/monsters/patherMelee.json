@@ -1,13 +1,13 @@
 {
     "Char":"T",
-    "Name":"enemy2",
-    "Color":"red",
-    "ColorDark":"red",
+    "Name":"enemy4",
+    "Color":"blue",
+    "ColorDark":"blue",
     "Layer":5,
 	"AlwaysVisible":false,
     "Blocked":true,
     "BlocksSight":false,
-    "AIType":5,
+    "AIType":3,
     "AITriggered":false,
     "HPMax":1,
     "HPCurrent":1,
@@ -21,5 +21,5 @@
     "Inventory":[
         null
     ],
-	"ActiveWeapon": 1
+	"ActiveWeapon": 2
 }
