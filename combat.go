@@ -33,6 +33,8 @@ func (c *Creature) AttackTarget(t *Creature, o *Objects) {
 	   argument "t" is target.
 	   "att" roll needs to be smaller or equal than weapon's effective range on given
 	   distance (c.Equipment.Ranges). */
+	fmt.Println(c)
+	fmt.Println(t)
 	att := RandInt(100)
 	var dist int
 	v, err := NewVector(c.X, c.Y, t.X, t.Y)

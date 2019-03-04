@@ -35,25 +35,37 @@ import (
 )
 
 type Game struct {
-	Level  int
+	LevelInt  int
+	LevelStr string
 	Levels []string
 }
 
 var MsgBuf = []string{}
 var LastTarget *Creature
 
-var game = new(Game)
+var G = new(Game)
 
 func main() {
 	var cells = new(Board)
 	var objs = new(Objects)
 	var actors = new(Creatures)
-	StartGame(cells, actors, objs, game)
+	StartGame(cells, actors, objs, G)
 	for {
+		if G.LevelStr != G.Levels[G.LevelInt] {
+			var err error
+			player := (*actors)[0]
+			*cells, *actors, err = LoadJsonMap(G.Levels[G.LevelInt])
+			if err != nil {
+				fmt.Println(err)
+			}
+			player.X, player.Y = (*actors)[0].X, (*actors)[0].Y
+			(*actors)[0] = player
+			G.LevelStr = G.Levels[G.LevelInt]
+		}
 		RenderAll(*cells, *objs, *actors)
 		key := blt.Read()
 		if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
-			err := SaveGame(*cells, *actors, *objs, *game)
+			err := SaveGame(*cells, *actors, *objs, *G)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -75,10 +87,6 @@ func main() {
 func NewGame(b *Board, c *Creatures, o *Objects, g *Game) {
 	/* Function NewGame initializes game state - creates player, monsters, and game map.
 	   This implementation is generic-placeholder, for testing purposes. */
-	player, err := NewPlayer(11, 6)
-	if err != nil {
-		fmt.Println(err)
-	}
 	playerMelee, err := NewObject(0, 0, "BowieKnife.json")
 	if err != nil {
 		fmt.Println(err)
@@ -91,50 +99,16 @@ func NewGame(b *Board, c *Creatures, o *Objects, g *Game) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	player.Equipment = Objects{playerPrimary, playerSecondary, playerMelee}
-	enemy, err := NewCreature(MapSizeX-2, MapSizeY-2, "patherRanged.json")
-	if err != nil {
-		fmt.Println(err)
-	}
-	w1, err := NewObject(0, 0, "SpencerRepeater.json")
-	if err != nil {
-		fmt.Println(err)
-	}
-	w2, err := NewObject(0, 0, "Remington1875.json")
-	if err != nil {
-		fmt.Println(err)
-	}
-	wm, err := NewObject(0, 0, "BowieKnife.json")
-	if err != nil {
-		fmt.Println(err)
-	}
-	var enemyEq = EquipmentComponent{Objects{w1, w2, wm}, Objects{}}
-	enemy.EquipmentComponent = enemyEq
-	enemy.ActiveWeapon = SlotWeaponSecondary
-	*c = Creatures{player, enemy}
 	*o = Objects{}
-	var c2 = Creatures{}
-	*b, c2, err = LoadJsonMap("trainStart.json")
+	*b, *c, err = LoadJsonMap("trainStart.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	*c = append(*c, c2...)
-	for i := 0; i < len(*c); i++ {
-		monster := (*c)[i]
-		weapon := monster.ActiveWeapon
-		if monster.Equipment[weapon] == nil {
-			if weapon == SlotWeaponMelee {
-				monster.Equipment[weapon], _ = NewObject(0, 0, "BowieKnife.json")
-			} else if weapon == SlotWeaponSecondary {
-				monster.Equipment[weapon], _ = NewObject(0, 0, "Remington1875.json")
-			} else if weapon == SlotWeaponPrimary {
-				monster.Equipment[weapon], _ = NewObject(0, 0, "SpencerRepeater.json")
-			}
-		}
-	}
-	g.Level = 0
+	(*c)[0].Equipment = Objects{playerPrimary, playerSecondary, playerMelee}
+	g.LevelInt = 0
 	g.Levels = []string{"trainStart.json", "train1.json", "train2.json", "train3.json", "train4.json",
 						"trainFinal1.json", "trainFinal2.json"}
+	g.LevelStr = g.Levels[g.LevelInt]
 }
 
 func StartGame(b *Board, c *Creatures, o *Objects, g *Game) {

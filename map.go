@@ -193,11 +193,32 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 	}
 	var creatures = Creatures{}
 	for j := 0; j < len(coords); j++ {
+		if aiTypes[j] == "player" {
+			player, err := NewPlayer(coords[j][0], coords[j][1])
+			if err != nil {
+				fmt.Println(err)
+			}
+			creatures = append(creatures, player)
+			continue
+		}
 		monster, err := NewCreature(coords[j][0], coords[j][1], aiTypes[j]+".json")
 		if err != nil {
 			fmt.Println(err)
 		}
 		creatures = append(creatures, monster)
+	}
+	for i := 0; i < len(creatures); i++ {
+		monster := creatures[i]
+		weapon := monster.ActiveWeapon
+		if monster.Equipment[weapon] == nil {
+			if weapon == SlotWeaponMelee {
+				monster.Equipment[weapon], _ = NewObject(0, 0, "BowieKnife.json")
+			} else if weapon == SlotWeaponSecondary {
+				monster.Equipment[weapon], _ = NewObject(0, 0, "Remington1875.json")
+			} else if weapon == SlotWeaponPrimary {
+				monster.Equipment[weapon], _ = NewObject(0, 0, "SpencerRepeater.json")
+			}
+		}
 	}
 	return thisMap, creatures, err
 }
