@@ -61,6 +61,10 @@ func main() {
 			player.X, player.Y = (*actors)[0].X, (*actors)[0].Y
 			(*actors)[0] = player
 			G.LevelStr = G.Levels[G.LevelInt]
+			for i := 0; i < len(*objs); i++ {
+				(*objs)[i] = nil
+			}
+			*objs = (*objs)[:0]
 		}
 		RenderAll(*cells, *objs, *actors)
 		key := blt.Read()
