@@ -35,25 +35,39 @@ import (
 )
 
 type Game struct {
-	Level  int
+	LevelInt  int
+	LevelStr string
 	Levels []string
 }
 
 var MsgBuf = []string{}
 var LastTarget *Creature
 
-var game = new(Game)
+var G = new(Game)
 
 func main() {
 	var cells = new(Board)
 	var objs = new(Objects)
 	var actors = new(Creatures)
-	StartGame(cells, actors, objs, game)
+	StartGame(cells, actors, objs, G)
 	for {
+		if G.LevelStr != G.Levels[G.LevelInt] {
+			var monsters = new(Creatures)
+			var err error
+			*cells, *monsters, err = LoadJsonMap(G.Levels[G.LevelInt])
+			if err != nil {
+				fmt.Println(err)
+			}
+			actors = &Creatures{(*actors)[0]}
+			*actors = append(*actors, *monsters...)
+			(*actors)[0].X = 10
+			(*actors)[0].Y = 10
+			G.LevelStr = G.Levels[G.LevelInt]
+		}
 		RenderAll(*cells, *objs, *actors)
 		key := blt.Read()
 		if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
-			err := SaveGame(*cells, *actors, *objs, *game)
+			err := SaveGame(*cells, *actors, *objs, *G)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -132,9 +146,10 @@ func NewGame(b *Board, c *Creatures, o *Objects, g *Game) {
 			}
 		}
 	}
-	g.Level = 0
+	g.LevelInt = 0
 	g.Levels = []string{"trainStart.json", "train1.json", "train2.json", "train3.json", "train4.json",
 						"trainFinal1.json", "trainFinal2.json"}
+	g.LevelStr = g.Levels[g.LevelInt]
 }
 
 func StartGame(b *Board, c *Creatures, o *Objects, g *Game) {
