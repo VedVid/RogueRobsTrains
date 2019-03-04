@@ -209,6 +209,11 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 	}
 	for i := 0; i < len(creatures); i++ {
 		monster := creatures[i]
+		if monster.AIType == MeleeDumbAI || monster.AIType == MeleePatherAI {
+			monster.ActiveWeapon = SlotWeaponMelee
+		} else {
+			monster.ActiveWeapon = RandRange(0, 1)
+		}
 		weapon := monster.ActiveWeapon
 		if monster.Equipment[weapon] == nil {
 			if weapon == SlotWeaponMelee {
