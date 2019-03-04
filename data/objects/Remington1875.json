@@ -16,5 +16,5 @@
 	"AmmoMax": 6,
 	"AmmoCurrent": 6,
 	"Cock": true,
-	"Cocked": true
+	"Cocked": false
 }
