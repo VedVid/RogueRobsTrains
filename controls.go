@@ -116,7 +116,7 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 		lever := false
 		for x := minX; x <= maxX; x++ {
 			for y := minY; y <= maxY; y++ {
-				if (*b)[x][y].Name == "console" {
+				if (*b)[x][y].Name == "lever" {
 					lever = true
 				}
 			}
