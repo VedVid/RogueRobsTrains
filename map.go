@@ -194,24 +194,56 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 	var enemies = []string{"dumbMelee.json", "patherMelee.json", "patherMelee.json", "dumbRanged.json",
 		"dumbRanged.json", "patherRanged.json", "patherRanged.json", "patherRanged.json"}
 	var creatures = Creatures{}
-	for j := 0; j < len(coords); j++ {
-		if aiTypes[j] == "player" {
-			player, err := NewPlayer(coords[j][0], coords[j][1])
+	for k := 0; k < len(coords); k++ {
+		if aiTypes[k] == "player" {
+			player, err := NewPlayer(coords[k][0], coords[k][1])
 			if err != nil {
 				fmt.Println(err)
 			}
 			creatures = append(creatures, player)
 			continue
 		}
-		aitype := aiTypes[j] + ".json"
-		if aiTypes[j] == "any" {
+		aitype := aiTypes[k] + ".json"
+		if aiTypes[k] == "any" {
 			aitype = enemies[RandRange(0, len(enemies)-1)]
 		}
-		monster, err := NewCreature(coords[j][0], coords[j][1], aitype)
+		monster, err := NewCreature(coords[k][0], coords[k][1], aitype)
 		if err != nil {
 			fmt.Println(err)
 		}
 		creatures = append(creatures, monster)
+	}
+	for _, area := range data {
+		n := 0
+		val := RandInt(100)
+		if val < 50 {
+			val2 := RandInt(75)
+			if val2 < 50 {
+				n = 1
+			} else {
+				n = 2
+			}
+		}
+		for x := area[0]; x < area[0]+area[2]; x++ {
+			for y:= area[1]; y < area[1]+area[3]; y++ {
+				if n == 0 {
+					goto Areas
+				}
+				if thisMap[x][y].Blocked == false && thisMap[x][y].BlocksSight == false {
+					if RandInt(100) > 50 {
+						aitype := enemies[RandRange(0, len(enemies)-1)]
+						monster, err := NewCreature(x, y, aitype)
+						if err != nil {
+							fmt.Println(err)
+						}
+						creatures = append(creatures, monster)
+						n--
+					}
+				}
+			}
+		}
+	Areas:
+		continue
 	}
 	var melees = []string{"BowieKnife.json"}
 	var pistols = []string{"Remington1875.json"}
