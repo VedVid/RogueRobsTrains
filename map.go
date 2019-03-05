@@ -245,9 +245,9 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 	Areas:
 		continue
 	}
-	var melees = []string{"BowieKnife.json"}
-	var pistols = []string{"Remington1875.json"}
-	var rifles = []string{"SpencerRepeater.json"}
+	var melees = []string{"meleeBowieKnife.json"}
+	var pistols = []string{"secondaryRemington1875.json"}
+	var rifles = []string{"primarySpencerRepeater.json"}
 	for i := 0; i < len(creatures); i++ {
 		monster := creatures[i]
 		if monster.AIType == MeleeDumbAI || monster.AIType == MeleePatherAI {

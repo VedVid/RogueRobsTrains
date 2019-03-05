@@ -104,15 +104,15 @@ func main() {
 func NewGame(b *Board, c *Creatures, o *Objects) {
 	/* Function NewGame initializes game state - creates player, monsters, and game map.
 	   This implementation is generic-placeholder, for testing purposes. */
-	playerMelee, err := NewObject(0, 0, "BowieKnife.json")
+	playerMelee, err := NewObject(0, 0, "meleeBowieKnife.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	playerSecondary, err := NewObject(0, 0, "Remington1875.json")
+	playerSecondary, err := NewObject(0, 0, "secondaryRemington1875.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	playerPrimary, err := NewObject(0, 0, "SpencerRepeater.json")
+	playerPrimary, err := NewObject(0, 0, "primarySpencerRepeater.json")
 	if err != nil {
 		fmt.Println(err)
 	}
