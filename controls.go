@@ -40,14 +40,24 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	   if player spent turn by action or not. */
 	turnSpent := false
 	switch k {
-	case blt.TK_UP:
+	case blt.TK_UP, blt.TK_KP_8, blt.TK_K, blt.TK_W:
 		turnSpent = p.MoveOrAttack(0, -1, *b, o, *c)
-	case blt.TK_RIGHT:
+	case blt.TK_RIGHT, blt.TK_KP_6, blt.TK_L, blt.TK_D:
 		turnSpent = p.MoveOrAttack(1, 0, *b, o, *c)
-	case blt.TK_DOWN:
+	case blt.TK_DOWN, blt.TK_KP_2, blt.TK_J, blt.TK_X:
 		turnSpent = p.MoveOrAttack(0, 1, *b, o, *c)
-	case blt.TK_LEFT:
+	case blt.TK_LEFT, blt.TK_KP_4, blt.TK_H, blt.TK_A:
 		turnSpent = p.MoveOrAttack(-1, 0, *b, o, *c)
+	case blt.TK_HOME, blt.TK_KP_7, blt.TK_Y, blt.TK_Q:
+		turnSpent = p.MoveOrAttack(-1, -1, *b, o, *c)
+	case blt.TK_PAGEUP, blt.TK_KP_9, blt.TK_U, blt.TK_E:
+		turnSpent = p.MoveOrAttack(1, -1, *b, o, *c)
+	case blt.TK_END, blt.TK_KP_1, blt.TK_B, blt.TK_Z:
+		turnSpent = p.MoveOrAttack(-1, 1, *b, o, *c)
+	case blt.TK_PAGEDOWN, blt.TK_KP_3, blt.TK_N, blt.TK_C:
+		turnSpent = p.MoveOrAttack(1, 1, *b, o, *c)
+	case blt.TK_SPACE, blt.TK_KP_5, blt.TK_PERIOD, blt.TK_S:
+		turnSpent = true // Pass a turn.
 
 	case blt.TK_F:
 		if p.ActiveWeapon != SlotWeaponMelee {
@@ -92,7 +102,7 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 				}
 			}
 		}
-	case blt.TK_L:
+	case blt.TK_I:
 		p.Look(*b, *o, *c) // Looking is free action.
 	case blt.TK_G:
 		turnSpent = p.PickUp(o)
