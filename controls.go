@@ -28,7 +28,7 @@ package main
 
 import (
 	blt "bearlibterminal"
-	"fmt"
+	"os"
 )
 
 func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
@@ -118,12 +118,17 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			for y := minY; y <= maxY; y++ {
 				if (*b)[x][y].Name == "console" {
 					lever = true
-					fmt.Println("it's console! end the game!")
 				}
 			}
 		}
 		if lever == false {
 			AddMessage("There is no lever to pull here.")
+		}
+		if lever == true {
+			PrintVictoryScreen()
+			DeleteSaves()
+			blt.Close()
+			os.Exit(0)
 		}
 	case blt.TK_1:
 		if p.ActiveWeapon != SlotWeaponPrimary {
