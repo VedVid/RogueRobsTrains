@@ -139,6 +139,11 @@ func NewCreature(x, y int, monsterFile string) (*Creature, error) {
 	if monster.Inventory == nil {
 		monster.Inventory = Objects{}
 	}
+	newName := SecondNames[RandInt(len(SecondNames)-1)]
+	if RandInt(100) >= 60 {
+		newName = "\"" + FirstNames[RandInt(len(FirstNames)-1)] + "\" " + newName
+	}
+	monster.Name = newName
 	return monster, err2
 }
 
