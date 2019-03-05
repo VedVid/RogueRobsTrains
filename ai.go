@@ -98,7 +98,18 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 		} else {
 			dx := RandRange(-1, 1)
 			dy := RandRange(-1, 1)
-			c.Move(dx, dy, b, cs)
+			nx := c.X+dx
+			ny := c.Y+dy
+			if nx < 0 || nx >= MapSizeX {
+				nx = c.X
+			}
+			if ny < 0 || ny >= MapSizeY {
+				ny = c.Y
+			}
+			if (b[nx][ny].BlocksSight == false) ||
+				(b[nx][ny].BlocksSight == true && RandInt(100) > 80) {
+				c.Move(dx, dy, b, cs)
+			}
 		}
 	case MeleePatherAI:
 		// The same set of functions as for DumbAI.
@@ -112,7 +123,18 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 		} else {
 			dx := RandRange(-1, 1)
 			dy := RandRange(-1, 1)
-			c.Move(dx, dy, b, cs)
+			nx := c.X+dx
+			ny := c.Y+dy
+			if nx < 0 || nx >= MapSizeX {
+				nx = c.X
+			}
+			if ny < 0 || ny >= MapSizeY {
+				ny = c.Y
+			}
+			if (b[nx][ny].BlocksSight == false) ||
+				(b[nx][ny].BlocksSight == true && RandInt(100) > 80) {
+				c.Move(dx, dy, b, cs)
+			}
 		}
 	case RangedDumbAI:
 		if c.AITriggered == true {
@@ -357,7 +379,18 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			} else {
 				dx := RandRange(-1, 1)
 				dy := RandRange(-1, 1)
-				c.Move(dx, dy, b, cs)
+				nx := c.X+dx
+				ny := c.Y+dy
+				if nx < 0 || nx >= MapSizeX {
+					nx = c.X
+				}
+				if ny < 0 || ny >= MapSizeY {
+					ny = c.Y
+				}
+				if (b[nx][ny].BlocksSight == false) ||
+					(b[nx][ny].BlocksSight == true && RandInt(100) > 80) {
+					c.Move(dx, dy, b, cs)
+				}
 			}
 		}
 	case RangedPatherAI: // It will depend on ranged weapons and equipment implementation
@@ -607,7 +640,18 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			} else {
 				dx := RandRange(-1, 1)
 				dy := RandRange(-1, 1)
-				c.Move(dx, dy, b, cs)
+				nx := c.X+dx
+				ny := c.Y+dy
+				if nx < 0 || nx >= MapSizeX {
+					nx = c.X
+				}
+				if ny < 0 || ny >= MapSizeY {
+					ny = c.Y
+				}
+				if (b[nx][ny].BlocksSight == false) ||
+					(b[nx][ny].BlocksSight == true && RandInt(100) > 80) {
+					c.Move(dx, dy, b, cs)
+				}
 			}
 		}
 	}
