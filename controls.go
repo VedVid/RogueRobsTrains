@@ -158,6 +158,9 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 		}
 	case blt.TK_3:
 		if p.ActiveWeapon != SlotWeaponMelee {
+			if p.Equipment[p.ActiveWeapon].Cock == true {
+				p.Equipment[p.ActiveWeapon].Cocked = false
+			}
 			p.ActiveWeapon = SlotWeaponMelee
 			turnSpent = true
 		}
