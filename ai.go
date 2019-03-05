@@ -186,7 +186,8 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 							}
 						}
 					}
-					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 { // should it use DistanceTo, instead of ComputeVector?
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 ||
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false { // should it use DistanceTo, instead of ComputeVector?
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
 						// DumbAI will not check if target is valid
@@ -253,7 +254,8 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 							}
 						}
 					}
-					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 ||
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false {
 						// TODO:
 						// For now, every ranged skill has range equal to FOVLength-1
 						// but it should change in future.
@@ -321,7 +323,8 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 							}
 						}
 					}
-					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 ||
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false {
 						// TODO:
 						// For now, every ranged skill has range equal to FOVLength-1
 						// but it should change in future.
