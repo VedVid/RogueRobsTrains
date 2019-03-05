@@ -156,13 +156,11 @@ func ReplaceTile(t *Tile, s string, m *MapJson) {
 			t.Color = grassColors[RandInt(len(grassColors)-1)]
 			t.ColorDark = t.Color
 		} else {
-			val2 := RandInt(30)
+			val2 := RandInt(20)
 			if val2 <= 10 {
 				t.Char = "^"
 			} else if val2 <= 20 {
-				t.Char = "&"
-			} else if val2 <= 30 {
-				t.Char = "#"
+				t.Char = "*"
 			}
 			t.Color = stoneColors[RandInt(len(stoneColors)-1)]
 			t.ColorDark = t.Color
