@@ -104,6 +104,10 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 			if v.Char == "]" || v.Char == "[" {
 				ch = v.Char + v.Char
 			}
+			for l := 0; l < v.Layer; l++ {
+				blt.Layer(l)
+				blt.ClearArea(v.X, v.Y, 1, 1)
+			}
 			glyph := "[color=" + v.Color + "]" + ch
 			blt.Print(v.X, v.Y, glyph)
 		}
@@ -127,6 +131,10 @@ func PrintCreatures(b Board, c Creatures) {
 			ch := v.Char
 			if v.Char == "]" || v.Char == "[" {
 				ch = v.Char + v.Char
+			}
+			for l := 0; l < v.Layer; l++ {
+				blt.Layer(l)
+				blt.ClearArea(v.X, v.Y, 1, 1)
 			}
 			glyph := "[color=" + v.Color + "]" + ch
 			blt.Print(v.X, v.Y, glyph)
