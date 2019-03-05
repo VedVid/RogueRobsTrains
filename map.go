@@ -63,6 +63,18 @@ type MapJson struct {
    to hold data of its every cell. */
 type Board [][]*Tile
 
+var grassColors = []string{
+	"#8F9779", "#8F9779", "#4F7942", "#4F7942", "#6c7c59", "#6c7c59", "#A9BA9D", "#A9BA9D",
+	"#8A9A5B", "#8A9A5B", "#6C7C59", "#6C7C59", "#4B5320", "#4B5320", "#355E3B", "#355E3B",
+	"#444C38", "#444C38", "#679267", "#679267",
+	"#C3B091", "#826644", "#D2B48C", "#5C5248", "#C19A6B",
+	"#5E716A", "#98817B",
+}
+
+var stoneColors = []string{
+	"#989898", "#555555", "#B2BEB5", "#727472", "#928E85", "#708090", "#AA98A9", "#98817B",
+}
+
 func NewTile(layer, x, y int, character, name, color, colorDark string,
 	alwaysVisible, explored, blocked, blocksSight bool) (*Tile, error) {
 	/* Function NewTile takes all values necessary by its struct,
@@ -122,6 +134,40 @@ func ReplaceTile(t *Tile, s string, m *MapJson) {
 	t.Name = m.Name[s]
 	t.Color = m.Color[s]
 	t.ColorDark = m.ColorDark[s]
+	if t.Name == "grass" {
+		val1 := RandInt(100)
+		if val1 <= 85 {
+			val2 := RandInt(70)
+			if val2 <= 10 {
+				t.Char = ";"
+			} else if val2 <= 20 {
+				t.Char = ":"
+			} else if val2 <= 30 {
+				t.Char = "'"
+			} else if val2 <= 40 {
+				t.Char = "\""
+			} else if val2 <= 50 {
+				t.Char = ","
+			} else if val2 <= 60 {
+				t.Char = "."
+			} else if val2 <= 70 {
+				t.Char = "`"
+			}
+			t.Color = grassColors[RandInt(len(grassColors)-1)]
+			t.ColorDark = t.Color
+		} else {
+			val2 := RandInt(30)
+			if val2 <= 10 {
+				t.Char = "^"
+			} else if val2 <= 20 {
+				t.Char = "&"
+			} else if val2 <= 30 {
+				t.Char = "#"
+			}
+			t.Color = stoneColors[RandInt(len(stoneColors)-1)]
+			t.ColorDark = t.Color
+		}
+	}
 	t.Layer = m.Layer[s]
 	t.AlwaysVisible = m.AlwaysVisible[s]
 	t.Explored = m.Explored[s]
