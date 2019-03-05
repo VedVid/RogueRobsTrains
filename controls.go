@@ -28,6 +28,7 @@ package main
 
 import (
 	blt "bearlibterminal"
+	"fmt"
 )
 
 func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
@@ -95,6 +96,35 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 		p.Look(*b, *o, *c) // Looking is free action.
 	case blt.TK_G:
 		turnSpent = p.PickUp(o)
+	case blt.TK_P:
+		minX := p.X-1
+		if minX < 0 {
+			minX = p.X
+		}
+		maxX := p.X+1
+		if maxX >= MapSizeX {
+			maxX = p.X
+		}
+		minY := p.Y-1
+		if minY < 0 {
+			minY = p.Y
+		}
+		maxY := p.Y+1
+		if maxY >= MapSizeY {
+			maxY = p.Y
+		}
+		lever := false
+		for x := minX; x <= maxX; x++ {
+			for y := minY; y <= maxY; y++ {
+				if (*b)[x][y].Name == "console" {
+					lever = true
+					fmt.Println("it's console! end the game!")
+				}
+			}
+		}
+		if lever == false {
+			AddMessage("There is no lever to pull here.")
+		}
 	case blt.TK_1:
 		if p.ActiveWeapon != SlotWeaponPrimary {
 			if p.Equipment[p.ActiveWeapon].Cock == true {
