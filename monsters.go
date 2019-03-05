@@ -51,6 +51,43 @@ type Creature struct {
 // Creatures holds every creature on map.
 type Creatures []*Creature
 
+var FirstNames = []string{
+	"Big", "Fat", "Skinny", "Small", "Short",
+	"Sad", "Happy", "Angry", "Hateful", "Nervous", "Good", "Bad",
+	"Kind", "Nice", "Mean", "Scurvy", "Surly",
+	"Dirty", "Ugly",
+	"Blind", "Deaf", "Limping",
+	"Fast", "Strong", "Quick", "Heavy", "Slow", "Nimble",
+	"Stupid", "Smart", "Bright",
+}
+var SecondNames = []string{
+	"Ab", "Adam", "Andy", "Archie",
+	"Ben", "Blake", "Brad", "Brock", "Buck", "Bud",
+	"Carl", "Cary", "Chad", "Chas", "Chet", "Chris", "Clay", "Cliff", "Cole", "Colin", "Corey",
+	"Dallas", "Dan", "Dave", "Dirk", "Doug", "Drew", "Dwight",
+	"Earl", "Ed", "Eric",
+	"Floyd", "Frank", "Fred",
+	"Garth", "Gary", "Gavin", "George", "Glen", "Grant",
+	"Hal", "Hank", "Harry", "Henry", "Hugh",
+	"Ian",
+	"Jack", "Jackson", "Jacob", "Jake", "James", "Jason", "Jay", "Jeb", "Jeff", "Jerry", "Jesse",
+	"Jim", "Joel", "Joey", "John", "Jonathan", "Joe", "Justin",
+	"Keith", "Kenny", "Kevin", "Kim", "Kyle",
+	"Lanny", "Larry", "Laurence", "Lester", "Lewis", "Louis", "Lucas",
+	"Mark", "Marshall", "Martin", "Matt", "Melvin", "Murray",
+	"Nate", "Neil", "Noel", "Norman",
+	"Oliver", "Oscar", "Oswald", "Otto", "Owen",
+	"Patsy", "Paul", "Pete", "Phil",
+	"Quentin",
+	"Ralph", "Randall", "Ray", "Ricky", "Rob", "Roger", "Ron", "Rufus", "Russell",
+	"Samuel", "Sam", "Seth", "Shane", "Shawn", "Simon", "Steve", "Swaine",
+	"Terence", "Ted", "Tom", "Thomas", "Tim", "Tobias", "Toby", "Travis", "Trevor", "Troy",
+	"Ultan",
+	"Victor", "Vince",
+	"Waldo", "Walter", "Wayne", "Will", "Winnie", "Winston",
+	"Zack",
+}
+
 func NewCreature(x, y int, monsterFile string) (*Creature, error) {
 	/* NewCreature is function that returns new Creature from
 	   json file passed as argument. It replaced old code that
