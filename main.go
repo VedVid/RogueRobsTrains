@@ -72,6 +72,7 @@ func main() {
 			}
 			player.X, player.Y = (*actors)[0].X, (*actors)[0].Y
 			(*actors)[0] = player
+			player.HPCurrent = player.HPMax
 			G.LevelStr = G.Levels[G.LevelInt]
 			G.Alive = len(*actors)-1
 			for i := 0; i < len(*objs); i++ {
