@@ -216,7 +216,8 @@ Loop:
 			b[x][y].Name == "door" || b[x][y].Name == "doors") &&
 			b[x][y].Name != "railing" && b[x][y].Name != "railings" &&
 			b[x][y].Name != "table" && b[x][y].Name != "wadrobe" &&
-			b[x][y].Name != "counter" {
+			b[x][y].Name != "counter" && b[x][y].Name != "bed" &&
+			b[x][y].Name != "lever" {
 			// Breaks on blocked tiles.
 			tile = b[x][y]
 			break

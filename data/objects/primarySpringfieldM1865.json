@@ -1,0 +1,20 @@
+{
+    "Char":"|",
+    "Name":"Springfield M1885",
+    "Color":"#D2691E",
+    "ColorDark":"#D2691E",
+    "Layer":4,
+	"AlwaysVisible":true,
+    "Blocked":false,
+    "BlocksSight":false,
+    "Pickable":true,
+    "Equippable":true,
+    "Consumable":false,
+    "Slot":0,
+    "Use":0,
+	"Ranges": [10, 20, 99],
+	"AmmoMax": 1,
+	"AmmoCurrent": 1,
+	"Cock": true,
+	"Cocked": false
+}

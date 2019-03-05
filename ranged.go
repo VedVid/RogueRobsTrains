@@ -242,14 +242,22 @@ func CursorMovement(x, y *int, key int) {
 	   int-based user input. It uses MoveCursor function to
 	   modify original values. */
 	switch key {
-	case blt.TK_UP:
+	case blt.TK_UP, blt.TK_KP_8, blt.TK_K, blt.TK_W:
 		MoveCursor(x, y, 0, -1)
-	case blt.TK_RIGHT:
+	case blt.TK_RIGHT, blt.TK_KP_6, blt.TK_L, blt.TK_D:
 		MoveCursor(x, y, 1, 0)
-	case blt.TK_DOWN:
+	case blt.TK_DOWN, blt.TK_KP_2, blt.TK_J, blt.TK_X:
 		MoveCursor(x, y, 0, 1)
-	case blt.TK_LEFT:
+	case blt.TK_LEFT, blt.TK_KP_4, blt.TK_H, blt.TK_A:
 		MoveCursor(x, y, -1, 0)
+	case blt.TK_HOME, blt.TK_KP_7, blt.TK_Y, blt.TK_Q:
+		MoveCursor(x, y, -1, -1)
+	case blt.TK_PAGEUP, blt.TK_KP_9, blt.TK_U, blt.TK_E:
+		MoveCursor(x, y, 1, -1)
+	case blt.TK_END, blt.TK_KP_1, blt.TK_B, blt.TK_Z:
+		MoveCursor(x, y, -1, 1)
+	case blt.TK_PAGEDOWN, blt.TK_KP_3, blt.TK_N, blt.TK_C:
+		MoveCursor(x, y, 1, 1)
 	}
 }
 

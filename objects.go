@@ -74,6 +74,26 @@ const (
 	RangeLong   = 30
 )
 
+var MeleeWeapons = []string{
+		"meleeBowieKnife.json", "meleeBowieKnife.json", "meleeBowieKnife.json",
+		"meleeButcherKnife.json", "meleeButcherKnife.json",
+		"meleeArkansasToothpick.json", "meleeArkansasToothpick.json",
+		"meleeFoldingKnife.json",
+		"meleeSaber.json",
+	}
+var SecondaryWeapons = []string{
+		"secondaryColt1851Navy.json", "secondaryColt1851Navy.json", "secondaryColt1851Navy.json",
+		"secondaryColtPeacemaker.json",
+		"secondaryRemington1858Pocket.json", "secondaryRemington1858Pocket.json",
+		"secondaryRemington1875.json", "secondaryRemington1875.json",
+		"secondarySmithAndWessonModel3.json",
+	}
+var PrimaryWeapons = []string{
+		"primarySpringfieldM1865.json",
+		"primaryWinchesterModel1886.json",
+		"primarySpencerRepeater.json",
+	}
+
 type Object struct {
 	/* Objects are every other things on map;
 	   statues, tables, chairs; but also weapons,

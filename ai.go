@@ -43,7 +43,7 @@ const (
 	AITrigger = 92
 )
 
-func CreaturesTakeTurn(b Board, c Creatures, o Objects) {
+func CreaturesTakeTurn(b Board, c Creatures, o *Objects) {
 	/* Function CreaturesTakeTurn is supposed to handle all enemy creatures
 	   actions: movement, attacking, etc.
 	   It takes Board and Creatures as arguments.
@@ -72,7 +72,7 @@ func TriggerAI(b Board, p, c *Creature) {
 	}
 }
 
-func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
+func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 	/* TODO: This docstring needs update!
 	   HandleAI is robust function that takes Board, Creatures, Objects,
 	   and specific Creature as arguments. The most notable argument is
@@ -93,12 +93,23 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
 				c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 			} else {
-				c.AttackTarget(cs[0], &o)
+				c.AttackTarget(cs[0], o)
 			}
 		} else {
 			dx := RandRange(-1, 1)
 			dy := RandRange(-1, 1)
-			c.Move(dx, dy, b, cs)
+			nx := c.X+dx
+			ny := c.Y+dy
+			if nx < 0 || nx >= MapSizeX {
+				nx = c.X
+			}
+			if ny < 0 || ny >= MapSizeY {
+				ny = c.Y
+			}
+			if (b[nx][ny].BlocksSight == false) ||
+				(b[nx][ny].BlocksSight == true && RandInt(100) > 80) {
+				c.Move(dx, dy, b, cs)
+			}
 		}
 	case MeleePatherAI:
 		// The same set of functions as for DumbAI.
@@ -107,12 +118,23 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
 				c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 			} else {
-				c.AttackTarget(cs[0], &o)
+				c.AttackTarget(cs[0], o)
 			}
 		} else {
 			dx := RandRange(-1, 1)
 			dy := RandRange(-1, 1)
-			c.Move(dx, dy, b, cs)
+			nx := c.X+dx
+			ny := c.Y+dy
+			if nx < 0 || nx >= MapSizeX {
+				nx = c.X
+			}
+			if ny < 0 || ny >= MapSizeY {
+				ny = c.Y
+			}
+			if (b[nx][ny].BlocksSight == false) ||
+				(b[nx][ny].BlocksSight == true && RandInt(100) > 80) {
+				c.Move(dx, dy, b, cs)
+			}
 		}
 	case RangedDumbAI:
 		if c.AITriggered == true {
@@ -124,7 +146,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 						// but it should change in future.
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
-						c.AttackTarget(cs[0], &o)
+						c.AttackTarget(cs[0], o)
 					}
 				} else {
 					if c.Equipment[c.ActiveWeapon].AmmoCurrent <= 0 {
@@ -164,7 +186,8 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 							}
 						}
 					}
-					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 { // should it use DistanceTo, instead of ComputeVector?
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 ||
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false { // should it use DistanceTo, instead of ComputeVector?
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
 						// DumbAI will not check if target is valid
@@ -173,14 +196,14 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 							fmt.Println(err)
 						}
 						_ = ComputeVector(vec)
-						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						_, _, target, _ := ValidateVector(vec, b, cs, *o)
 						if target != nil {
 							if c.Equipment[c.ActiveWeapon].Cock == false {
-								c.AttackTarget(target, &o)
+								c.AttackTarget(target, o)
 								c.Equipment[c.ActiveWeapon].AmmoCurrent--
 							} else {
 								if c.Equipment[c.ActiveWeapon].Cocked == true {
-									c.AttackTarget(target, &o)
+									c.AttackTarget(target, o)
 									c.Equipment[c.ActiveWeapon].AmmoCurrent--
 									c.Equipment[c.ActiveWeapon].Cocked = false
 								} else {
@@ -231,7 +254,8 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 							}
 						}
 					}
-					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 ||
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false {
 						// TODO:
 						// For now, every ranged skill has range equal to FOVLength-1
 						// but it should change in future.
@@ -243,14 +267,14 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 							fmt.Println(err)
 						}
 						_ = ComputeVector(vec)
-						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						_, _, target, _ := ValidateVector(vec, b, cs, *o)
 						if target != nil {
 							if c.Equipment[SlotWeaponPrimary].Cock == false {
-								c.AttackTarget(target, &o)
+								c.AttackTarget(target, o)
 								c.Equipment[SlotWeaponPrimary].AmmoCurrent--
 							} else {
 								if c.Equipment[SlotWeaponPrimary].Cocked == true {
-									c.AttackTarget(target, &o)
+									c.AttackTarget(target, o)
 									c.Equipment[SlotWeaponPrimary].AmmoCurrent--
 									c.Equipment[SlotWeaponPrimary].Cocked = false
 								} else {
@@ -299,7 +323,8 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 							}
 						}
 					}
-					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
+					if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 ||
+						IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == false {
 						// TODO:
 						// For now, every ranged skill has range equal to FOVLength-1
 						// but it should change in future.
@@ -311,14 +336,14 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 							fmt.Println(err)
 						}
 						_ = ComputeVector(vec)
-						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						_, _, target, _ := ValidateVector(vec, b, cs, *o)
 						if target != nil {
 							if c.Equipment[SlotWeaponSecondary].Cock == false {
-								c.AttackTarget(target, &o)
+								c.AttackTarget(target, o)
 								c.Equipment[SlotWeaponSecondary].AmmoCurrent--
 							} else {
 								if c.Equipment[SlotWeaponSecondary].Cocked == true {
-									c.AttackTarget(target, &o)
+									c.AttackTarget(target, o)
 									c.Equipment[SlotWeaponSecondary].AmmoCurrent--
 									c.Equipment[SlotWeaponSecondary].Cocked = false
 								} else {
@@ -332,7 +357,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
-						c.AttackTarget(cs[0], &o)
+						c.AttackTarget(cs[0], o)
 					}
 				}
 			}
@@ -357,7 +382,18 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			} else {
 				dx := RandRange(-1, 1)
 				dy := RandRange(-1, 1)
-				c.Move(dx, dy, b, cs)
+				nx := c.X+dx
+				ny := c.Y+dy
+				if nx < 0 || nx >= MapSizeX {
+					nx = c.X
+				}
+				if ny < 0 || ny >= MapSizeY {
+					ny = c.Y
+				}
+				if (b[nx][ny].BlocksSight == false) ||
+					(b[nx][ny].BlocksSight == true && RandInt(100) > 80) {
+					c.Move(dx, dy, b, cs)
+				}
 			}
 		}
 	case RangedPatherAI: // It will depend on ranged weapons and equipment implementation
@@ -367,7 +403,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
-						c.AttackTarget(cs[0], &o)
+						c.AttackTarget(cs[0], o)
 					}
 				} else {
 					if c.Equipment[c.ActiveWeapon].AmmoCurrent <= 0 {
@@ -424,16 +460,16 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 							fmt.Println(err)
 						}
 						_ = ComputeVector(vec)
-						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						_, _, target, _ := ValidateVector(vec, b, cs, *o)
 						if target != cs[0] {
 							c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 						} else {
 							if c.Equipment[c.ActiveWeapon].Cock == false {
-								c.AttackTarget(target, &o)
+								c.AttackTarget(target, o)
 								c.Equipment[c.ActiveWeapon].AmmoCurrent--
 							} else {
 								if c.Equipment[c.ActiveWeapon].Cocked == true {
-									c.AttackTarget(target, &o)
+									c.AttackTarget(target, o)
 									c.Equipment[c.ActiveWeapon].Cocked = false
 								} else {
 									c.Equipment[c.ActiveWeapon].Cocked = true
@@ -493,16 +529,16 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 							fmt.Println(err)
 						}
 						_ = ComputeVector(vec)
-						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						_, _, target, _ := ValidateVector(vec, b, cs, *o)
 						if target != cs[0] {
 							c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 						} else {
 							if c.Equipment[SlotWeaponPrimary].Cock == false {
-								c.AttackTarget(target, &o)
+								c.AttackTarget(target, o)
 								c.Equipment[SlotWeaponPrimary].AmmoCurrent--
 							} else {
 								if c.Equipment[SlotWeaponPrimary].Cocked == true {
-									c.AttackTarget(target, &o)
+									c.AttackTarget(target, o)
 									c.Equipment[SlotWeaponPrimary].Cocked = false
 								} else {
 									c.Equipment[SlotWeaponPrimary].Cocked = true
@@ -560,16 +596,16 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 							fmt.Println(err)
 						}
 						_ = ComputeVector(vec)
-						_, _, target, _ := ValidateVector(vec, b, cs, o)
+						_, _, target, _ := ValidateVector(vec, b, cs, *o)
 						if target != cs[0] {
 							c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 						} else {
 							if c.Equipment[SlotWeaponSecondary].Cock == false {
-								c.AttackTarget(target, &o)
+								c.AttackTarget(target, o)
 								c.Equipment[SlotWeaponSecondary].AmmoCurrent--
 							} else {
 								if c.Equipment[SlotWeaponSecondary].Cocked == true {
-									c.AttackTarget(target, &o)
+									c.AttackTarget(target, o)
 									c.Equipment[SlotWeaponSecondary].Cocked = false
 								} else {
 									c.Equipment[SlotWeaponSecondary].Cocked = true
@@ -582,7 +618,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
-						c.AttackTarget(cs[0], &o)
+						c.AttackTarget(cs[0], o)
 					}
 				}
 			}
@@ -607,7 +643,18 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			} else {
 				dx := RandRange(-1, 1)
 				dy := RandRange(-1, 1)
-				c.Move(dx, dy, b, cs)
+				nx := c.X+dx
+				ny := c.Y+dy
+				if nx < 0 || nx >= MapSizeX {
+					nx = c.X
+				}
+				if ny < 0 || ny >= MapSizeY {
+					ny = c.Y
+				}
+				if (b[nx][ny].BlocksSight == false) ||
+					(b[nx][ny].BlocksSight == true && RandInt(100) > 80) {
+					c.Move(dx, dy, b, cs)
+				}
 			}
 		}
 	}

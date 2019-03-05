@@ -160,3 +160,37 @@ func RemoveLastMessage() {
 	PrintLog()
 	blt.Refresh()
 }
+
+func PrintVictoryScreen() {
+	for {
+		blt.Clear()
+		blt.Layer(UILayer)
+		line1 := "You did it!"
+		line2 := "Finally did it!"
+		line3 := "You killed everyone in the train,"
+		line4 := "reached engine, killed driver as well,"
+		line5 := "and pulled breake lever!"
+		line6 := "Now, you can just unload these gold-filled chests"
+		line7 := "from this train and live rich and well."
+		line1len := utf8.RuneCountInString(line1)
+		line2len := utf8.RuneCountInString(line2)
+		line3len := utf8.RuneCountInString(line3)
+		line4len := utf8.RuneCountInString(line4)
+		line5len := utf8.RuneCountInString(line5)
+		line6len := utf8.RuneCountInString(line6)
+		line7len := utf8.RuneCountInString(line7)
+		posy := (WindowSizeY / 2) - 4
+		blt.Print(((WindowSizeX/2) - (line1len/2)), posy, line1)
+		blt.Print(((WindowSizeX/2) - (line2len/2)), posy+1, line2)
+		blt.Print(((WindowSizeX/2) - (line3len/2)), posy+2, line3)
+		blt.Print(((WindowSizeX/2) - (line4len/2)), posy+3, line4)
+		blt.Print(((WindowSizeX/2) - (line5len/2)), posy+4, line5)
+		blt.Print(((WindowSizeX/2) - (line6len/2)), posy+5, line6)
+		blt.Print(((WindowSizeX/2) - (line7len/2)), posy+6, line7)
+		blt.Refresh()
+		key := blt.Read()
+		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
+			break
+		}
+	}
+}

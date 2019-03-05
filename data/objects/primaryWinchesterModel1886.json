@@ -1,8 +1,8 @@
 {
-    "Char":"}",
-    "Name":"Spencer Repeater",
-    "Color":"yellow",
-    "ColorDark":"dark yellow",
+    "Char":"|",
+    "Name":"Winchester M1886",
+    "Color":"#91A3B0",
+    "ColorDark":"#91A3B0",
     "Layer":4,
 	"AlwaysVisible":true,
     "Blocked":false,
@@ -12,9 +12,9 @@
     "Consumable":false,
     "Slot":0,
     "Use":0,
-	"Ranges": [25, 50, 75],
-	"AmmoMax": 7,
-	"AmmoCurrent": 7,
+	"Ranges": [10, 50, 85],
+	"AmmoMax": 9,
+	"AmmoCurrent": 9,
 	"Cock": false,
 	"Cocked": false
 }

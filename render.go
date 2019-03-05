@@ -104,13 +104,17 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 			if v.Char == "]" || v.Char == "[" {
 				ch = v.Char + v.Char
 			}
+			for l := 0; l < v.Layer; l++ {
+				blt.Layer(l)
+				blt.ClearArea(v.X, v.Y, 1, 1)
+			}
 			glyph := "[color=" + v.Color + "]" + ch
 			blt.Print(v.X, v.Y, glyph)
 		}
 	}
 }
 
-func PrintCreatures(b Board, c Creatures) {
+func PrintAliveCreatures(b Board, c Creatures) {
 	/* Function PrintCreatures is used in RenderAll function.
 	   Takes map of level and slice of Creatures as arguments.
 	   Iterates through Creatures.
@@ -121,12 +125,44 @@ func PrintCreatures(b Board, c Creatures) {
 	   Checks for every creature on its coords if certain conditions are met:
 	   AlwaysVisible bool is set to true, or is in player fov. */
 	for _, v := range c {
-		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
-			(v.AlwaysVisible == true) {
+		if ((IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
+			(v.AlwaysVisible == true)) && v.HPCurrent > 0 {
 			blt.Layer(v.Layer)
 			ch := v.Char
 			if v.Char == "]" || v.Char == "[" {
 				ch = v.Char + v.Char
+			}
+			for l := 0; l < v.Layer; l++ {
+				blt.Layer(l)
+				blt.ClearArea(v.X, v.Y, 1, 1)
+			}
+			glyph := "[color=" + v.Color + "]" + ch
+			blt.Print(v.X, v.Y, glyph)
+		}
+	}
+}
+
+func PrintDeadCreatures(b Board, c Creatures) {
+	/* Function PrintCreatures is used in RenderAll function.
+	   Takes map of level and slice of Creatures as arguments.
+	   Iterates through Creatures.
+	   It has to check for "]" and "[" characters, because
+	   BearLibTerminal uses these symbols for config.
+	   Instead of checking it here, one could just remember to
+	   always pass "]]" instead of "]".
+	   Checks for every creature on its coords if certain conditions are met:
+	   AlwaysVisible bool is set to true, or is in player fov. */
+	for _, v := range c {
+		if ((IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
+			(v.AlwaysVisible == true)) && v.HPCurrent <= 0 {
+			blt.Layer(v.Layer)
+			ch := v.Char
+			if v.Char == "]" || v.Char == "[" {
+				ch = v.Char + v.Char
+			}
+			for l := 0; l < v.Layer; l++ {
+				blt.Layer(l)
+				blt.ClearArea(v.X, v.Y, 1, 1)
 			}
 			glyph := "[color=" + v.Color + "]" + ch
 			blt.Print(v.X, v.Y, glyph)
@@ -171,6 +207,8 @@ func PrintUI(c *Creature) {
 		}
 		pos += 2
 	}
+	instructions := "[color=#EDEAE0]────────────────────\n1 - grab rifle\n2 - grab revolver\n3 - grab melee\nf - target/fire/cock\nr - reload\ni - inspect\ng - pick up\np - pull lever\n────────────────────"
+	blt.Print(UIPosX, UIPosY+pos, instructions)
 }
 
 func PrintLog() {
@@ -192,8 +230,9 @@ func RenderAll(b Board, o Objects, c Creatures) {
 	blt.Clear()
 	CastRays(b, c[0].X, c[0].Y)
 	PrintBoard(b, c)
+	PrintDeadCreatures(b, c)
 	PrintObjects(b, o, c)
-	PrintCreatures(b, c)
+	PrintAliveCreatures(b, c)
 	PrintUI((c)[0])
 	PrintLog()
 	blt.Refresh()
