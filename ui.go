@@ -194,3 +194,31 @@ func PrintVictoryScreen() {
 		}
 	}
 }
+
+func DeadScreen() {
+	for {
+		blt.Clear()
+		blt.Layer(UILayer)
+		line1 := "Maybe robbing this train was bad idea?"
+		line2 := "Maybe it was good idea, but you made serie of mistakes?"
+		line3 := "You'll never know."
+		line4 := "They got you. Ten times."
+		line5 := "No chances to leave this damn train alive..."
+		line1len := utf8.RuneCountInString(line1)
+		line2len := utf8.RuneCountInString(line2)
+		line3len := utf8.RuneCountInString(line3)
+		line4len := utf8.RuneCountInString(line4)
+		line5len := utf8.RuneCountInString(line5)
+		posy := (WindowSizeY / 2) - 3
+		blt.Print(((WindowSizeX / 2) - (line1len / 2)), posy, line1)
+		blt.Print(((WindowSizeX / 2) - (line2len / 2)), posy+1, line2)
+		blt.Print(((WindowSizeX / 2) - (line3len / 2)), posy+2, line3)
+		blt.Print(((WindowSizeX / 2) - (line4len / 2)), posy+3, line4)
+		blt.Print(((WindowSizeX / 2) - (line5len / 2)), posy+4, line5)
+		blt.Refresh()
+		key := blt.Read()
+		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
+			break
+		}
+	}
+}

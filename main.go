@@ -58,6 +58,8 @@ func main() {
 			timer = 0
 		}
 		if (*actors)[0].HPCurrent <= 0 {
+			blt.Read()
+			DeadScreen()
 			DeleteSaves()
 			break
 		}
