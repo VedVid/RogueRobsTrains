@@ -52,6 +52,10 @@ func main() {
 	var actors = new(Creatures)
 	StartGame(cells, actors, objs)
 	for {
+		if (*actors)[0].HPCurrent <= 0 {
+			DeleteSaves()
+			break
+		}
 		if G.Alive == 0 {
 			G.Alive = -1
 			AddMessage("All enemies are down. You may proceed.")
@@ -91,8 +95,7 @@ func main() {
 					fmt.Println(err)
 				}
 				break
-			} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 ||
-				(*actors)[0].HPCurrent <= 0 {
+			} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 {
 				AddMessage("Do you want to quit the game?")
 				AddMessage("It will delete the saves as well. [[Y/N]]")
 				RenderAll(*cells, *objs, *actors)
