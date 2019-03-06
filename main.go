@@ -51,7 +51,11 @@ func main() {
 	var objs = new(Objects)
 	var actors = new(Creatures)
 	StartGame(cells, actors, objs)
+	timer := 0
 	for {
+		if timer > 100 {
+			timer = 0
+		}
 		if (*actors)[0].HPCurrent <= 0 {
 			DeleteSaves()
 			break
@@ -85,10 +89,12 @@ func main() {
 			}
 			*objs = (*objs)[:0]
 		}
+		if timer%10 == 0 {
+			cells.MoveMap()
+		}
 		RenderAll(*cells, *objs, *actors)
 		if blt.HasInput() == true {
 			key := blt.Read()
-			cells.MoveMap()
 			if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
 				err := SaveGame(*cells, *actors, *objs)
 				if err != nil {
@@ -124,6 +130,7 @@ func main() {
 				}
 			}
 		}
+		timer++
 	}
 	blt.Close()
 }
