@@ -82,39 +82,41 @@ func main() {
 			*objs = (*objs)[:0]
 		}
 		RenderAll(*cells, *objs, *actors)
-		key := blt.Read()
-		if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
-			err := SaveGame(*cells, *actors, *objs)
-			if err != nil {
-				fmt.Println(err)
-			}
-			break
-		} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 ||
-			(*actors)[0].HPCurrent <= 0 {
-			AddMessage("Do you want to quit the game?")
-			AddMessage("It will delete the saves as well. [[Y/N]]")
-			confirm := false
-			for {
-				keyConfirm := blt.Read()
-				if keyConfirm == blt.TK_Y {
-					confirm = true
-					break
-				} else if keyConfirm == blt.TK_N {
+		if blt.HasInput() == true {
+			key := blt.Read()
+			if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
+				err := SaveGame(*cells, *actors, *objs)
+				if err != nil {
+					fmt.Println(err)
+				}
+				break
+			} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 ||
+				(*actors)[0].HPCurrent <= 0 {
+				AddMessage("Do you want to quit the game?")
+				AddMessage("It will delete the saves as well. [[Y/N]]")
+				confirm := false
+				for {
+					keyConfirm := blt.Read()
+					if keyConfirm == blt.TK_Y {
+						confirm = true
+						break
+					} else if keyConfirm == blt.TK_N {
+						break
+					} else {
+						continue
+					}
+				}
+				if confirm == true {
+					DeleteSaves()
 					break
 				} else {
-					continue
+					AddMessage("OK, then...")
 				}
-			}
-			if confirm == true {
-				DeleteSaves()
-				break
 			} else {
-				AddMessage("OK, then...")
-			}
-		} else {
-			turnSpent := Controls(key, (*actors)[0], cells, actors, objs)
-			if turnSpent == true {
-				CreaturesTakeTurn(*cells, *actors, objs)
+				turnSpent := Controls(key, (*actors)[0], cells, actors, objs)
+				if turnSpent == true {
+					CreaturesTakeTurn(*cells, *actors, objs)
+				}
 			}
 		}
 	}
