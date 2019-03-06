@@ -125,6 +125,24 @@ func InitializeEmptyMap() Board {
 	return b
 }
 
+func (b *Board) MoveMap() {
+	for x := 0; x < MapSizeX-1; x++ {
+		for y := 0; y < MapSizeY-1; y++ {
+			if (*b)[x][y].Name == "railroad" {
+				continue
+			}
+			if (*b)[x][y].Name == "grass" || (*b)[x][y].Name == "stone" {
+				if (*b)[x+1][y].Name == "grass" || (*b)[x+1][y].Name == "stone" {
+					(*b)[x][y].Name = (*b)[x+1][y].Name
+					(*b)[x][y].Char = (*b)[x+1][y].Char
+					(*b)[x][y].Color = (*b)[x+1][y].Color
+					(*b)[x][y].ColorDark = (*b)[x+1][y].ColorDark
+				}
+			}
+		}
+	}
+}
+
 func ReplaceTile(t *Tile, s string, m *MapJson) {
 	/* ReplaceTile is function that takes tile, string (supposed to be
 	   one-character-lenght - symbol of map tile, taken from json map) and

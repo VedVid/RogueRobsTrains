@@ -84,6 +84,7 @@ func main() {
 		RenderAll(*cells, *objs, *actors)
 		if blt.HasInput() == true {
 			key := blt.Read()
+			cells.MoveMap()
 			if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
 				err := SaveGame(*cells, *actors, *objs)
 				if err != nil {
