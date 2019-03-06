@@ -107,19 +107,19 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	case blt.TK_G:
 		turnSpent = p.PickUp(o)
 	case blt.TK_P:
-		minX := p.X-1
+		minX := p.X - 1
 		if minX < 0 {
 			minX = p.X
 		}
-		maxX := p.X+1
+		maxX := p.X + 1
 		if maxX >= MapSizeX {
 			maxX = p.X
 		}
-		minY := p.Y-1
+		minY := p.Y - 1
 		if minY < 0 {
 			minY = p.Y
 		}
-		maxY := p.Y+1
+		maxY := p.Y + 1
 		if maxY >= MapSizeY {
 			maxY = p.Y
 		}

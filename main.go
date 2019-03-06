@@ -38,7 +38,7 @@ type Game struct {
 	LevelInt int
 	LevelStr string
 	Levels   []string
-	Alive int
+	Alive    int
 }
 
 var MsgBuf = []string{}
@@ -55,7 +55,7 @@ func main() {
 		if G.Alive == 0 {
 			G.Alive = -1
 			AddMessage("All enemies are down. You may proceed.")
-			for x := len(*cells)-8; x < len(*cells); x++ {
+			for x := len(*cells) - 8; x < len(*cells); x++ {
 				for y := 0; y < len((*cells)[0]); y++ {
 					if (*cells)[x][y].Name == "doors to next carriage" {
 						(*cells)[x][y].Color = "#FFCC00"
@@ -75,7 +75,7 @@ func main() {
 			(*actors)[0] = player
 			player.HPCurrent = player.HPMax
 			G.LevelStr = G.Levels[G.LevelInt]
-			G.Alive = len(*actors)-1
+			G.Alive = len(*actors) - 1
 			for i := 0; i < len(*objs); i++ {
 				(*objs)[i] = nil
 			}
@@ -151,7 +151,7 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	G.Levels = append(G.Levels, middleLevels...)
 	G.Levels = append(G.Levels, "trainFinal1.json", "trainFinal2.json")
 	G.LevelStr = G.Levels[G.LevelInt]
-	G.Alive = len(*c)-1
+	G.Alive = len(*c) - 1
 }
 
 func StartGame(b *Board, c *Creatures, o *Objects) {

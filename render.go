@@ -185,7 +185,7 @@ func PrintUI(c *Creature) {
 		if hp > c.HPCurrent {
 			character = "♡"
 		}
-		hpBar = hpBar+character
+		hpBar = hpBar + character
 	}
 	blt.Print(UIPosX, UIPosY+1, hpBar)
 	pos := 3

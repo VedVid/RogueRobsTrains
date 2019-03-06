@@ -270,7 +270,7 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 			}
 		}
 		for x := area[0]; x < area[0]+area[2]; x++ {
-			for y:= area[1]; y < area[1]+area[3]; y++ {
+			for y := area[1]; y < area[1]+area[3]; y++ {
 				if n == 0 {
 					goto Areas
 				}

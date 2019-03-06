@@ -103,8 +103,8 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 		} else {
 			dx := RandRange(-1, 1)
 			dy := RandRange(-1, 1)
-			nx := c.X+dx
-			ny := c.Y+dy
+			nx := c.X + dx
+			ny := c.Y + dy
 			if nx < 0 || nx >= MapSizeX {
 				nx = c.X
 			}
@@ -128,8 +128,8 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 		} else {
 			dx := RandRange(-1, 1)
 			dy := RandRange(-1, 1)
-			nx := c.X+dx
-			ny := c.Y+dy
+			nx := c.X + dx
+			ny := c.Y + dy
 			if nx < 0 || nx >= MapSizeX {
 				nx = c.X
 			}
@@ -387,8 +387,8 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 			} else {
 				dx := RandRange(-1, 1)
 				dy := RandRange(-1, 1)
-				nx := c.X+dx
-				ny := c.Y+dy
+				nx := c.X + dx
+				ny := c.Y + dy
 				if nx < 0 || nx >= MapSizeX {
 					nx = c.X
 				}
@@ -648,8 +648,8 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 			} else {
 				dx := RandRange(-1, 1)
 				dy := RandRange(-1, 1)
-				nx := c.X+dx
-				ny := c.Y+dy
+				nx := c.X + dx
+				ny := c.Y + dy
 				if nx < 0 || nx >= MapSizeX {
 					nx = c.X
 				}
