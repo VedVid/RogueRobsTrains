@@ -54,3 +54,7 @@ func SetColor(name, number string) string {
 	blt.Set("palette: " + name + " = " + number)
 	return name
 }
+
+func SetBkColor(color string) {
+	blt.BkColor(blt.ColorFromName("black"))
+}

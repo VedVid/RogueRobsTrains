@@ -38,12 +38,13 @@ type Game struct {
 	LevelInt int
 	LevelStr string
 	Levels   []string
-	Alive int
+	Alive    int
 }
 
 var MsgBuf = []string{}
 var LastTarget *Creature
-
+var RailsMod = false
+var TimerMod = 10
 var G = new(Game)
 
 func main() {
@@ -51,10 +52,21 @@ func main() {
 	var objs = new(Objects)
 	var actors = new(Creatures)
 	StartGame(cells, actors, objs)
+	timer := 0
 	for {
+		if timer >= 100 {
+			timer = 0
+		}
+		if (*actors)[0].HPCurrent <= 0 {
+			blt.Read()
+			DeadScreen()
+			DeleteSaves()
+			break
+		}
 		if G.Alive == 0 {
 			G.Alive = -1
-			for x := len(*cells)-8; x < len(*cells); x++ {
+			AddMessage("All enemies are down. You may proceed.")
+			for x := len(*cells) - 8; x < len(*cells); x++ {
 				for y := 0; y < len((*cells)[0]); y++ {
 					if (*cells)[x][y].Name == "doors to next carriage" {
 						(*cells)[x][y].Color = "#FFCC00"
@@ -72,31 +84,56 @@ func main() {
 			}
 			player.X, player.Y = (*actors)[0].X, (*actors)[0].Y
 			(*actors)[0] = player
+			player.HPCurrent = player.HPMax
 			G.LevelStr = G.Levels[G.LevelInt]
-			G.Alive = len(*actors)-1
+			G.Alive = len(*actors) - 1
 			for i := 0; i < len(*objs); i++ {
 				(*objs)[i] = nil
 			}
 			*objs = (*objs)[:0]
 		}
+		if timer%TimerMod == 0 {
+			cells.MoveMap()
+		}
 		RenderAll(*cells, *objs, *actors)
-		key := blt.Read()
-		if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
-			err := SaveGame(*cells, *actors, *objs)
-			if err != nil {
-				fmt.Println(err)
-			}
-			break
-		} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 ||
-			(*actors)[0].HPCurrent <= 0 {
-			DeleteSaves()
-			break
-		} else {
-			turnSpent := Controls(key, (*actors)[0], cells, actors, objs)
-			if turnSpent == true {
-				CreaturesTakeTurn(*cells, *actors, objs)
+		if blt.HasInput() == true {
+			key := blt.Read()
+			if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
+				err := SaveGame(*cells, *actors, *objs)
+				if err != nil {
+					fmt.Println(err)
+				}
+				break
+			} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 {
+				AddMessage("Do you want to quit the game?")
+				AddMessage("It will delete the saves as well. [[Y/N]]")
+				RenderAll(*cells, *objs, *actors)
+				confirm := false
+				for {
+					keyConfirm := blt.Read()
+					if keyConfirm == blt.TK_Y {
+						confirm = true
+						break
+					} else if keyConfirm == blt.TK_N {
+						break
+					} else {
+						continue
+					}
+				}
+				if confirm == true {
+					DeleteSaves()
+					break
+				} else {
+					AddMessage("OK, then...")
+				}
+			} else {
+				turnSpent := Controls(key, (*actors)[0], cells, actors, objs)
+				if turnSpent == true {
+					CreaturesTakeTurn(*cells, *actors, objs)
+				}
 			}
 		}
+		timer++
 	}
 	blt.Close()
 }
@@ -131,7 +168,7 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	G.Levels = append(G.Levels, middleLevels...)
 	G.Levels = append(G.Levels, "trainFinal1.json", "trainFinal2.json")
 	G.LevelStr = G.Levels[G.LevelInt]
-	G.Alive = len(*c)-1
+	G.Alive = len(*c) - 1
 }
 
 func StartGame(b *Board, c *Creatures, o *Objects) {
@@ -142,12 +179,16 @@ func StartGame(b *Board, c *Creatures, o *Objects) {
 	_, errCreatures := os.Stat(CreaturesPathGob)
 	_, errObjects := os.Stat(ObjectsPathGob)
 	_, errGame := os.Stat(GamePathGob)
-	if errBoard == nil && errCreatures == nil && errObjects == nil && errGame == nil {
+	_, errTimer := os.Stat(TimerPathGob)
+	_, errRails := os.Stat(RailsPathGob)
+	if errBoard == nil && errCreatures == nil && errObjects == nil &&
+		errGame == nil && errTimer == nil && errRails == nil {
 		LoadGame(b, c, o)
-	} else if errBoard != nil && errCreatures != nil && errObjects != nil && errGame != nil {
+	} else if errBoard != nil && errCreatures != nil && errObjects != nil &&
+		errGame != nil && errTimer != nil && errRails != nil {
 		NewGame(b, c, o)
 	} else {
-		txt := CorruptedSaveError(errBoard, errCreatures, errObjects)
+		txt := CorruptedSaveError(errBoard, errCreatures, errObjects, errGame, errTimer, errRails)
 		fmt.Println("Error: save files are corrupted: " + txt)
 		panic(-1)
 	}

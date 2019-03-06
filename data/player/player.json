@@ -9,8 +9,8 @@
     "BlocksSight":false,
     "AIType":1,
     "AITriggered":false,
-    "HPMax":100,
-    "HPCurrent":100,
+    "HPMax":10,
+    "HPCurrent":10,
     "Attack":5,
     "Defense":2,
     "Equipment":[

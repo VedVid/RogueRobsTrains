@@ -215,7 +215,8 @@ func (c *Creature) PickUp(o *Objects) bool {
 	for i := 0; i < len(obj); i++ {
 		if obj[i].X == c.X && obj[i].Y == c.Y && obj[i].Pickable == true {
 			if c.AIType == PlayerAI {
-				AddMessage("You found " + obj[i].Name + ".")
+				oName := "[color=" + obj[i].Color + "]" + obj[i].Name + "[/color]"
+				AddMessage("You found " + oName + ".")
 			}
 			c.DropFromEquipment(&obj, obj[i].Slot)
 			c.EquipItem(obj[i], obj[i].Slot)
@@ -245,7 +246,8 @@ func (c *Creature) DropFromInventory(objects *Objects, index int) bool {
 	turnSpent := false
 	objs := *objects
 	if c.AIType == PlayerAI {
-		AddMessage("You dropped " + c.Inventory[index].Name + ".")
+		oName := "[color=" + c.Inventory[index].Color + "]" + c.Inventory[index].Name + "[/color]"
+		AddMessage("You dropped " + oName + ".")
 	}
 	// Add item to the map.
 	object := c.Inventory[index]
@@ -280,7 +282,8 @@ func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
 	}
 	// else {
 	if c.AIType == PlayerAI {
-		AddMessage("You removed and dropped " + object.Name + ".")
+		oName := "[color=" + object.Color + "]" + object.Name + "[/color]"
+		AddMessage("You removed and dropped " + oName + ".")
 	}
 	// add item to map
 	object.X, object.Y = c.X, c.Y
@@ -333,7 +336,8 @@ func (c *Creature) DequipItem(slot int) (bool, error) {
 		err = errors.New("Creature tried to DequipItem that was nil." + txt)
 	}
 	if c.AIType == PlayerAI {
-		AddMessage("You dequipped " + c.Equipment[slot].Name + ".")
+		oName := "[color=" + c.Equipment[slot].Color + "]" + c.Equipment[slot].Name + "[/color]"
+		AddMessage("You removed " + oName + ".")
 	}
 	turnSpent := false
 	c.Inventory = append(c.Inventory, c.Equipment[slot]) //adding items to inventory should have own function, that will check "bounds" of inventory

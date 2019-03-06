@@ -179,8 +179,15 @@ func PrintUI(c *Creature) {
 	blt.Layer(UILayer)
 	name := "Player"
 	blt.Print(UIPosX, UIPosY, name)
-	hp := "[color=red]HP: " + strconv.Itoa(c.HPCurrent) + "\\" + strconv.Itoa(c.HPMax)
-	blt.Print(UIPosX, UIPosY+1, hp)
+	hpBar := "[color=red]"
+	for hp := 1; hp <= c.HPMax; hp++ {
+		character := "♥"
+		if hp > c.HPCurrent {
+			character = "♡"
+		}
+		hpBar = hpBar + character
+	}
+	blt.Print(UIPosX, UIPosY+1, hpBar)
 	pos := 3
 	for i := 0; i < len(c.Equipment); i++ {
 		color := "[color=gray]"

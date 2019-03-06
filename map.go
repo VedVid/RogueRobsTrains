@@ -63,6 +63,18 @@ type MapJson struct {
    to hold data of its every cell. */
 type Board [][]*Tile
 
+var grassColors = []string{
+	"#8F9779", "#8F9779", "#4F7942", "#4F7942", "#6c7c59", "#6c7c59", "#A9BA9D", "#A9BA9D",
+	"#8A9A5B", "#8A9A5B", "#6C7C59", "#6C7C59", "#4B5320", "#4B5320", "#355E3B", "#355E3B",
+	"#444C38", "#444C38", "#679267", "#679267",
+	"#C3B091", "#826644", "#D2B48C", "#5C5248", "#C19A6B",
+	"#5E716A", "#98817B",
+}
+
+var stoneColors = []string{
+	"#989898", "#555555", "#B2BEB5", "#727472", "#928E85", "#708090", "#AA98A9", "#98817B",
+}
+
 func NewTile(layer, x, y int, character, name, color, colorDark string,
 	alwaysVisible, explored, blocked, blocksSight bool) (*Tile, error) {
 	/* Function NewTile takes all values necessary by its struct,
@@ -113,6 +125,96 @@ func InitializeEmptyMap() Board {
 	return b
 }
 
+func (b *Board) MoveMap() {
+	const railY1 = 7+1
+	const railY2 = 12-1
+	for x := 0; x < MapSizeX; x++ {
+		for y := 0; y < MapSizeY; y++ {
+			if (*b)[x][y].Name == "railroad" {
+				if (*b)[x][y].Char == "━" {
+					continue
+				} else {
+					(*b)[x][y] = NewBackgroundTile(*b, x, y)
+				}
+			}
+			if (x == MapSizeX-1) && ((*b)[x][y].Name == "grass" || (*b)[x][y].Name == "stone") {
+				(*b)[x][y] = NewBackgroundTile(*b, x, y)
+				continue
+			}
+			if (*b)[x][y].Name == "grass" || (*b)[x][y].Name == "stone" {
+				if (*b)[x+1][y].Name == "grass" || (*b)[x+1][y].Name == "stone" {
+					(*b)[x][y].Name = (*b)[x+1][y].Name
+					(*b)[x][y].Char = (*b)[x+1][y].Char
+					(*b)[x][y].Color = (*b)[x+1][y].Color
+					(*b)[x][y].ColorDark = (*b)[x+1][y].ColorDark
+				} else {
+					(*b)[x][y] = NewBackgroundTile(*b, x, y)
+				}
+			}
+		}
+	}
+	for rx := 0; rx < MapSizeX; rx++ {
+		for ry := railY1; ry <= railY2; ry++ {
+			if (*b)[rx][ry].Name != "grass" && (*b)[rx][ry].Name != "stone" {
+				continue
+			}
+			if RailsMod == false && rx%2 == 0 {
+				(*b)[rx][ry].Name = "railroad"
+				(*b)[rx][ry].Char = "┃"
+				(*b)[rx][ry].Color = "#483C32"
+				(*b)[rx][ry].ColorDark = "#483C32"
+			} else if RailsMod == true && rx%2 != 0 {
+				(*b)[rx][ry].Name = "railroad"
+				(*b)[rx][ry].Char = "┃"
+				(*b)[rx][ry].Color = "#483C32"
+				(*b)[rx][ry].ColorDark = "#483C32"
+			}
+		}
+	}
+	if RailsMod == false {
+		RailsMod = true
+	} else {
+		RailsMod = false
+	}
+}
+
+func NewBackgroundTile(b Board, x, y int) *Tile {
+	t := b[x][y]
+	val1 := RandInt(100)
+	if val1 <= 85 {
+		val2 := RandInt(70)
+		if val2 <= 10 {
+			t.Char = ";"
+		} else if val2 <= 20 {
+			t.Char = ":"
+		} else if val2 <= 30 {
+			t.Char = "'"
+		} else if val2 <= 40 {
+			t.Char = "\""
+		} else if val2 <= 50 {
+			t.Char = ","
+		} else if val2 <= 60 {
+			t.Char = "."
+		} else if val2 <= 70 {
+			t.Char = "`"
+		}
+		t.Name = "grass"
+		t.Color = grassColors[RandInt(len(grassColors)-1)]
+		t.ColorDark = t.Color
+	} else {
+		val2 := RandInt(20)
+		if val2 <= 10 {
+			t.Char = "^"
+		} else if val2 <= 20 {
+			t.Char = "*"
+		}
+		t.Name = "stone"
+		t.Color = stoneColors[RandInt(len(stoneColors)-1)]
+		t.ColorDark = t.Color
+	}
+	return t
+}
+
 func ReplaceTile(t *Tile, s string, m *MapJson) {
 	/* ReplaceTile is function that takes tile, string (supposed to be
 	   one-character-lenght - symbol of map tile, taken from json map) and
@@ -122,6 +224,39 @@ func ReplaceTile(t *Tile, s string, m *MapJson) {
 	t.Name = m.Name[s]
 	t.Color = m.Color[s]
 	t.ColorDark = m.ColorDark[s]
+	if t.Name == "grass" {
+		val1 := RandInt(100)
+		if val1 <= 85 {
+			val2 := RandInt(70)
+			if val2 <= 10 {
+				t.Char = ";"
+			} else if val2 <= 20 {
+				t.Char = ":"
+			} else if val2 <= 30 {
+				t.Char = "'"
+			} else if val2 <= 40 {
+				t.Char = "\""
+			} else if val2 <= 50 {
+				t.Char = ","
+			} else if val2 <= 60 {
+				t.Char = "."
+			} else if val2 <= 70 {
+				t.Char = "`"
+			}
+			t.Color = grassColors[RandInt(len(grassColors)-1)]
+			t.ColorDark = t.Color
+		} else {
+			val2 := RandInt(20)
+			if val2 <= 10 {
+				t.Char = "^"
+			} else if val2 <= 20 {
+				t.Char = "*"
+			}
+			t.Name = "stone"
+			t.Color = stoneColors[RandInt(len(stoneColors)-1)]
+			t.ColorDark = t.Color
+		}
+	}
 	t.Layer = m.Layer[s]
 	t.AlwaysVisible = m.AlwaysVisible[s]
 	t.Explored = m.Explored[s]
@@ -225,7 +360,7 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 			}
 		}
 		for x := area[0]; x < area[0]+area[2]; x++ {
-			for y:= area[1]; y < area[1]+area[3]; y++ {
+			for y := area[1]; y < area[1]+area[3]; y++ {
 				if n == 0 {
 					goto Areas
 				}
@@ -262,6 +397,9 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 				monster.Equipment[weapon], _ = NewObject(0, 0, PrimaryWeapons[RandRange(0, len(PrimaryWeapons)-1)])
 			}
 		}
+	}
+	if mapFile == "trainFinal2.json" {
+		RailsMod = true
 	}
 	return thisMap, creatures, err
 }

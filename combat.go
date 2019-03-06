@@ -50,11 +50,39 @@ func (c *Creature) AttackTarget(t *Creature, o *Objects) {
 	}
 	weapon := c.Equipment[c.ActiveWeapon]
 	weaponRange := weapon.Ranges[i]
+	cName := "[color=" + c.Color + "]" + c.Name + "[/color]"
+	if c.AIType == PlayerAI {
+		cName = "You"
+	}
+	tName := "[color=" + t.Color + "]" + t.Name + "[/color]"
+	if t.AIType == PlayerAI {
+		tName = "you"
+	}
+	attackType := ""
+	if c.ActiveWeapon == SlotWeaponMelee {
+		if c.AIType == PlayerAI {
+			attackType = " hit "
+		} else {
+			attackType = " hits "
+		}
+	} else {
+		if c.AIType == PlayerAI {
+			attackType = " shoot "
+		} else {
+			attackType = " shoots "
+		}
+	}
+	missType := ""
+	if c.AIType == PlayerAI {
+		missType = " miss "
+	} else {
+		missType = " misses "
+	}
 	if att <= weaponRange {
-		AddMessage(c.Name + " hits " + t.Name + ".")
+		AddMessage(cName + attackType + tName + ".")
 		t.TakeDamage(1, o)
 	} else {
-		AddMessage(c.Name + " misses " + t.Name + ".")
+		AddMessage(cName + missType + tName + ".")
 	}
 }
 
@@ -64,6 +92,13 @@ func (c *Creature) TakeDamage(dmg int, o *Objects) {
 	   If HPCurrent is below zero after taking damage, Creature dies. */
 	c.HPCurrent -= dmg
 	if c.HPCurrent <= 0 {
+		cName := "[color=" + c.Color + "]" + c.Name + "[/color]"
+		diestr := " dies."
+		if c.AIType == PlayerAI {
+			cName = "You "
+			diestr = " died."
+		}
+		AddMessage(cName + diestr)
 		c.Die(o)
 	}
 }

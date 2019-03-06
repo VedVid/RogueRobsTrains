@@ -62,7 +62,7 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	case blt.TK_F:
 		if p.ActiveWeapon != SlotWeaponMelee {
 			if p.Equipment[p.ActiveWeapon].AmmoCurrent <= 0 {
-				AddMessage("You need to reload!")
+				AddMessage("You need to reload " + p.Equipment[p.ActiveWeapon].Name + ".")
 			} else {
 				if (p.Equipment[p.ActiveWeapon].Cock == true &&
 					p.Equipment[p.ActiveWeapon].Cocked == true) ||
@@ -77,7 +77,7 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 				} else {
 					p.Equipment[p.ActiveWeapon].Cocked = true
 					turnSpent = true
-					AddMessage("Gun cocked.")
+					AddMessage("You cocked " + p.Equipment[p.ActiveWeapon].Name + ".")
 				}
 			}
 		} else {
@@ -93,11 +93,12 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			} else {
 				if p.Equipment[p.ActiveWeapon].Cocked == true {
 					p.Equipment[p.ActiveWeapon].Cocked = false
-					AddMessage("Gun uncocked.")
+					AddMessage("You uncocked " + p.Equipment[p.ActiveWeapon].Name + ".")
 					turnSpent = true
 				} else {
 					if p.Equipment[p.ActiveWeapon].AmmoCurrent < p.Equipment[p.ActiveWeapon].AmmoMax {
 						p.Equipment[p.ActiveWeapon].AmmoCurrent++
+						turnSpent = true
 					}
 				}
 			}
@@ -107,19 +108,19 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	case blt.TK_G:
 		turnSpent = p.PickUp(o)
 	case blt.TK_P:
-		minX := p.X-1
+		minX := p.X - 1
 		if minX < 0 {
 			minX = p.X
 		}
-		maxX := p.X+1
+		maxX := p.X + 1
 		if maxX >= MapSizeX {
 			maxX = p.X
 		}
-		minY := p.Y-1
+		minY := p.Y - 1
 		if minY < 0 {
 			minY = p.Y
 		}
-		maxY := p.Y+1
+		maxY := p.Y + 1
 		if maxY >= MapSizeY {
 			maxY = p.Y
 		}
@@ -158,6 +159,9 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 		}
 	case blt.TK_3:
 		if p.ActiveWeapon != SlotWeaponMelee {
+			if p.Equipment[p.ActiveWeapon].Cock == true {
+				p.Equipment[p.ActiveWeapon].Cocked = false
+			}
 			p.ActiveWeapon = SlotWeaponMelee
 			turnSpent = true
 		}
