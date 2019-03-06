@@ -54,7 +54,7 @@ func main() {
 	StartGame(cells, actors, objs)
 	timer := 0
 	for {
-		if timer > 100 {
+		if timer >= 100 {
 			timer = 0
 		}
 		if (*actors)[0].HPCurrent <= 0 {
