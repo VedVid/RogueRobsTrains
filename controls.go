@@ -98,6 +98,7 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 				} else {
 					if p.Equipment[p.ActiveWeapon].AmmoCurrent < p.Equipment[p.ActiveWeapon].AmmoMax {
 						p.Equipment[p.ActiveWeapon].AmmoCurrent++
+						turnSpent = true
 					}
 				}
 			}
