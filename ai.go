@@ -68,6 +68,8 @@ func TriggerAI(b Board, p, c *Creature) {
 	   AITrigger is probability to notice (and, therefore, switch AITriggered)
 	   player if is in monster's FOV. */
 	if IsInFOV(b, p.X, p.Y, c.X, c.Y) == true && RandInt(100) <= AITrigger {
+		cName := "[color=" + c.Color + "]" + c.Name + "[/color]"
+		AddMessage(cName + " spotted you!")
 		c.AITriggered = true
 	}
 }
@@ -87,6 +89,7 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 	   But, on the other hand, ai has so many variations and edge cases that
 	   unifying monster's behavior would result in smaller flexibility. */
 	ai := c.AIType
+	cName := "[color=" + c.Color + "]" + c.Name + "[/color]"
 	switch ai {
 	case MeleeDumbAI:
 		if c.AITriggered == true {
@@ -153,20 +156,20 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 						if c.Equipment[c.ActiveWeapon].Cock == false {
 							c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
 							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-								AddMessage("Enemy reloads gun!")
+								AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 							}
 							break
 						} else if c.Equipment[c.ActiveWeapon].Cock == true {
 							if c.Equipment[c.ActiveWeapon].Cocked == true {
 								c.Equipment[c.ActiveWeapon].Cocked = false
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-									AddMessage("Enemy uncocks gun!")
+									AddMessage(cName + " uncocks his " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 								break
 							} else {
 								c.Equipment[c.ActiveWeapon].AmmoCurrent++
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-									AddMessage("Enemy reloads gun!")
+									AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 								break
 							}
@@ -208,7 +211,7 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 									c.Equipment[c.ActiveWeapon].Cocked = false
 								} else {
 									c.Equipment[c.ActiveWeapon].Cocked = true
-									AddMessage("Enemy cocks gun.")
+									AddMessage(cName + " cocks " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 							}
 						}
@@ -221,20 +224,20 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 						if c.Equipment[SlotWeaponPrimary].Cock == false {
 							c.Equipment[SlotWeaponPrimary].AmmoCurrent = c.Equipment[SlotWeaponPrimary].AmmoMax
 							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-								AddMessage("Enemy reloads gun!")
+								AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 							}
 							break
 						} else if c.Equipment[SlotWeaponPrimary].Cock == true {
 							if c.Equipment[SlotWeaponPrimary].Cocked == true {
 								c.Equipment[SlotWeaponPrimary].Cocked = false
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-									AddMessage("Enemy uncocks gun!")
+									AddMessage(cName + " uncocks " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 								break
 							} else {
 								c.Equipment[SlotWeaponPrimary].AmmoCurrent++
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-									AddMessage("Enemy reloads gun!")
+									AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 								break
 							}
@@ -279,7 +282,7 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 									c.Equipment[SlotWeaponPrimary].Cocked = false
 								} else {
 									c.Equipment[SlotWeaponPrimary].Cocked = true
-									AddMessage("Enemy cocks gun.")
+									AddMessage(cName + " cocks " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 							}
 						}
@@ -290,20 +293,20 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 						if c.Equipment[SlotWeaponSecondary].Cock == false {
 							c.Equipment[SlotWeaponSecondary].AmmoCurrent = c.Equipment[SlotWeaponSecondary].AmmoMax
 							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-								AddMessage("Enemy reloads gun!")
+								AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 							}
 							break
 						} else if c.Equipment[SlotWeaponSecondary].Cock == true {
 							if c.Equipment[SlotWeaponSecondary].Cocked == true {
 								c.Equipment[SlotWeaponSecondary].Cocked = false
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-									AddMessage("Enemy uncocks gun!")
+									AddMessage(cName + " uncocks " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 								break
 							} else {
 								c.Equipment[SlotWeaponSecondary].AmmoCurrent++
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-									AddMessage("Enemy reloads gun!")
+									AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 								break
 							}
@@ -348,7 +351,7 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 									c.Equipment[SlotWeaponSecondary].Cocked = false
 								} else {
 									c.Equipment[SlotWeaponSecondary].Cocked = true
-									AddMessage("Enemy cocks gun.")
+									AddMessage(cName + " cocks " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 							}
 						}
@@ -366,16 +369,16 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 				c.Equipment[c.ActiveWeapon].AmmoCurrent < c.Equipment[c.ActiveWeapon].AmmoMax {
 				if c.Equipment[c.ActiveWeapon].Cock == false {
 					c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
-					AddMessage("Enemy reloads gun!")
+					AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 					break
 				} else if c.Equipment[c.ActiveWeapon].Cock == true {
 					if c.Equipment[c.ActiveWeapon].Cocked == true {
 						c.Equipment[c.ActiveWeapon].Cocked = false
-						AddMessage("Enemy uncocks gun!")
+						AddMessage(cName + " uncocks " + c.Equipment[c.ActiveWeapon].Name + ".")
 						break
 					} else {
 						c.Equipment[c.ActiveWeapon].AmmoCurrent++
-						AddMessage("Enemy reloads gun!")
+						AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 						break
 					}
 				}
@@ -410,20 +413,20 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 						if c.Equipment[c.ActiveWeapon].Cock == false {
 							c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
 							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-								AddMessage("Enemy reloads gun!")
+								AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 							}
 							break
 						} else if c.Equipment[c.ActiveWeapon].Cock == true {
 							if c.Equipment[c.ActiveWeapon].Cocked == true {
 								c.Equipment[c.ActiveWeapon].Cocked = false
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-									AddMessage("Enemy uncocks gun!")
+									AddMessage(cName + " uncocks " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 								break
 							} else {
 								c.Equipment[c.ActiveWeapon].AmmoCurrent++
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-									AddMessage("Enemy reloads gun!")
+									AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 								break
 							}
@@ -473,7 +476,7 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 									c.Equipment[c.ActiveWeapon].Cocked = false
 								} else {
 									c.Equipment[c.ActiveWeapon].Cocked = true
-									AddMessage("Enemy cocks gun.")
+									AddMessage(cName + " cocks " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 							}
 						}
@@ -485,20 +488,20 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 						if c.Equipment[SlotWeaponPrimary].Cock == false {
 							c.Equipment[SlotWeaponPrimary].AmmoCurrent = c.Equipment[SlotWeaponPrimary].AmmoMax
 							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-								AddMessage("Enemy reloads gun!")
+								AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 							}
 							break
 						} else if c.Equipment[SlotWeaponPrimary].Cock == true {
 							if c.Equipment[SlotWeaponPrimary].Cocked == true {
 								c.Equipment[SlotWeaponPrimary].Cocked = false
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-									AddMessage("Enemy uncocks gun!")
+									AddMessage(cName + " uncocks " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 								break
 							} else {
 								c.Equipment[SlotWeaponPrimary].AmmoCurrent++
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-									AddMessage("Enemy reloads gun!")
+									AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 								break
 							}
@@ -542,7 +545,7 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 									c.Equipment[SlotWeaponPrimary].Cocked = false
 								} else {
 									c.Equipment[SlotWeaponPrimary].Cocked = true
-									AddMessage("Enemy cocks gun.")
+									AddMessage(cName + " cocks " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 							}
 						}
@@ -552,20 +555,20 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 						if c.Equipment[SlotWeaponSecondary].Cock == false {
 							c.Equipment[SlotWeaponSecondary].AmmoCurrent = c.Equipment[SlotWeaponSecondary].AmmoMax
 							if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-								AddMessage("Enemy reloads gun!")
+								AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 							}
 							break
 						} else if c.Equipment[SlotWeaponSecondary].Cock == true {
 							if c.Equipment[SlotWeaponSecondary].Cocked == true {
 								c.Equipment[SlotWeaponSecondary].Cocked = false
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-									AddMessage("Enemy uncocks gun!")
+									AddMessage(cName + " uncocks " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 								break
 							} else {
 								c.Equipment[SlotWeaponSecondary].AmmoCurrent++
 								if IsInFOV(b, c.X, c.Y, cs[0].X, cs[0].Y) == true {
-									AddMessage("Enemy reloads gun!")
+									AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 								break
 							}
@@ -609,7 +612,7 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 									c.Equipment[SlotWeaponSecondary].Cocked = false
 								} else {
 									c.Equipment[SlotWeaponSecondary].Cocked = true
-									AddMessage("Enemy cocks gun.")
+									AddMessage(cName + " cocks " + c.Equipment[c.ActiveWeapon].Name + ".")
 								}
 							}
 						}
@@ -627,16 +630,16 @@ func HandleAI(b Board, cs Creatures, o *Objects, c *Creature) {
 				c.Equipment[c.ActiveWeapon].AmmoCurrent < c.Equipment[c.ActiveWeapon].AmmoMax {
 				if c.Equipment[c.ActiveWeapon].Cock == false {
 					c.Equipment[c.ActiveWeapon].AmmoCurrent = c.Equipment[c.ActiveWeapon].AmmoMax
-					AddMessage("Enemy reloads gun!")
+					AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 					break
 				} else if c.Equipment[c.ActiveWeapon].Cock == true {
 					if c.Equipment[c.ActiveWeapon].Cocked == true {
 						c.Equipment[c.ActiveWeapon].Cocked = false
-						AddMessage("Enemy uncocks gun!")
+						AddMessage(cName + " uncocks " + c.Equipment[c.ActiveWeapon].Name + ".")
 						break
 					} else {
 						c.Equipment[c.ActiveWeapon].AmmoCurrent++
-						AddMessage("Enemy reloads gun!")
+						AddMessage(cName + " reloads " + c.Equipment[c.ActiveWeapon].Name + ".")
 						break
 					}
 				}

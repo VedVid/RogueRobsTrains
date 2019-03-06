@@ -62,7 +62,7 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	case blt.TK_F:
 		if p.ActiveWeapon != SlotWeaponMelee {
 			if p.Equipment[p.ActiveWeapon].AmmoCurrent <= 0 {
-				AddMessage("You need to reload!")
+				AddMessage("You need to reload " + p.Equipment[p.ActiveWeapon].Name + ".")
 			} else {
 				if (p.Equipment[p.ActiveWeapon].Cock == true &&
 					p.Equipment[p.ActiveWeapon].Cocked == true) ||
@@ -77,7 +77,7 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 				} else {
 					p.Equipment[p.ActiveWeapon].Cocked = true
 					turnSpent = true
-					AddMessage("Gun cocked.")
+					AddMessage("You cocked" + p.Equipment[p.ActiveWeapon].Name + ".")
 				}
 			}
 		} else {
@@ -93,7 +93,7 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			} else {
 				if p.Equipment[p.ActiveWeapon].Cocked == true {
 					p.Equipment[p.ActiveWeapon].Cocked = false
-					AddMessage("Gun uncocked.")
+					AddMessage("You uncocked" + p.Equipment[p.ActiveWeapon].Name + ".")
 					turnSpent = true
 				} else {
 					if p.Equipment[p.ActiveWeapon].AmmoCurrent < p.Equipment[p.ActiveWeapon].AmmoMax {

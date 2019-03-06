@@ -188,7 +188,8 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 		valid, _, monsterHit, _ := ValidateVector(vec, b, targets, *o)
 		PrintVector(vec, VectorColorGood, VectorColorBad, b, *o, cs)
 		if monsterHit != nil {
-			msg := "There is " + monsterHit.Name + " here."
+			cName := "[color=" + monsterHit.Color + "]" + monsterHit.Name + "[/color]"
+			msg := "There is " + cName + " here."
 			PrintLookingMessage(msg, i)
 		}
 		key := blt.Read()

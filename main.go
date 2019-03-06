@@ -54,6 +54,7 @@ func main() {
 	for {
 		if G.Alive == 0 {
 			G.Alive = -1
+			AddMessage("All enemies are down. You may proceed.")
 			for x := len(*cells)-8; x < len(*cells); x++ {
 				for y := 0; y < len((*cells)[0]); y++ {
 					if (*cells)[x][y].Name == "doors to next carriage" {
@@ -90,8 +91,26 @@ func main() {
 			break
 		} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 ||
 			(*actors)[0].HPCurrent <= 0 {
-			DeleteSaves()
-			break
+			AddMessage("Do you want to quit the game?")
+			AddMessage("It will delete the saves as well. [[Y/N]]")
+			confirm := false
+			for {
+				keyConfirm := blt.Read()
+				if keyConfirm == blt.TK_Y {
+					confirm = true
+					break
+				} else if keyConfirm == blt.TK_N {
+					break
+				} else {
+					continue
+				}
+			}
+			if confirm == true {
+				DeleteSaves()
+				break
+			} else {
+				AddMessage("OK, then...")
+			}
 		} else {
 			turnSpent := Controls(key, (*actors)[0], cells, actors, objs)
 			if turnSpent == true {
