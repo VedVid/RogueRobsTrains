@@ -43,7 +43,7 @@ type Game struct {
 
 var MsgBuf = []string{}
 var LastTarget *Creature
-
+var RailsMod = false
 var G = new(Game)
 
 func main() {

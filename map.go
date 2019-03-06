@@ -126,10 +126,16 @@ func InitializeEmptyMap() Board {
 }
 
 func (b *Board) MoveMap() {
+	const railY1 = 7+1
+	const railY2 = 12-1
 	for x := 0; x < MapSizeX; x++ {
 		for y := 0; y < MapSizeY; y++ {
 			if (*b)[x][y].Name == "railroad" {
-				continue
+				if (*b)[x][y].Char == "━" {
+					continue
+				} else {
+					(*b)[x][y] = NewBackgroundTile(*b, x, y)
+				}
 			}
 			if (x == MapSizeX-1) && ((*b)[x][y].Name == "grass" || (*b)[x][y].Name == "stone") {
 				(*b)[x][y] = NewBackgroundTile(*b, x, y)
@@ -146,6 +152,29 @@ func (b *Board) MoveMap() {
 				}
 			}
 		}
+	}
+	for rx := 0; rx < MapSizeX; rx++ {
+		for ry := railY1; ry <= railY2; ry++ {
+			if (*b)[rx][ry].Name != "grass" && (*b)[rx][ry].Name != "stone" {
+				continue
+			}
+			if RailsMod == false && rx%2 == 0 {
+				(*b)[rx][ry].Name = "railroad"
+				(*b)[rx][ry].Char = "┃"
+				(*b)[rx][ry].Color = "#483C32"
+				(*b)[rx][ry].ColorDark = "#483C32"
+			} else if RailsMod == true && rx%2 != 0 {
+				(*b)[rx][ry].Name = "railroad"
+				(*b)[rx][ry].Char = "┃"
+				(*b)[rx][ry].Color = "#483C32"
+				(*b)[rx][ry].ColorDark = "#483C32"
+			}
+		}
+	}
+	if RailsMod == false {
+		RailsMod = true
+	} else {
+		RailsMod = false
 	}
 }
 
@@ -169,6 +198,7 @@ func NewBackgroundTile(b Board, x, y int) *Tile {
 		} else if val2 <= 70 {
 			t.Char = "`"
 		}
+		t.Name = "grass"
 		t.Color = grassColors[RandInt(len(grassColors)-1)]
 		t.ColorDark = t.Color
 	} else {
