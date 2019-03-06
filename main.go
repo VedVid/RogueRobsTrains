@@ -95,6 +95,7 @@ func main() {
 				(*actors)[0].HPCurrent <= 0 {
 				AddMessage("Do you want to quit the game?")
 				AddMessage("It will delete the saves as well. [[Y/N]]")
+				RenderAll(*cells, *objs, *actors)
 				confirm := false
 				for {
 					keyConfirm := blt.Read()
