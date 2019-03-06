@@ -398,5 +398,8 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 			}
 		}
 	}
+	if mapFile == "trainFinal2.json" {
+		RailsMod = true
+	}
 	return thisMap, creatures, err
 }
