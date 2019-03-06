@@ -137,10 +137,48 @@ func (b *Board) MoveMap() {
 					(*b)[x][y].Char = (*b)[x+1][y].Char
 					(*b)[x][y].Color = (*b)[x+1][y].Color
 					(*b)[x][y].ColorDark = (*b)[x+1][y].ColorDark
+				} else {
+					(*b)[x][y] = NewBackgroundTile(*b, x, y)
 				}
 			}
 		}
 	}
+}
+
+func NewBackgroundTile(b Board, x, y int) *Tile {
+	t := b[x][y]
+	val1 := RandInt(100)
+	if val1 <= 85 {
+		val2 := RandInt(70)
+		if val2 <= 10 {
+			t.Char = ";"
+		} else if val2 <= 20 {
+			t.Char = ":"
+		} else if val2 <= 30 {
+			t.Char = "'"
+		} else if val2 <= 40 {
+			t.Char = "\""
+		} else if val2 <= 50 {
+			t.Char = ","
+		} else if val2 <= 60 {
+			t.Char = "."
+		} else if val2 <= 70 {
+			t.Char = "`"
+		}
+		t.Color = grassColors[RandInt(len(grassColors)-1)]
+		t.ColorDark = t.Color
+	} else {
+		val2 := RandInt(20)
+		if val2 <= 10 {
+			t.Char = "^"
+		} else if val2 <= 20 {
+			t.Char = "*"
+		}
+		t.Name = "stone"
+		t.Color = stoneColors[RandInt(len(stoneColors)-1)]
+		t.ColorDark = t.Color
+	}
+	return t
 }
 
 func ReplaceTile(t *Tile, s string, m *MapJson) {
