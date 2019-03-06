@@ -44,6 +44,7 @@ type Game struct {
 var MsgBuf = []string{}
 var LastTarget *Creature
 var RailsMod = false
+var TimerMod = 10
 var G = new(Game)
 
 func main() {
@@ -89,7 +90,7 @@ func main() {
 			}
 			*objs = (*objs)[:0]
 		}
-		if timer%10 == 0 {
+		if timer%TimerMod == 0 {
 			cells.MoveMap()
 		}
 		RenderAll(*cells, *objs, *actors)
