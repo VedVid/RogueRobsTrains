@@ -42,6 +42,10 @@ const (
 	ObjectsPathGob   = "./" + ObjectsNameGob
 	GameNameGob      = "game.gob"
 	GamePathGob      = "./" + GameNameGob
+	TimerNameGob = "timer.gob"
+	TimerPathGob = "./" + TimerNameGob
+	RailsNameGob = "rails.gob"
+	RailsPathGob = "./" + RailsNameGob
 )
 
 const (
@@ -175,6 +179,26 @@ func loadGame() error {
 	return err
 }
 
+func saveTimer() error {
+	err := writeGob(TimerPathGob, TimerMod)
+	return err
+}
+
+func loadTimer() error {
+	err := readGob(TimerPathGob, &TimerMod)
+	return err
+}
+
+func saveRails() error {
+	err := writeGob(RailsPathGob, RailsMod)
+	return err
+}
+
+func loadRails() error {
+	err := readGob(RailsPathGob, &RailsMod)
+	return err
+}
+
 func SaveGame(b Board, c Creatures, o Objects) error {
 	/* Function SaveGame encodes game map, monsters, objects into
 	   save files, using Go's gob format. This function may need better
@@ -194,6 +218,14 @@ func SaveGame(b Board, c Creatures, o Objects) error {
 		fmt.Println(err)
 	}
 	err = saveGame()
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = saveTimer()
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = saveRails()
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -222,6 +254,14 @@ func LoadGame(b *Board, c *Creatures, o *Objects) error {
 	if err != nil {
 		fmt.Println(err)
 	}
+	err = loadTimer()
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = loadRails()
+	if err != nil {
+		fmt.Println(err)
+	}
 	return err
 }
 
@@ -245,5 +285,13 @@ func DeleteSaves() {
 	_, err = os.Stat(GamePathGob)
 	if err == nil {
 		os.Remove(GamePathGob)
+	}
+	_, err = os.Stat(TimerPathGob)
+	if err == nil {
+		os.Remove(TimerPathGob)
+	}
+	_, err = os.Stat(RailsPathGob)
+	if err == nil {
+		os.Remove(RailsPathGob)
 	}
 }

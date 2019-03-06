@@ -177,12 +177,16 @@ func StartGame(b *Board, c *Creatures, o *Objects) {
 	_, errCreatures := os.Stat(CreaturesPathGob)
 	_, errObjects := os.Stat(ObjectsPathGob)
 	_, errGame := os.Stat(GamePathGob)
-	if errBoard == nil && errCreatures == nil && errObjects == nil && errGame == nil {
+	_, errTimer := os.Stat(TimerPathGob)
+	_, errRails := os.Stat(RailsPathGob)
+	if errBoard == nil && errCreatures == nil && errObjects == nil &&
+		errGame == nil && errTimer == nil && errRails == nil {
 		LoadGame(b, c, o)
-	} else if errBoard != nil && errCreatures != nil && errObjects != nil && errGame != nil {
+	} else if errBoard != nil && errCreatures != nil && errObjects != nil &&
+		errGame != nil && errTimer != nil && errRails != nil {
 		NewGame(b, c, o)
 	} else {
-		txt := CorruptedSaveError(errBoard, errCreatures, errObjects)
+		txt := CorruptedSaveError(errBoard, errCreatures, errObjects, errGame, errTimer, errRails)
 		fmt.Println("Error: save files are corrupted: " + txt)
 		panic(-1)
 	}
