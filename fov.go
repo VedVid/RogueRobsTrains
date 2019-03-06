@@ -178,7 +178,8 @@ func GetAllStringsFromTile(x, y int, b Board, c Creatures, o Objects) []string {
 	if len(s) != 0 {
 		return s
 	}
-	s = append(s, b[x][y].Name)
+	bName := "[color=" + b[x][y].Color + "]" + b[x][y].Name + "[/color]"
+	s = append(s, bName)
 	return s
 }
 

@@ -67,10 +67,12 @@ func TriggerAI(b Board, p, c *Creature) {
 	   Enemy with AITriggered set to false will ignore the player existence.
 	   AITrigger is probability to notice (and, therefore, switch AITriggered)
 	   player if is in monster's FOV. */
-	if IsInFOV(b, p.X, p.Y, c.X, c.Y) == true && RandInt(100) <= AITrigger {
-		cName := "[color=" + c.Color + "]" + c.Name + "[/color]"
-		AddMessage(cName + " spotted you!")
-		c.AITriggered = true
+	if c.AITriggered == false {
+		if IsInFOV(b, p.X, p.Y, c.X, c.Y) == true && RandInt(100) <= AITrigger {
+			cName := "[color=" + c.Color + "]" + c.Name + "[/color]"
+			AddMessage(cName + " spotted you!")
+			c.AITriggered = true
+		}
 	}
 }
 

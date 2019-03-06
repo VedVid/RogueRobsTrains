@@ -93,12 +93,11 @@ func (c *Creature) TakeDamage(dmg int, o *Objects) {
 	c.HPCurrent -= dmg
 	if c.HPCurrent <= 0 {
 		cName := "[color=" + c.Color + "]" + c.Name + "[/color]"
-		diestr := "dies."
+		diestr := " dies."
 		if c.AIType == PlayerAI {
 			cName = "You "
 			diestr = " died."
 		}
-
 		AddMessage(cName + diestr)
 		c.Die(o)
 	}
