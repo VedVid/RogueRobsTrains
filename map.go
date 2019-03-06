@@ -126,9 +126,13 @@ func InitializeEmptyMap() Board {
 }
 
 func (b *Board) MoveMap() {
-	for x := 0; x < MapSizeX-1; x++ {
-		for y := 0; y < MapSizeY-1; y++ {
+	for x := 0; x < MapSizeX; x++ {
+		for y := 0; y < MapSizeY; y++ {
 			if (*b)[x][y].Name == "railroad" {
+				continue
+			}
+			if (x == MapSizeX-1) && ((*b)[x][y].Name == "grass" || (*b)[x][y].Name == "stone") {
+				(*b)[x][y] = NewBackgroundTile(*b, x, y)
 				continue
 			}
 			if (*b)[x][y].Name == "grass" || (*b)[x][y].Name == "stone" {
