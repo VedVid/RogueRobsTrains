@@ -77,7 +77,7 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 				} else {
 					p.Equipment[p.ActiveWeapon].Cocked = true
 					turnSpent = true
-					AddMessage("You cocked" + p.Equipment[p.ActiveWeapon].Name + ".")
+					AddMessage("You cocked " + p.Equipment[p.ActiveWeapon].Name + ".")
 				}
 			}
 		} else {
@@ -93,7 +93,7 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			} else {
 				if p.Equipment[p.ActiveWeapon].Cocked == true {
 					p.Equipment[p.ActiveWeapon].Cocked = false
-					AddMessage("You uncocked" + p.Equipment[p.ActiveWeapon].Name + ".")
+					AddMessage("You uncocked " + p.Equipment[p.ActiveWeapon].Name + ".")
 					turnSpent = true
 				} else {
 					if p.Equipment[p.ActiveWeapon].AmmoCurrent < p.Equipment[p.ActiveWeapon].AmmoMax {
