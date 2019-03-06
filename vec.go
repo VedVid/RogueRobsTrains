@@ -213,6 +213,7 @@ Loop:
 			}
 		}
 		if (b[x][y].Blocked == true ||
+			b[x][y].Name == "curtain" ||
 			b[x][y].Name == "door" || b[x][y].Name == "doors") &&
 			b[x][y].Name != "railing" && b[x][y].Name != "railings" &&
 			b[x][y].Name != "table" && b[x][y].Name != "wadrobe" &&
