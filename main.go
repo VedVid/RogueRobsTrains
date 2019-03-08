@@ -145,7 +145,9 @@ func main() {
 			player.HPCurrent = player.HPMax
 				player.Equipment[SlotWeaponPrimary].AmmoCurrent = player.Equipment[SlotWeaponPrimary].AmmoMax
 				player.Equipment[SlotWeaponSecondary].AmmoCurrent = player.Equipment[SlotWeaponSecondary].AmmoMax
-			G.LevelStr = G.Levels[G.LevelInt]
+			player.Equipment[SlotWeaponPrimary].Cocked = false
+			player.Equipment[SlotWeaponSecondary].Cocked = false
+				G.LevelStr = G.Levels[G.LevelInt]
 			G.Alive = len(*actors) - 1
 			for i := 0; i < len(*objs); i++ {
 				(*objs)[i] = nil
