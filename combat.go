@@ -91,6 +91,11 @@ func (c *Creature) TakeDamage(dmg int, o *Objects) {
 	   as argument. dmg value is deducted from Creature current HP.
 	   If HPCurrent is below zero after taking damage, Creature dies. */
 	c.HPCurrent -= dmg
+	if c.AIType == PlayerAI {
+		Stats.Lost += 5
+	} else {
+		Stats.Killed += 10
+	}
 	if c.HPCurrent <= 0 {
 		cName := "[color=" + c.Color + "]" + c.Name + "[/color]"
 		diestr := " dies."

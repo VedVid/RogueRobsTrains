@@ -1,8 +1,8 @@
 {
     "Char":"T",
     "Name":"enemy3",
-    "Color":"yellow",
-    "ColorDark":"yellow",
+    "Color":"#A45A52",
+    "ColorDark":"#A45A52",
     "Layer":5,
 	"AlwaysVisible":false,
     "Blocked":true,

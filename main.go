@@ -41,16 +41,74 @@ type Game struct {
 	Alive    int
 }
 
+type Cfg struct {
+	Score int
+	Lives int
+	Monsters string
+	Reloading bool
+	Animations bool
+}
+
+type PlayerStats struct {
+	Killed int
+	Lost int
+}
+
+type HighScores struct {
+	Scores []int
+}
+
+const (
+	livesEasy = 15
+	livesNormal = 10
+	livesHard = 5
+)
+
+const (
+	MonstersEasy = "fewer"
+	MonstersNormal = "normal"
+	MonstersHard = "more"
+)
+
+const (
+	AmmoUnlimited = true
+	AmmoLimited = false
+)
+
+const (
+	AnimationsTrue = true
+	AnimationsFalse = false
+)
+
 var MsgBuf = []string{}
 var LastTarget *Creature
 var RailsMod = false
 var TimerMod = 10
 var G = new(Game)
+var Config = new(Cfg)
+var CfgIsHere = false
+var Stats = new(PlayerStats)
+var Scores = new(HighScores)
 
 func main() {
 	var cells = new(Board)
 	var objs = new(Objects)
 	var actors = new(Creatures)
+	_, firsterr := os.Stat(ConfigPathGob)
+		if firsterr == nil {
+			errcfg := LoadConfig()
+			CfgIsHere = true
+			if errcfg != nil {
+				fmt.Println("Error during loading config file.")
+				fmt.Println(errcfg)
+			}
+		}
+	_, seconderr := os.Stat(HighScoresPathGob)
+	if seconderr != nil {
+		SaveScores()
+	} else {
+		LoadScores()
+	}
 	StartGame(cells, actors, objs)
 	timer := 0
 	for {
@@ -85,15 +143,21 @@ func main() {
 			player.X, player.Y = (*actors)[0].X, (*actors)[0].Y
 			(*actors)[0] = player
 			player.HPCurrent = player.HPMax
-			G.LevelStr = G.Levels[G.LevelInt]
+				player.Equipment[SlotWeaponPrimary].AmmoCurrent = player.Equipment[SlotWeaponPrimary].AmmoMax
+				player.Equipment[SlotWeaponSecondary].AmmoCurrent = player.Equipment[SlotWeaponSecondary].AmmoMax
+			player.Equipment[SlotWeaponPrimary].Cocked = false
+			player.Equipment[SlotWeaponSecondary].Cocked = false
+				G.LevelStr = G.Levels[G.LevelInt]
 			G.Alive = len(*actors) - 1
 			for i := 0; i < len(*objs); i++ {
 				(*objs)[i] = nil
 			}
 			*objs = (*objs)[:0]
 		}
-		if timer%TimerMod == 0 {
-			cells.MoveMap()
+		if Config.Animations == AnimationsTrue {
+			if timer%TimerMod == 0 {
+				cells.MoveMap()
+			}
 		}
 		RenderAll(*cells, *objs, *actors)
 		if blt.HasInput() == true {
@@ -141,6 +205,7 @@ func main() {
 func NewGame(b *Board, c *Creatures, o *Objects) {
 	/* Function NewGame initializes game state - creates player, monsters, and game map.
 	   This implementation is generic-placeholder, for testing purposes. */
+	MainMenu(Config)
 	playerMelee, err := NewObject(0, 0, MeleeWeapons[RandInt(len(MeleeWeapons)-1)])
 	if err != nil {
 		fmt.Println(err)
@@ -181,14 +246,15 @@ func StartGame(b *Board, c *Creatures, o *Objects) {
 	_, errGame := os.Stat(GamePathGob)
 	_, errTimer := os.Stat(TimerPathGob)
 	_, errRails := os.Stat(RailsPathGob)
+	_, errStats := os.Stat(StatsPathGob)
 	if errBoard == nil && errCreatures == nil && errObjects == nil &&
-		errGame == nil && errTimer == nil && errRails == nil {
+		errGame == nil && errTimer == nil && errRails == nil && errStats == nil {
 		LoadGame(b, c, o)
 	} else if errBoard != nil && errCreatures != nil && errObjects != nil &&
-		errGame != nil && errTimer != nil && errRails != nil {
+		errGame != nil && errTimer != nil && errRails != nil && errStats != nil {
 		NewGame(b, c, o)
 	} else {
-		txt := CorruptedSaveError(errBoard, errCreatures, errObjects, errGame, errTimer, errRails)
+		txt := CorruptedSaveError(errBoard, errCreatures, errObjects, errGame, errTimer, errRails, errStats)
 		fmt.Println("Error: save files are corrupted: " + txt)
 		panic(-1)
 	}

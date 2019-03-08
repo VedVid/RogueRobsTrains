@@ -1,0 +1,8 @@
+- curtains blocks shooting similarly to doors, and enemies don't handle it well
+- AI algorithm is slow (especially spotting player)
+- "DumbRanged" enemies kills own comrades too often
+- pathfinding is slow as well
+- on one map, enemies can spawn in walls
+- weapons can stack on map tiles
+- animation stops during looking and targeting
+- message "You died." may overwrite previous message

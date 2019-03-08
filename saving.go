@@ -34,18 +34,30 @@ import (
 
 const (
 	// Constant values for save files manipulation.
-	MapNameGob       = "map.gob"
+	MapNameGob       = "map.save"
 	MapPathGob       = "./" + MapNameGob
-	CreaturesNameGob = "monsters.gob"
+	CreaturesNameGob = "monsters.save"
 	CreaturesPathGob = "./" + CreaturesNameGob
-	ObjectsNameGob   = "objects.gob"
+	ObjectsNameGob   = "objects.save"
 	ObjectsPathGob   = "./" + ObjectsNameGob
-	GameNameGob      = "game.gob"
+	GameNameGob      = "game.save"
 	GamePathGob      = "./" + GameNameGob
-	TimerNameGob = "timer.gob"
+	TimerNameGob = "timer.save"
 	TimerPathGob = "./" + TimerNameGob
-	RailsNameGob = "rails.gob"
+	RailsNameGob = "rails.save"
 	RailsPathGob = "./" + RailsNameGob
+	StatsNameGob = "player.save"
+	StatsPathGob = "./" + StatsNameGob
+)
+
+const (
+	ConfigNameGob = "config.gob"
+	ConfigPathGob = "./"+ConfigNameGob
+)
+
+const (
+	HighScoresNameGob = "highscores.gob"
+	HighScoresPathGob = "./"+HighScoresNameGob
 )
 
 const (
@@ -199,6 +211,36 @@ func loadRails() error {
 	return err
 }
 
+func saveStats() error {
+	err := writeGob(StatsPathGob, Stats)
+	return err
+}
+
+func loadStats() error {
+	err := readGob(StatsPathGob, &Stats)
+	return err
+}
+
+func SaveConfig() error {
+	err := writeGob(ConfigPathGob, Config)
+	return err
+}
+
+func LoadConfig() error {
+	err := readGob(ConfigPathGob, &Config)
+	return err
+}
+
+func SaveScores() error {
+	err := writeGob(HighScoresPathGob, Scores)
+	return err
+}
+
+func LoadScores() error {
+	err := readGob(HighScoresPathGob, &Scores)
+	return err
+}
+
 func SaveGame(b Board, c Creatures, o Objects) error {
 	/* Function SaveGame encodes game map, monsters, objects into
 	   save files, using Go's gob format. This function may need better
@@ -226,6 +268,10 @@ func SaveGame(b Board, c Creatures, o Objects) error {
 		fmt.Println(err)
 	}
 	err = saveRails()
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = saveStats()
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -262,6 +308,10 @@ func LoadGame(b *Board, c *Creatures, o *Objects) error {
 	if err != nil {
 		fmt.Println(err)
 	}
+	err = loadStats()
+	if err != nil {
+		fmt.Println(err)
+	}
 	return err
 }
 
@@ -293,5 +343,9 @@ func DeleteSaves() {
 	_, err = os.Stat(RailsPathGob)
 	if err == nil {
 		os.Remove(RailsPathGob)
+	}
+	_, err = os.Stat(StatsPathGob)
+	if err == nil {
+		os.Remove(StatsPathGob)
 	}
 }

@@ -250,7 +250,7 @@
 				"|": "railing",
 				">": "railing",
 				"<": "railing",
-				"c": "courtain",
+				"c": "curtain",
 				"'": "railroad",
 				"`": "railroad"
 			},
@@ -473,7 +473,7 @@
 					"player",
 					"maybe",
 					"maybe",
-					"maybe""
+					"maybe",
 				    "any",
 					"maybe",
 					"any",

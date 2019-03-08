@@ -92,6 +92,10 @@ func NewPlayer(x, y int) (*Creature, error) {
 	if player.Inventory == nil {
 		player.Inventory = Objects{}
 	}
+	if Config.Lives != player.HPMax {
+		player.HPMax = Config.Lives
+		player.HPCurrent = Config.Lives
+	}
 	return player, err2
 }
 
