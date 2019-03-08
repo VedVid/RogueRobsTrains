@@ -247,10 +247,6 @@ func DeadScreen() {
 		if yourScore < 0 {
 			yourScore = 0
 		}
-		yourScore = (yourScore * Config.Score) / 100
-		if yourScore < 10 {
-			yourScore = 10
-		}
 		Config.Score = yourScore
 		blt.Clear()
 		blt.Layer(UILayer)
