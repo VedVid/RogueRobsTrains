@@ -227,8 +227,8 @@ func DeadScreen() {
 func MainMenu(cfg *Cfg) {
 	lives := livesNormal
 	monsters := MonstersNormal
-	reloading := ammoUnlimited
-	animations := animationsFalse
+	reloading := AmmoUnlimited
+	animations := AnimationsFalse
 	score := 100
 	for {
 		blt.Clear()
@@ -251,14 +251,14 @@ func MainMenu(cfg *Cfg) {
 		}
 		line2 := "<b> ← Enemies: " + monstersString + " → <B>"
 		reloadingString := ""
-		if reloading == ammoUnlimited {
+		if reloading == AmmoUnlimited {
 			reloadingString = "unlimited"
 		} else {
 			reloadingString = "impossible"
 		}
 		line3 := "<c> ← Reloading: " + reloadingString + " → <C>"
 		animationsString := ""
-		if animations == animationsFalse {
+		if animations == AnimationsFalse {
 			animationsString = "off"
 		} else {
 			animationsString = "on"
@@ -286,6 +286,7 @@ func MainMenu(cfg *Cfg) {
 			cfg.Monsters = monsters
 			cfg.Reloading = reloading
 			cfg.Score = score
+			cfg.Animations = animations
 			break
 		}
 		if key == blt.TK_A && blt.Check(blt.TK_SHIFT) != 0 {
@@ -329,32 +330,32 @@ func MainMenu(cfg *Cfg) {
 				continue
 			}
 		} else if key == blt.TK_C && blt.Check(blt.TK_SHIFT) != 0 {
-			if reloading == ammoUnlimited {
-				reloading = ammoLimited
+			if reloading == AmmoUnlimited {
+				reloading = AmmoLimited
 				score += 25
 			} else {
-				reloading = ammoUnlimited
+				reloading = AmmoUnlimited
 				score -= 25
 			}
 		} else if key == blt.TK_C {
-			if reloading == ammoUnlimited {
-				reloading = ammoLimited
+			if reloading == AmmoUnlimited {
+				reloading = AmmoLimited
 				score += 25
 			} else {
-				reloading = ammoUnlimited
+				reloading = AmmoUnlimited
 				score -= 25
 			}
 		} else if key == blt.TK_D && blt.Check(blt.TK_SHIFT) != 0 {
-			if animations == animationsFalse {
-				animations = animationsTrue
+			if animations == AnimationsFalse {
+				animations = AnimationsTrue
 			} else {
-				animations = animationsFalse
+				animations = AnimationsFalse
 			}
 		} else if key == blt.TK_D {
-			if animations == animationsFalse {
-				animations = animationsTrue
+			if animations == AnimationsFalse {
+				animations = AnimationsTrue
 			} else {
-				animations = animationsFalse
+				animations = AnimationsFalse
 			}
 		}
 	}

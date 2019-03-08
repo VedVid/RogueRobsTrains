@@ -50,7 +50,7 @@ type Cfg struct {
 }
 
 const (
-	livesEasy = 20
+	livesEasy = 15
 	livesNormal = 10
 	livesHard = 5
 )
@@ -62,13 +62,13 @@ const (
 )
 
 const (
-	ammoUnlimited = true
-	ammoLimited = false
+	AmmoUnlimited = true
+	AmmoLimited = false
 )
 
 const (
-	animationsTrue = true
-	animationsFalse = false
+	AnimationsTrue = true
+	AnimationsFalse = false
 )
 
 var MsgBuf = []string{}
@@ -124,7 +124,7 @@ func main() {
 			}
 			*objs = (*objs)[:0]
 		}
-		if Config.Animations == animationsTrue {
+		if Config.Animations == AnimationsTrue {
 			if timer%TimerMod == 0 {
 				cells.MoveMap()
 			}
