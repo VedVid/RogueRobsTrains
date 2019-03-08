@@ -38,8 +38,10 @@ p - pull lever
 
 3. Source code
 Source code is available https://github.com/VedVid/RogueRobsTrains under permissive FreeBSD license.
-Note that code is much like spaghetti.
+Note that code is much like spaghetti. It is the reason, why this game is not very moddable, even if uses json files to store data. But if you don't like colors, feel free to change them :)
+
 
 4. Game is provided free of charge, and source code is available under FreeBSD license. However, RRT uses third-party libraries and assets that may be licensed differently - read LICENSE and LICENSES-NOTICE to learn more.
 
-5. You may find my on Discord (#5352). I am roguelikes discord and /r/roguelikes subreddit (as VedVid) regular. You may find me on twitter as well - @Ved_RL.
+
+5. You may find me on Discord (#5352). I am roguelikes discord and /r/roguelikes subreddit (as VedVid) regular. You may find me on twitter as well - @Ved_RL.
