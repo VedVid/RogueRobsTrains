@@ -467,6 +467,11 @@
 	"MonstersTypes":
 	            [
 					"player",
+					"maybe",
+					"maybe",
+					"maybe",
+				    "any",
+					"maybe",
 					"any",
 				    "any",
 					"any"
