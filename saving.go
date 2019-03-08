@@ -34,17 +34,17 @@ import (
 
 const (
 	// Constant values for save files manipulation.
-	MapNameGob       = "map.gob"
+	MapNameGob       = "map.save"
 	MapPathGob       = "./" + MapNameGob
-	CreaturesNameGob = "monsters.gob"
+	CreaturesNameGob = "monsters.save"
 	CreaturesPathGob = "./" + CreaturesNameGob
-	ObjectsNameGob   = "objects.gob"
+	ObjectsNameGob   = "objects.save"
 	ObjectsPathGob   = "./" + ObjectsNameGob
-	GameNameGob      = "game.gob"
+	GameNameGob      = "game.save"
 	GamePathGob      = "./" + GameNameGob
-	TimerNameGob = "timer.gob"
+	TimerNameGob = "timer.save"
 	TimerPathGob = "./" + TimerNameGob
-	RailsNameGob = "rails.gob"
+	RailsNameGob = "rails.save"
 	RailsPathGob = "./" + RailsNameGob
 )
 

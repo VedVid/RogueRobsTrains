@@ -79,7 +79,6 @@ var G = new(Game)
 var Config = new(Cfg)
 
 func main() {
-	MainMenu(Config)
 	var cells = new(Board)
 	var objs = new(Objects)
 	var actors = new(Creatures)
@@ -175,6 +174,7 @@ func main() {
 func NewGame(b *Board, c *Creatures, o *Objects) {
 	/* Function NewGame initializes game state - creates player, monsters, and game map.
 	   This implementation is generic-placeholder, for testing purposes. */
+	MainMenu(Config)
 	playerMelee, err := NewObject(0, 0, MeleeWeapons[RandInt(len(MeleeWeapons)-1)])
 	if err != nil {
 		fmt.Println(err)
