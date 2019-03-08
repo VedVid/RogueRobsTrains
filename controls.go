@@ -133,6 +133,7 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			for y := minY; y <= maxY; y++ {
 				if (*b)[x][y].Name == "lever" {
 					lever = true
+					Config.Score += 10
 				}
 			}
 		}
