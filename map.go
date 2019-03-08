@@ -332,6 +332,9 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 	for k := 0; k < len(coords); k++ {
 		if aiTypes[k] == "player" {
 			player, err := NewPlayer(coords[k][0], coords[k][1])
+			if Config.Reloading == AmmoLimited && mapFile != "trainStart.json" {
+				AddMessage("You found some ammo by the way...")
+			}
 			if err != nil {
 				fmt.Println(err)
 			}

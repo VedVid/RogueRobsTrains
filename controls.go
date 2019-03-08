@@ -84,21 +84,25 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			AddMessage("You are using melee weapon.")
 		}
 	case blt.TK_R:
-		if p.ActiveWeapon != SlotWeaponMelee {
-			if p.Equipment[p.ActiveWeapon].Cock == false {
-				if p.Equipment[p.ActiveWeapon].AmmoCurrent < p.Equipment[p.ActiveWeapon].AmmoMax {
-					p.Equipment[p.ActiveWeapon].AmmoCurrent = p.Equipment[p.ActiveWeapon].AmmoMax
-					turnSpent = true
-				}
-			} else {
-				if p.Equipment[p.ActiveWeapon].Cocked == true {
-					p.Equipment[p.ActiveWeapon].Cocked = false
-					AddMessage("You uncocked " + p.Equipment[p.ActiveWeapon].Name + ".")
-					turnSpent = true
-				} else {
+		if Config.Reloading == AmmoLimited {
+			AddMessage("You do not have more ammo!")
+		} else {
+			if p.ActiveWeapon != SlotWeaponMelee {
+				if p.Equipment[p.ActiveWeapon].Cock == false {
 					if p.Equipment[p.ActiveWeapon].AmmoCurrent < p.Equipment[p.ActiveWeapon].AmmoMax {
-						p.Equipment[p.ActiveWeapon].AmmoCurrent++
+						p.Equipment[p.ActiveWeapon].AmmoCurrent = p.Equipment[p.ActiveWeapon].AmmoMax
 						turnSpent = true
+					}
+				} else {
+					if p.Equipment[p.ActiveWeapon].Cocked == true {
+						p.Equipment[p.ActiveWeapon].Cocked = false
+						AddMessage("You uncocked " + p.Equipment[p.ActiveWeapon].Name + ".")
+						turnSpent = true
+					} else {
+						if p.Equipment[p.ActiveWeapon].AmmoCurrent < p.Equipment[p.ActiveWeapon].AmmoMax {
+							p.Equipment[p.ActiveWeapon].AmmoCurrent++
+							turnSpent = true
+						}
 					}
 				}
 			}

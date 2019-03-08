@@ -261,7 +261,7 @@ func MainMenu(cfg *Cfg) {
 		if reloading == AmmoUnlimited {
 			reloadingString = "unlimited"
 		} else {
-			reloadingString = "impossible"
+			reloadingString = "limited"
 		}
 		line3 := "<c> ← Reloading: " + reloadingString + " → <C>"
 		animationsString := ""
