@@ -172,6 +172,7 @@ func PrintVictoryScreen() {
 		if yourScore < 10 {
 			yourScore = 10
 		}
+		Config.Score = yourScore
 		blt.Clear()
 		blt.Layer(UILayer)
 		line1 := "You did it!"
@@ -181,7 +182,7 @@ func PrintVictoryScreen() {
 		line5 := "and pulled breake lever!"
 		line6 := "Now, you can just unload these gold-filled chests"
 		line7 := "from this train and live rich and well."
-		line8 := "Your score is: " + strconv.Itoa(yourScore)
+		line8 := "Your score is: " + strconv.Itoa(Config.Score)
 		line1len := utf8.RuneCountInString(line1)
 		line2len := utf8.RuneCountInString(line2)
 		line3len := utf8.RuneCountInString(line3)
@@ -205,6 +206,7 @@ func PrintVictoryScreen() {
 			break
 		}
 	}
+	HandleHighScores()
 }
 
 func DeadScreen() {
@@ -217,6 +219,7 @@ func DeadScreen() {
 		if yourScore < 10 {
 			yourScore = 10
 		}
+		Config.Score = yourScore
 		blt.Clear()
 		blt.Layer(UILayer)
 		line1 := "Maybe robbing this train was bad idea?"
@@ -229,7 +232,7 @@ func DeadScreen() {
 		line3len := utf8.RuneCountInString(line3)
 		line4len := utf8.RuneCountInString(line4)
 		line5len := utf8.RuneCountInString(line5)
-		line8 := "Your score is: " + strconv.Itoa(yourScore)
+		line8 := "Your score is: " + strconv.Itoa(Config.Score)
 		line8len := utf8.RuneCountInString(line8)
 		posy := (WindowSizeY / 2) - 4
 		blt.Print(((WindowSizeX / 2) - (line1len / 2)), posy, line1)
@@ -244,6 +247,7 @@ func DeadScreen() {
 			break
 		}
 	}
+	HandleHighScores()
 }
 
 func MainMenu(cfg *Cfg) {
