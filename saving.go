@@ -46,6 +46,8 @@ const (
 	TimerPathGob = "./" + TimerNameGob
 	RailsNameGob = "rails.save"
 	RailsPathGob = "./" + RailsNameGob
+	StatsNameGob = "player.save"
+	StatsPathGob = "./" + StatsNameGob
 )
 
 const (
@@ -204,6 +206,16 @@ func loadRails() error {
 	return err
 }
 
+func saveStats() error {
+	err := writeGob(StatsPathGob, Stats)
+	return err
+}
+
+func loadStats() error {
+	err := readGob(StatsPathGob, &Stats)
+	return err
+}
+
 func SaveConfig() error {
 	err := writeGob(ConfigPathGob, Config)
 	return err
@@ -244,6 +256,10 @@ func SaveGame(b Board, c Creatures, o Objects) error {
 	if err != nil {
 		fmt.Println(err)
 	}
+	err = saveStats()
+	if err != nil {
+		fmt.Println(err)
+	}
 	return err
 }
 
@@ -274,6 +290,10 @@ func LoadGame(b *Board, c *Creatures, o *Objects) error {
 		fmt.Println(err)
 	}
 	err = loadRails()
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = loadStats()
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -308,5 +328,9 @@ func DeleteSaves() {
 	_, err = os.Stat(RailsPathGob)
 	if err == nil {
 		os.Remove(RailsPathGob)
+	}
+	_, err = os.Stat(StatsPathGob)
+	if err == nil {
+		os.Remove(StatsPathGob)
 	}
 }

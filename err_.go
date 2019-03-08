@@ -216,31 +216,34 @@ func TargetNilError(c *Creature, cs Creatures) string {
 	return txt
 }
 
-func CorruptedSaveError(errBoard, errCreatures, errObjects, errGame, errTimer, errRails error) string {
+func CorruptedSaveError(errBoard, errCreatures, errObjects, errGame, errTimer, errRails, errStats error) string {
 	/* Function CorruptedSaveError is helper function that returns string to error.
 	   It takes three specific errors as arguments (only one of them has to be != nil).
 	   It is called when game can not find all three save files in directory. */
-	errorBoard, errorCreatures, errorObjects, errorGame, errorTimer, errorRails := "", "", "", "", "", ""
+	errorBoard, errorCreatures, errorObjects, errorGame, errorTimer, errorRails, errorStats := "", "", "", "", "", "", ""
 	if errBoard != nil {
-		errorBoard = "map.gob "
+		errorBoard = "map.save "
 	}
 	if errCreatures != nil {
-		errorCreatures = "monsters.gob "
+		errorCreatures = "monsters.save "
 	}
 	if errObjects != nil {
-		errorObjects = "objects.gob "
+		errorObjects = "objects.save "
 	}
 	if errGame != nil {
-		errorGame = "game.gob "
+		errorGame = "game.save "
 	}
 	if errTimer != nil {
-		errorTimer = "timer.gob "
+		errorTimer = "timer.save "
 	}
 	if errRails != nil {
-		errorRails = "rails.gob "
+		errorRails = "rails.save "
+	}
+	if errStats != nil {
+		errorStats = "player.save "
 	}
 	txt := "\n    <Following files are missing: " + errorBoard + errorCreatures +
-		errorObjects + errorGame + errorTimer + errorRails + ">"
+		errorObjects + errorGame + errorTimer + errorRails + errorStats + ">"
 	return txt
 }
 

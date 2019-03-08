@@ -49,6 +49,11 @@ type Cfg struct {
 	Animations bool
 }
 
+type PlayerStats struct {
+	Killed int
+	Lost int
+}
+
 const (
 	livesEasy = 15
 	livesNormal = 10
@@ -78,6 +83,7 @@ var TimerMod = 10
 var G = new(Game)
 var Config = new(Cfg)
 var CfgIsHere = false
+var Stats = new(PlayerStats)
 
 func main() {
 	var cells = new(Board)
@@ -227,14 +233,15 @@ func StartGame(b *Board, c *Creatures, o *Objects) {
 	_, errGame := os.Stat(GamePathGob)
 	_, errTimer := os.Stat(TimerPathGob)
 	_, errRails := os.Stat(RailsPathGob)
+	_, errStats := os.Stat(StatsPathGob)
 	if errBoard == nil && errCreatures == nil && errObjects == nil &&
-		errGame == nil && errTimer == nil && errRails == nil {
+		errGame == nil && errTimer == nil && errRails == nil && errStats == nil {
 		LoadGame(b, c, o)
 	} else if errBoard != nil && errCreatures != nil && errObjects != nil &&
-		errGame != nil && errTimer != nil && errRails != nil {
+		errGame != nil && errTimer != nil && errRails != nil && errStats != nil {
 		NewGame(b, c, o)
 	} else {
-		txt := CorruptedSaveError(errBoard, errCreatures, errObjects, errGame, errTimer, errRails)
+		txt := CorruptedSaveError(errBoard, errCreatures, errObjects, errGame, errTimer, errRails, errStats)
 		fmt.Println("Error: save files are corrupted: " + txt)
 		panic(-1)
 	}
