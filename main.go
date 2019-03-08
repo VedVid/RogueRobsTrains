@@ -41,13 +41,98 @@ type Game struct {
 	Alive    int
 }
 
+type Cfg struct {
+	ScoreMultiply int
+	Lifes int
+	Monsters string
+	Reloading bool
+}
+
+const (
+	lifesEasy = 20
+	lifesNormal = 10
+	lifesHard = 5
+)
+
+const (
+	monstersEasy = "fewer"
+	monstersNormal = "normal"
+	monstersHard = "more"
+)
+
+const (
+	ammoUnlimited = true
+	ammoLimited = false
+)
+
 var MsgBuf = []string{}
 var LastTarget *Creature
 var RailsMod = false
 var TimerMod = 10
 var G = new(Game)
 
+func MainMenu(cfg *Cfg) {
+	lifes := lifesNormal
+	monsters := monstersNormal
+	for {
+		lifesString := ""
+		if lifes == lifesNormal {
+			lifesString = "normal"
+		} else if lifes == lifesEasy {
+			lifesString = "easy"
+		} else if lifes == lifesHard {
+			lifesString = "hard"
+		}
+		line1 := "[a] <--   Lifes: " + lifesString + " --> [A]"
+		monstersString := ""
+		if monsters == monstersNormal {
+			monstersString = "normal"
+		} else if monsters == monstersEasy {
+			monstersString = "fewer"
+		} else if monsters == monstersHard {
+			monstersString = "more"
+		}
+		line2 := "[b] <-- Enemies: " + monstersString + " --> [B]"
+		key := blt.Read()
+		if key == blt.TK_A && blt.Check(blt.TK_SHIFT) != 0 {
+			if lifes == lifesEasy {
+				lifes = lifesNormal
+			} else if lifes == lifesNormal {
+				lifes = lifesHard
+			} else {
+				continue
+			}
+		} else if key == blt.TK_A {
+			if lifes == lifesNormal {
+				lifes = lifesEasy
+			} else if lifes == lifesHard {
+				lifes = lifesNormal
+			} else {
+				continue
+			}
+		} else if key == blt.TK_B && blt.Check(blt.TK_SHIFT) != 0 {
+			if monsters == monstersEasy {
+				monsters = monstersNormal
+			} else if monsters == monstersNormal {
+				monsters = monstersHard
+			} else {
+				continue
+			}
+		} else if key == blt.TK_B {
+			if monsters == monstersNormal {
+				monsters = monstersEasy
+			} else if monsters == monstersHard {
+				monsters = monstersNormal
+			} else {
+				continue
+			}
+		}
+	}
+}
+
 func main() {
+	var Config = new(Cfg)
+	MainMenu(Config)
 	var cells = new(Board)
 	var objs = new(Objects)
 	var actors = new(Creatures)
