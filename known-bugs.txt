@@ -5,3 +5,4 @@
 - on one map, enemies can spawn in walls
 - weapons can stack on map tiles
 - animation stops during looking and targeting
+- message "You died." may overwrite previous message
