@@ -31,6 +31,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -74,6 +75,8 @@ var G = new(Game)
 func MainMenu(cfg *Cfg) {
 	lifes := lifesNormal
 	monsters := monstersNormal
+	reloading := ammoUnlimited
+	score := 100
 	for {
 		lifesString := ""
 		if lifes == lifesNormal {
@@ -83,7 +86,7 @@ func MainMenu(cfg *Cfg) {
 		} else if lifes == lifesHard {
 			lifesString = "hard"
 		}
-		line1 := "[a] <--   Lifes: " + lifesString + " --> [A]"
+		line1 := "[[a]] <--    Lifes: " + lifesString + " --> [[A]]"
 		monstersString := ""
 		if monsters == monstersNormal {
 			monstersString = "normal"
@@ -92,39 +95,71 @@ func MainMenu(cfg *Cfg) {
 		} else if monsters == monstersHard {
 			monstersString = "more"
 		}
-		line2 := "[b] <-- Enemies: " + monstersString + " --> [B]"
+		line2 := "[[b]] <--  Enemies: " + monstersString + " --> [[B]]"
+		reloadingString := ""
+		if reloading == ammoUnlimited {
+			reloadingString = "unlimited"
+		} else {
+			reloadingString = "impossible"
+		}
+		line3 := "[[c]] <-- Reloading: " + reloadingString + " --> [[C]]"
+		line4 := "Score multiplier: " + strconv.Itoa(score) + "%"
 		key := blt.Read()
 		if key == blt.TK_A && blt.Check(blt.TK_SHIFT) != 0 {
 			if lifes == lifesEasy {
 				lifes = lifesNormal
+				score += 25
 			} else if lifes == lifesNormal {
 				lifes = lifesHard
+				score += 25
 			} else {
 				continue
 			}
 		} else if key == blt.TK_A {
 			if lifes == lifesNormal {
 				lifes = lifesEasy
+				score -= 25
 			} else if lifes == lifesHard {
 				lifes = lifesNormal
+				score -= 25
 			} else {
 				continue
 			}
 		} else if key == blt.TK_B && blt.Check(blt.TK_SHIFT) != 0 {
 			if monsters == monstersEasy {
 				monsters = monstersNormal
+				score += 25
 			} else if monsters == monstersNormal {
 				monsters = monstersHard
+				score += 25
 			} else {
 				continue
 			}
 		} else if key == blt.TK_B {
 			if monsters == monstersNormal {
 				monsters = monstersEasy
+				score -= 25
 			} else if monsters == monstersHard {
 				monsters = monstersNormal
+				score -= 25
 			} else {
 				continue
+			}
+		} else if key == blt.TK_C && blt.Check(blt.TK_SHIFT) != 0 {
+			if reloading == ammoUnlimited {
+				reloading = ammoLimited
+				score += 25
+			} else {
+				reloading = ammoUnlimited
+				score -= 25
+			}
+		} else if key == blt.TK_C {
+			if reloading == ammoUnlimited {
+				reloading = ammoLimited
+				score += 25
+			} else {
+				reloading = ammoUnlimited
+				score -= 25
 			}
 		}
 	}
