@@ -225,22 +225,22 @@ func DeadScreen() {
 }
 
 func MainMenu(cfg *Cfg) {
-	lifes := lifesNormal
+	lives := livesNormal
 	monsters := MonstersNormal
 	reloading := ammoUnlimited
 	animations := animationsFalse
 	score := 100
 	for {
 		blt.Clear()
-		lifesString := ""
-		if lifes == lifesNormal {
-			lifesString = "normal"
-		} else if lifes == lifesEasy {
-			lifesString = "easy"
-		} else if lifes == lifesHard {
-			lifesString = "hard"
+		livesString := ""
+		if lives == livesNormal {
+			livesString = "normal"
+		} else if lives == livesEasy {
+			livesString = "easy"
+		} else if lives == livesHard {
+			livesString = "hard"
 		}
-		line1 := "<a> ← Lifes: " + lifesString + " → <A>"
+		line1 := "<a> ← Lives: " + livesString + " → <A>"
 		monstersString := ""
 		if monsters == MonstersNormal {
 			monstersString = "normal"
@@ -282,28 +282,28 @@ func MainMenu(cfg *Cfg) {
 		blt.Refresh()
 		key := blt.Read()
 		if key == blt.TK_ENTER {
-			cfg.Lifes = lifes
+			cfg.Lives = lives
 			cfg.Monsters = monsters
 			cfg.Reloading = reloading
 			cfg.Score = score
 			break
 		}
 		if key == blt.TK_A && blt.Check(blt.TK_SHIFT) != 0 {
-			if lifes == lifesEasy {
-				lifes = lifesNormal
+			if lives == livesEasy {
+				lives = livesNormal
 				score += 25
-			} else if lifes == lifesNormal {
-				lifes = lifesHard
+			} else if lives == livesNormal {
+				lives = livesHard
 				score += 25
 			} else {
 				continue
 			}
 		} else if key == blt.TK_A {
-			if lifes == lifesNormal {
-				lifes = lifesEasy
+			if lives == livesNormal {
+				lives = livesEasy
 				score -= 25
-			} else if lifes == lifesHard {
-				lifes = lifesNormal
+			} else if lives == livesHard {
+				lives = livesNormal
 				score -= 25
 			} else {
 				continue

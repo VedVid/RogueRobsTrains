@@ -43,16 +43,16 @@ type Game struct {
 
 type Cfg struct {
 	Score int
-	Lifes int
+	Lives int
 	Monsters string
 	Reloading bool
 	Animations bool
 }
 
 const (
-	lifesEasy = 20
-	lifesNormal = 10
-	lifesHard = 5
+	livesEasy = 20
+	livesNormal = 10
+	livesHard = 5
 )
 
 const (
@@ -124,8 +124,10 @@ func main() {
 			}
 			*objs = (*objs)[:0]
 		}
-		if timer%TimerMod == 0 {
-			cells.MoveMap()
+		if Config.Animations == animationsTrue {
+			if timer%TimerMod == 0 {
+				cells.MoveMap()
+			}
 		}
 		RenderAll(*cells, *objs, *actors)
 		if blt.HasInput() == true {
