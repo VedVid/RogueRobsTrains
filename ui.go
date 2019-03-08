@@ -30,6 +30,7 @@ import (
 	blt "bearlibterminal"
 	"errors"
 	"fmt"
+	"sort"
 	"strconv"
 	"unicode/utf8"
 )
@@ -162,38 +163,34 @@ func RemoveLastMessage() {
 	blt.Refresh()
 }
 
-func HandleHighScores(cName string) {
-	n := cName
-	s := Config.Score
-	ns := Scores.Names
-	ss := Scores.Scores
-	sizeS := len(Scores.Scores)
-	var sss = []int{}
-	var nnn = []string{}
-	if sizeS == 0 {
-		nnn = append(nnn, n)
-		sss = append(sss, s)
-	if sizeS > 10 {
-		sizeS = 10
+func HandleHighScores() {
+	Scores.Scores = append(Scores.Scores, Config.Score)
+	sort.Ints(Scores.Scores)
+	size := len(Scores.Scores)
+	if size > 10 {
+		size = 10
+		Scores.Scores = Scores.Scores[:10]
 	}
-	} else {
-		for i := 0; i < sizeS; i++ {
-			nam := ns[i]
-			sco := ss[i]
-			if s >= sco {
-				sss = append(sss, s)
-				s = 0
-				nnn = append(nnn, n)
-			}
-			sss = append(sss, sco)
-			nnn = append(nnn, nam)
+	blt.Clear()
+	for i := 0; i < size; i++ {
+		blt.Color(blt.ColorFromName("white"))
+		if Scores.Scores[i] == Config.Score {
+			blt.Color(blt.ColorFromName("yellow"))
+		}
+		txt := strconv.Itoa(Scores.Scores[i])
+		blt.Print(((WindowSizeX/2) - (utf8.RuneCountInString(txt))), 5+i, strconv.Itoa(i+1) + ". "+ txt)
+	}
+	for {
+		blt.Refresh()
+		key := blt.Read()
+		if key == blt.TK_ENTER || key == blt.TK_SPACE || key == blt.TK_ESCAPE {
+			break
 		}
 	}
-	Scores.Names = nnn
-	Scores.Scores = sss
+	SaveScores()
 }
 
-func PrintVictoryScreen(cName string) {
+func PrintVictoryScreen() {
 	for {
 		yourScore := Stats.Killed - Stats.Lost
 		if yourScore < 0 {
@@ -237,10 +234,10 @@ func PrintVictoryScreen(cName string) {
 			break
 		}
 	}
-	HandleHighScores(cName)
+	HandleHighScores()
 }
 
-func DeadScreen(cName string) {
+func DeadScreen() {
 	for {
 		yourScore := Stats.Killed - Stats.Lost
 		if yourScore < 0 {
@@ -278,7 +275,7 @@ func DeadScreen(cName string) {
 			break
 		}
 	}
-	HandleHighScores(cName)
+	HandleHighScores()
 }
 
 func MainMenu(cfg *Cfg) {

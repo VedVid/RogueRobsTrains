@@ -55,7 +55,6 @@ type PlayerStats struct {
 }
 
 type HighScores struct {
-	Names []string
 	Scores []int
 }
 
@@ -118,7 +117,7 @@ func main() {
 		}
 		if (*actors)[0].HPCurrent <= 0 {
 			blt.Read()
-			DeadScreen((*actors)[0].Name)
+			DeadScreen()
 			DeleteSaves()
 			break
 		}

@@ -141,7 +141,7 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			AddMessage("There is no lever to pull here.")
 		}
 		if lever == true {
-			PrintVictoryScreen(p.Name)
+			PrintVictoryScreen()
 			DeleteSaves()
 			blt.Close()
 			os.Exit(0)
