@@ -342,6 +342,13 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 		if aiTypes[k] == "any" {
 			aitype = enemies[RandRange(0, len(enemies)-1)]
 		}
+		if aiTypes[k] == "maybe" {
+			if RandInt(100) <= 33 {
+				aitype = enemies[RandRange(0, len(enemies)-1)]
+			} else {
+				continue
+			}
+		}
 		monster, err := NewCreature(coords[k][0], coords[k][1], aitype)
 		if err != nil {
 			fmt.Println(err)
