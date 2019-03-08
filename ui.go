@@ -172,10 +172,12 @@ func HandleHighScores() {
 		Scores.Scores = Scores.Scores[:10]
 	}
 	blt.Clear()
+	first := true
 	for i := 0; i < size; i++ {
 		blt.Color(blt.ColorFromName("white"))
-		if Scores.Scores[i] == Config.Score {
+		if Scores.Scores[i] == Config.Score && first == true {
 			blt.Color(blt.ColorFromName("yellow"))
+			first = false
 		}
 		txt := strconv.Itoa(Scores.Scores[i])
 		blt.Print(((WindowSizeX/2) - (utf8.RuneCountInString(txt))), 5+i, strconv.Itoa(i+1) + ". "+ txt)
