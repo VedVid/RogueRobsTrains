@@ -165,7 +165,7 @@ func RemoveLastMessage() {
 
 func HandleHighScores() {
 	Scores.Scores = append(Scores.Scores, Config.Score)
-	sort.Ints(Scores.Scores)
+	sort.Sort(sort.Reverse(sort.IntSlice(Scores.Scores)))
 	size := len(Scores.Scores)
 	if size > 10 {
 		size = 10
