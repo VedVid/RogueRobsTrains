@@ -54,6 +54,11 @@ type PlayerStats struct {
 	Lost int
 }
 
+type HighScores struct {
+	Names []string
+	Scores []string
+}
+
 const (
 	livesEasy = 15
 	livesNormal = 10
@@ -84,6 +89,7 @@ var G = new(Game)
 var Config = new(Cfg)
 var CfgIsHere = false
 var Stats = new(PlayerStats)
+var Scores = new(HighScores)
 
 func main() {
 	var cells = new(Board)
@@ -98,6 +104,12 @@ func main() {
 				fmt.Println(errcfg)
 			}
 		}
+	_, seconderr := os.Stat(HighScoresPathGob)
+	if seconderr != nil {
+		SaveScores()
+	} else {
+		LoadScores()
+	}
 	StartGame(cells, actors, objs)
 	timer := 0
 	for {
@@ -106,7 +118,7 @@ func main() {
 		}
 		if (*actors)[0].HPCurrent <= 0 {
 			blt.Read()
-			DeadScreen()
+			DeadScreen((*actors)[0].Name)
 			DeleteSaves()
 			break
 		}

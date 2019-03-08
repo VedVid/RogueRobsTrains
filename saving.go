@@ -56,6 +56,11 @@ const (
 )
 
 const (
+	HighScoresNameGob = "highscores.gob"
+	HighScoresPathGob = "./"+HighScoresNameGob
+)
+
+const (
 	// Unique name that serves as identifier to values
 	// that should be converted from nil to object or from object to nil.
 	ObjectNilPlaceholder = "ObjectNilPlaceholder"
@@ -223,6 +228,16 @@ func SaveConfig() error {
 
 func LoadConfig() error {
 	err := readGob(ConfigPathGob, &Config)
+	return err
+}
+
+func SaveScores() error {
+	err := writeGob(HighScoresPathGob, Scores)
+	return err
+}
+
+func LoadScores() error {
+	err := readGob(HighScoresPathGob, &Scores)
 	return err
 }
 

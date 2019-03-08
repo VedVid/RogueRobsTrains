@@ -162,7 +162,13 @@ func RemoveLastMessage() {
 	blt.Refresh()
 }
 
-func PrintVictoryScreen() {
+func HandleHighScores(cName string) {
+	n := cName
+	s := Config.Score
+
+}
+
+func PrintVictoryScreen(cName string) {
 	for {
 		yourScore := Stats.Killed - Stats.Lost
 		if yourScore < 0 {
@@ -206,10 +212,10 @@ func PrintVictoryScreen() {
 			break
 		}
 	}
-	HandleHighScores()
+	HandleHighScores(cName)
 }
 
-func DeadScreen() {
+func DeadScreen(cName string) {
 	for {
 		yourScore := Stats.Killed - Stats.Lost
 		if yourScore < 0 {
@@ -247,7 +253,7 @@ func DeadScreen() {
 			break
 		}
 	}
-	HandleHighScores()
+	HandleHighScores(cName)
 }
 
 func MainMenu(cfg *Cfg) {
