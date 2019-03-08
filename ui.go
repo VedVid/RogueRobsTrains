@@ -30,6 +30,7 @@ import (
 	blt "bearlibterminal"
 	"errors"
 	"fmt"
+	"strconv"
 	"unicode/utf8"
 )
 
@@ -219,6 +220,142 @@ func DeadScreen() {
 		key := blt.Read()
 		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
 			break
+		}
+	}
+}
+
+func MainMenu(cfg *Cfg) {
+	lifes := lifesNormal
+	monsters := monstersNormal
+	reloading := ammoUnlimited
+	animations := animationsFalse
+	score := 100
+	for {
+		blt.Clear()
+		lifesString := ""
+		if lifes == lifesNormal {
+			lifesString = "normal"
+		} else if lifes == lifesEasy {
+			lifesString = "easy"
+		} else if lifes == lifesHard {
+			lifesString = "hard"
+		}
+		line1 := "<a> ← Lifes: " + lifesString + " → <A>"
+		monstersString := ""
+		if monsters == monstersNormal {
+			monstersString = "normal"
+		} else if monsters == monstersEasy {
+			monstersString = "fewer"
+		} else if monsters == monstersHard {
+			monstersString = "more"
+		}
+		line2 := "<b> ← Enemies: " + monstersString + " → <B>"
+		reloadingString := ""
+		if reloading == ammoUnlimited {
+			reloadingString = "unlimited"
+		} else {
+			reloadingString = "impossible"
+		}
+		line3 := "<c> ← Reloading: " + reloadingString + " → <C>"
+		animationsString := ""
+		if animations == animationsFalse {
+			animationsString = "off"
+		} else {
+			animationsString = "on"
+		}
+		line4 := "<d> ← Animations: " + animationsString + " → <D>"
+		line5 := "Score multiplier: " + strconv.Itoa(score) + "%"
+		line6 := "Press <ENTER> to proceed."
+		line1len := utf8.RuneCountInString(line1)
+		line2len := utf8.RuneCountInString(line2)
+		line3len := utf8.RuneCountInString(line3)
+		line4len := utf8.RuneCountInString(line4)
+		line5len := utf8.RuneCountInString(line5)
+		line6len := utf8.RuneCountInString(line6)
+		posy := (WindowSizeY / 2) - 3
+		blt.Print(((WindowSizeX / 2) - (line1len / 2)), posy, line1)
+		blt.Print(((WindowSizeX / 2) - (line2len / 2)), posy+1, line2)
+		blt.Print(((WindowSizeX / 2) - (line3len / 2)), posy+2, line3)
+		blt.Print(((WindowSizeX / 2) - (line4len / 2)), posy+3, line4)
+		blt.Print(((WindowSizeX / 2) - (line5len / 2)), posy+5, line5)
+		blt.Print(((WindowSizeX / 2) - (line6len / 2)), posy+7, line6)
+		blt.Refresh()
+		key := blt.Read()
+		if key == blt.TK_ENTER {
+			cfg.Lifes = lifes
+			cfg.Monsters = monsters
+			cfg.Reloading = reloading
+			cfg.Score = score
+			break
+		}
+		if key == blt.TK_A && blt.Check(blt.TK_SHIFT) != 0 {
+			if lifes == lifesEasy {
+				lifes = lifesNormal
+				score += 25
+			} else if lifes == lifesNormal {
+				lifes = lifesHard
+				score += 25
+			} else {
+				continue
+			}
+		} else if key == blt.TK_A {
+			if lifes == lifesNormal {
+				lifes = lifesEasy
+				score -= 25
+			} else if lifes == lifesHard {
+				lifes = lifesNormal
+				score -= 25
+			} else {
+				continue
+			}
+		} else if key == blt.TK_B && blt.Check(blt.TK_SHIFT) != 0 {
+			if monsters == monstersEasy {
+				monsters = monstersNormal
+				score += 25
+			} else if monsters == monstersNormal {
+				monsters = monstersHard
+				score += 25
+			} else {
+				continue
+			}
+		} else if key == blt.TK_B {
+			if monsters == monstersNormal {
+				monsters = monstersEasy
+				score -= 25
+			} else if monsters == monstersHard {
+				monsters = monstersNormal
+				score -= 25
+			} else {
+				continue
+			}
+		} else if key == blt.TK_C && blt.Check(blt.TK_SHIFT) != 0 {
+			if reloading == ammoUnlimited {
+				reloading = ammoLimited
+				score += 25
+			} else {
+				reloading = ammoUnlimited
+				score -= 25
+			}
+		} else if key == blt.TK_C {
+			if reloading == ammoUnlimited {
+				reloading = ammoLimited
+				score += 25
+			} else {
+				reloading = ammoUnlimited
+				score -= 25
+			}
+		} else if key == blt.TK_D && blt.Check(blt.TK_SHIFT) != 0 {
+			if animations == animationsFalse {
+				animations = animationsTrue
+			} else {
+				animations = animationsFalse
+			}
+		} else if key == blt.TK_D {
+			if animations == animationsFalse {
+				animations = animationsTrue
+			} else {
+				animations = animationsFalse
+			}
 		}
 	}
 }
