@@ -536,13 +536,25 @@
 	"MonstersCoords":
 	            [
 					[1, 9],
+					[3, 6],
+					[3, 13],
+					[9, 13],
 				    [17, 13],
+					[25, 13],
+					[30, 13],
+					[35, 13],
 					[35, 9]
 				],
 	"MonstersTypes":
 	            [
 					"player",
+					"maybe",
+					"maybe",
+					"maybe",
 				    "any",
+					"maybe",
+					"maybe",
+					"maybe",
 					"any"
 				]
 }
