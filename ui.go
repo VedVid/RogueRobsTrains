@@ -164,6 +164,14 @@ func RemoveLastMessage() {
 
 func PrintVictoryScreen() {
 	for {
+		yourScore := Stats.Killed - Stats.Lost
+		if yourScore < 0 {
+			yourScore = 0
+		}
+		yourScore = (yourScore * Config.Score) / 100
+		if yourScore < 10 {
+			yourScore = 10
+		}
 		blt.Clear()
 		blt.Layer(UILayer)
 		line1 := "You did it!"
@@ -173,6 +181,7 @@ func PrintVictoryScreen() {
 		line5 := "and pulled breake lever!"
 		line6 := "Now, you can just unload these gold-filled chests"
 		line7 := "from this train and live rich and well."
+		line8 := "Your score is: " + strconv.Itoa(yourScore)
 		line1len := utf8.RuneCountInString(line1)
 		line2len := utf8.RuneCountInString(line2)
 		line3len := utf8.RuneCountInString(line3)
@@ -180,7 +189,8 @@ func PrintVictoryScreen() {
 		line5len := utf8.RuneCountInString(line5)
 		line6len := utf8.RuneCountInString(line6)
 		line7len := utf8.RuneCountInString(line7)
-		posy := (WindowSizeY / 2) - 4
+		line8len := utf8.RuneCountInString(line8)
+		posy := (WindowSizeY / 2) - 5
 		blt.Print(((WindowSizeX / 2) - (line1len / 2)), posy, line1)
 		blt.Print(((WindowSizeX / 2) - (line2len / 2)), posy+1, line2)
 		blt.Print(((WindowSizeX / 2) - (line3len / 2)), posy+2, line3)
@@ -188,6 +198,7 @@ func PrintVictoryScreen() {
 		blt.Print(((WindowSizeX / 2) - (line5len / 2)), posy+4, line5)
 		blt.Print(((WindowSizeX / 2) - (line6len / 2)), posy+5, line6)
 		blt.Print(((WindowSizeX / 2) - (line7len / 2)), posy+6, line7)
+		blt.Print(((WindowSizeX / 2) - (line8len / 2)), posy+8, line8)
 		blt.Refresh()
 		key := blt.Read()
 		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
@@ -198,6 +209,14 @@ func PrintVictoryScreen() {
 
 func DeadScreen() {
 	for {
+		yourScore := Stats.Killed - Stats.Lost
+		if yourScore < 0 {
+			yourScore = 0
+		}
+		yourScore = (yourScore * Config.Score) / 100
+		if yourScore < 10 {
+			yourScore = 10
+		}
 		blt.Clear()
 		blt.Layer(UILayer)
 		line1 := "Maybe robbing this train was bad idea?"
@@ -210,12 +229,15 @@ func DeadScreen() {
 		line3len := utf8.RuneCountInString(line3)
 		line4len := utf8.RuneCountInString(line4)
 		line5len := utf8.RuneCountInString(line5)
-		posy := (WindowSizeY / 2) - 3
+		line8 := "Your score is: " + strconv.Itoa(yourScore)
+		line8len := utf8.RuneCountInString(line8)
+		posy := (WindowSizeY / 2) - 4
 		blt.Print(((WindowSizeX / 2) - (line1len / 2)), posy, line1)
 		blt.Print(((WindowSizeX / 2) - (line2len / 2)), posy+1, line2)
 		blt.Print(((WindowSizeX / 2) - (line3len / 2)), posy+2, line3)
 		blt.Print(((WindowSizeX / 2) - (line4len / 2)), posy+3, line4)
 		blt.Print(((WindowSizeX / 2) - (line5len / 2)), posy+4, line5)
+		blt.Print(((WindowSizeX / 2) - (line8len / 2)), posy+6, line8)
 		blt.Refresh()
 		key := blt.Read()
 		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
