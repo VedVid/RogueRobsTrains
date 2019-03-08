@@ -49,6 +49,11 @@ const (
 )
 
 const (
+	ConfigNameGob = "config.gob"
+	ConfigPathGob = "./"+ConfigNameGob
+)
+
+const (
 	// Unique name that serves as identifier to values
 	// that should be converted from nil to object or from object to nil.
 	ObjectNilPlaceholder = "ObjectNilPlaceholder"
@@ -196,6 +201,16 @@ func saveRails() error {
 
 func loadRails() error {
 	err := readGob(RailsPathGob, &RailsMod)
+	return err
+}
+
+func SaveConfig() error {
+	err := writeGob(ConfigPathGob, Config)
+	return err
+}
+
+func LoadConfig() error {
+	err := readGob(ConfigPathGob, &Config)
 	return err
 }
 

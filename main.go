@@ -77,11 +77,21 @@ var RailsMod = false
 var TimerMod = 10
 var G = new(Game)
 var Config = new(Cfg)
+var CfgIsHere = false
 
 func main() {
 	var cells = new(Board)
 	var objs = new(Objects)
 	var actors = new(Creatures)
+	_, firsterr := os.Stat(ConfigPathGob)
+		if firsterr == nil {
+			errcfg := LoadConfig()
+			CfgIsHere = true
+			if errcfg != nil {
+				fmt.Println("Error during loading config file.")
+				fmt.Println(errcfg)
+			}
+		}
 	StartGame(cells, actors, objs)
 	timer := 0
 	for {

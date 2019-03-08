@@ -230,6 +230,13 @@ func MainMenu(cfg *Cfg) {
 	reloading := AmmoUnlimited
 	animations := AnimationsFalse
 	score := 100
+	if CfgIsHere == true {
+		lives = Config.Lives
+		monsters = Config.Monsters
+		reloading = Config.Reloading
+		animations = Config.Animations
+		score = Config.Score
+	}
 	for {
 		blt.Clear()
 		livesString := ""
@@ -358,5 +365,10 @@ func MainMenu(cfg *Cfg) {
 				animations = AnimationsFalse
 			}
 		}
+	}
+	err := SaveConfig()
+	if err != nil {
+		fmt.Println("Error during saving config file!")
+		fmt.Println(err)
 	}
 }
