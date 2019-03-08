@@ -56,7 +56,7 @@ type PlayerStats struct {
 
 type HighScores struct {
 	Names []string
-	Scores []string
+	Scores []int
 }
 
 const (

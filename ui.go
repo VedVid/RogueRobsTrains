@@ -165,7 +165,32 @@ func RemoveLastMessage() {
 func HandleHighScores(cName string) {
 	n := cName
 	s := Config.Score
-
+	ns := Scores.Names
+	ss := Scores.Scores
+	sizeS := len(Scores.Scores)
+	var sss = []int{}
+	var nnn = []string{}
+	if sizeS == 0 {
+		nnn = append(nnn, n)
+		sss = append(sss, s)
+	if sizeS > 10 {
+		sizeS = 10
+	}
+	} else {
+		for i := 0; i < sizeS; i++ {
+			nam := ns[i]
+			sco := ss[i]
+			if s >= sco {
+				sss = append(sss, s)
+				s = 0
+				nnn = append(nnn, n)
+			}
+			sss = append(sss, sco)
+			nnn = append(nnn, nam)
+		}
+	}
+	Scores.Names = nnn
+	Scores.Scores = sss
 }
 
 func PrintVictoryScreen(cName string) {
