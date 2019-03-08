@@ -182,7 +182,11 @@ func HandleHighScores() {
 			first = false
 		}
 		txt := strconv.Itoa(Scores.Scores[i])
-		blt.Print(((WindowSizeX/2) - 5), 5+i, strconv.Itoa(i+1) + ". "+ txt)
+		sep := " "
+		if i == 9 {
+			sep = ""
+		}
+		blt.Print(((WindowSizeX/2) - 5), 5+i, sep + strconv.Itoa(i+1) + ". "+ txt)
 	}
 	for {
 		blt.Refresh()
