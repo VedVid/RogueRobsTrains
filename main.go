@@ -56,9 +56,9 @@ const (
 )
 
 const (
-	monstersEasy = "fewer"
-	monstersNormal = "normal"
-	monstersHard = "more"
+	MonstersEasy = "fewer"
+	MonstersNormal = "normal"
+	MonstersHard = "more"
 )
 
 const (
@@ -76,9 +76,9 @@ var LastTarget *Creature
 var RailsMod = false
 var TimerMod = 10
 var G = new(Game)
+var Config = new(Cfg)
 
 func main() {
-	var Config = new(Cfg)
 	MainMenu(Config)
 	var cells = new(Board)
 	var objs = new(Objects)
