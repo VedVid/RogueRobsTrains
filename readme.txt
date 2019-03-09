@@ -15,6 +15,8 @@ In "Rogue Robs Trains" player is bandit that boarded train transport of gold. Yo
 The core of the game is ranged combat mechanics. Two important factors are distance from target (rifles are most efficient on long (>20 tiles) range, revolvers on medium (>10 and <= 20 tiles) range.
 Additionally, player has to remember that some weapons needs to be cocked before every shot, and sometimes reloading takes much more time than expected...
 
+Animation option is off by default as experimental feature that does not blend with architecture well.
+
 
 2. Controls
 Game supports 8-direction movement:
