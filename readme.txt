@@ -37,6 +37,9 @@ i - inspect
 g - pick up
 p - pull lever
 
+<SHIFT> + S - save game
+<SHIFT> + Q - quit game
+
 
 3. Source code
 Source code is available https://github.com/VedVid/RogueRobsTrains under permissive FreeBSD license.
