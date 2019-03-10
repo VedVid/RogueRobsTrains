@@ -201,16 +201,16 @@ func HandleHighScores() {
 }
 
 func PrintVictoryScreen() {
+	yourScore := Stats.Killed - Stats.Lost
+	if yourScore < 0 {
+		yourScore = 0
+	}
+	yourScore = (yourScore * Config.Score) / 100
+	if yourScore < 10 {
+		yourScore = 10
+	}
+	Config.Score = yourScore
 	for {
-		yourScore := Stats.Killed - Stats.Lost
-		if yourScore < 0 {
-			yourScore = 0
-		}
-		yourScore = (yourScore * Config.Score) / 100
-		if yourScore < 10 {
-			yourScore = 10
-		}
-		Config.Score = yourScore
 		blt.Clear()
 		blt.Layer(UILayer)
 		line1 := "You did it!"
@@ -251,12 +251,12 @@ func PrintVictoryScreen() {
 }
 
 func DeadScreen() {
+	yourScore := Stats.Killed - Stats.Lost
+	if yourScore < 0 {
+		yourScore = 0
+	}
+	Config.Score = yourScore
 	for {
-		yourScore := Stats.Killed - Stats.Lost
-		if yourScore < 0 {
-			yourScore = 0
-		}
-		Config.Score = yourScore
 		blt.Clear()
 		blt.Layer(UILayer)
 		line1 := "Maybe robbing this train was bad idea?"
