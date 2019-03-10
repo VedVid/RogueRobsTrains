@@ -1,9 +1,10 @@
-v0.0.2b:
+v0.0.2c:
  [new] use "X" button to save and close game immediately
  [fix] missing info about controls (both in-game and in readme)
  [fix] multiplying score on wrong input
  [fix] every gun will be uncocked after transition to next carriage
  [fix] monster placement in train3.json
+ [fix] mixed "}" and "{" as weapons chars (json)
 
 v0.0.1:
  initial 7DRL release
