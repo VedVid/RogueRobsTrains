@@ -188,10 +188,12 @@ func HandleHighScores() {
 		}
 		blt.Print(((WindowSizeX/2) - 5), 5+i, sep + strconv.Itoa(i+1) + ". "+ txt)
 	}
+	exit := "Press <ENTER> to exit."
+	blt.Print(((WindowSizeX / 2) - (utf8.RuneCountInString(exit) / 2)), 12, exit)
 	for {
 		blt.Refresh()
 		key := blt.Read()
-		if key == blt.TK_ENTER || key == blt.TK_SPACE || key == blt.TK_ESCAPE {
+		if key == blt.TK_ENTER || key == blt.TK_SPACE || key == blt.TK_ESCAPE || key == blt.TK_CLOSE {
 			break
 		}
 	}
@@ -227,7 +229,9 @@ func PrintVictoryScreen() {
 		line6len := utf8.RuneCountInString(line6)
 		line7len := utf8.RuneCountInString(line7)
 		line8len := utf8.RuneCountInString(line8)
-		posy := (WindowSizeY / 2) - 5
+		line9 := "Press <ENTER> to proceed."
+		line9len := utf8.RuneCountInString(line9)
+		posy := (WindowSizeY / 2) - 6
 		blt.Print(((WindowSizeX / 2) - (line1len / 2)), posy, line1)
 		blt.Print(((WindowSizeX / 2) - (line2len / 2)), posy+1, line2)
 		blt.Print(((WindowSizeX / 2) - (line3len / 2)), posy+2, line3)
@@ -236,9 +240,10 @@ func PrintVictoryScreen() {
 		blt.Print(((WindowSizeX / 2) - (line6len / 2)), posy+5, line6)
 		blt.Print(((WindowSizeX / 2) - (line7len / 2)), posy+6, line7)
 		blt.Print(((WindowSizeX / 2) - (line8len / 2)), posy+8, line8)
+		blt.Print(((WindowSizeX / 2) - (line9len / 2)), posy+10, line9)
 		blt.Refresh()
 		key := blt.Read()
-		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
+		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE || key == blt.TK_CLOSE {
 			break
 		}
 	}
@@ -266,16 +271,19 @@ func DeadScreen() {
 		line5len := utf8.RuneCountInString(line5)
 		line8 := "Your score is: " + strconv.Itoa(Config.Score)
 		line8len := utf8.RuneCountInString(line8)
-		posy := (WindowSizeY / 2) - 4
+		line6 := "Press <ENTER> to proceed."
+		line6len := utf8.RuneCountInString(line6)
+		posy := (WindowSizeY / 2) - 5
 		blt.Print(((WindowSizeX / 2) - (line1len / 2)), posy, line1)
 		blt.Print(((WindowSizeX / 2) - (line2len / 2)), posy+1, line2)
 		blt.Print(((WindowSizeX / 2) - (line3len / 2)), posy+2, line3)
 		blt.Print(((WindowSizeX / 2) - (line4len / 2)), posy+3, line4)
 		blt.Print(((WindowSizeX / 2) - (line5len / 2)), posy+4, line5)
 		blt.Print(((WindowSizeX / 2) - (line8len / 2)), posy+6, line8)
+		blt.Print(((WindowSizeX / 2) - (line6len / 2)), posy+8, line6)
 		blt.Refresh()
 		key := blt.Read()
-		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
+		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE || key == blt.TK_CLOSE {
 			break
 		}
 	}
