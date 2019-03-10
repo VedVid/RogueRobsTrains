@@ -6,3 +6,5 @@
 - weapons can stack on map tiles
 - animation stops during looking and targeting
 - message "You died." may overwrite previous message
+- mixed "}" and "{" as weapons chars (json)
+- score multiplay on wrong input during high scores show
