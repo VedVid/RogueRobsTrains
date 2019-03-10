@@ -1,0 +1,4 @@
+- clarify how to save and exit game [done]
+- use "x" to close the window
+- gun should de-cock on new map transition
+- it's far too easy to lure enemies into melee; what if enemies (aware of player - it should be check if enemy saw player entering other room) would shoot through doors / curtains, with accuracy penalty?
