@@ -216,9 +216,9 @@ func PrintVictoryScreen() {
 		line1 := "You did it!"
 		line2 := "Finally did it!"
 		line3 := "You killed everyone in the train,"
-		line4 := "reached engine, killed driver as well,"
-		line5 := "and pulled breake lever!"
-		line6 := "Now, you can just unload these gold-filled chests"
+		line4 := "reached the engine, killed the driver as well,"
+		line5 := "and pulled the break lever!"
+		line6 := "Now, you can just unload these gold filled chests"
 		line7 := "from this train and live rich and well."
 		line8 := "Your score is: " + strconv.Itoa(Config.Score)
 		line1len := utf8.RuneCountInString(line1)
@@ -259,8 +259,8 @@ func DeadScreen() {
 	for {
 		blt.Clear()
 		blt.Layer(UILayer)
-		line1 := "Maybe robbing this train was bad idea?"
-		line2 := "Maybe it was good idea, but you made serie of mistakes?"
+		line1 := "Maybe robbing this train was a bad idea?"
+		line2 := "Maybe it was a good idea, but you made a series of mistakes?"
 		line3 := "You'll never know."
 		line4 := "They got you. Ten times."
 		line5 := "No chances to leave this damn train alive..."
