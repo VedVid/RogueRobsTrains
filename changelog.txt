@@ -1,9 +1,15 @@
-v0.0.2:
+v0.0.3:
+ [new] shell script in linux releases
+ [new] effective range of weapon as element of ui
+ [mod] revolvers will differ more
+
+v0.0.2c:
  [new] use "X" button to save and close game immediately
  [fix] missing info about controls (both in-game and in readme)
  [fix] multiplying score on wrong input
  [fix] every gun will be uncocked after transition to next carriage
  [fix] monster placement in train3.json
+ [fix] wrong character for sabre
 
 v0.0.1:
  initial 7DRL release
