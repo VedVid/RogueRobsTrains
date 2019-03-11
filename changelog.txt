@@ -1,7 +1,7 @@
 v0.0.3:
  [new] shell script in linux releases [AgingMinotaur]
  [new] effective range of weapon as element of ui
- [mod] revolvers will differ more
+ [mod] more variety in revolvers
  [mod] limited ammo mode disabled for now (needs more polish)
  [fix] several typos [AgingMinotaur]
 
