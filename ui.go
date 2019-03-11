@@ -299,7 +299,7 @@ func MainMenu(cfg *Cfg) {
 	if CfgIsHere == true {
 		lives = Config.Lives
 		monsters = Config.Monsters
-		reloading = Config.Reloading
+		//reloading = Config.Reloading
 		animations = Config.Animations
 		score = Config.Score
 	}
@@ -323,35 +323,35 @@ func MainMenu(cfg *Cfg) {
 			monstersString = "more"
 		}
 		line2 := "<b> ← Enemies: " + monstersString + " → <B>"
-		reloadingString := ""
+		/*reloadingString := ""
 		if reloading == AmmoUnlimited {
 			reloadingString = "unlimited"
 		} else {
 			reloadingString = "limited"
 		}
-		line3 := "<c> ← Reloading: " + reloadingString + " → <C>"
+		line3 := "<c> ← Reloading: " + reloadingString + " → <C>"*/
 		animationsString := ""
 		if animations == AnimationsFalse {
 			animationsString = "off"
 		} else {
 			animationsString = "on"
 		}
-		line4 := "<d> ← Animations: " + animationsString + " → <D>"
+		line4 := "<c> ← Animations: " + animationsString + " → <C>"
 		line5 := "Score multiplier: " + strconv.Itoa(score) + "%"
 		line6 := "Press <ENTER> to proceed."
 		line1len := utf8.RuneCountInString(line1)
 		line2len := utf8.RuneCountInString(line2)
-		line3len := utf8.RuneCountInString(line3)
+		//line3len := utf8.RuneCountInString(line3)
 		line4len := utf8.RuneCountInString(line4)
 		line5len := utf8.RuneCountInString(line5)
 		line6len := utf8.RuneCountInString(line6)
 		posy := (WindowSizeY / 2) - 3
 		blt.Print(((WindowSizeX / 2) - (line1len / 2)), posy, line1)
 		blt.Print(((WindowSizeX / 2) - (line2len / 2)), posy+1, line2)
-		blt.Print(((WindowSizeX / 2) - (line3len / 2)), posy+2, line3)
-		blt.Print(((WindowSizeX / 2) - (line4len / 2)), posy+3, line4)
-		blt.Print(((WindowSizeX / 2) - (line5len / 2)), posy+5, line5)
-		blt.Print(((WindowSizeX / 2) - (line6len / 2)), posy+7, line6)
+		//blt.Print(((WindowSizeX / 2) - (line3len / 2)), posy+2, line3)
+		blt.Print(((WindowSizeX / 2) - (line4len / 2)), posy+2, line4)
+		blt.Print(((WindowSizeX / 2) - (line5len / 2)), posy+4, line5)
+		blt.Print(((WindowSizeX / 2) - (line6len / 2)), posy+6, line6)
 		blt.Refresh()
 		key := blt.Read()
 		if key == blt.TK_ENTER {
@@ -402,7 +402,7 @@ func MainMenu(cfg *Cfg) {
 			} else {
 				continue
 			}
-		} else if key == blt.TK_C && blt.Check(blt.TK_SHIFT) != 0 {
+		/*} else if key == blt.TK_C && blt.Check(blt.TK_SHIFT) != 0 {
 			if reloading == AmmoUnlimited {
 				reloading = AmmoLimited
 				score += 25
@@ -417,14 +417,14 @@ func MainMenu(cfg *Cfg) {
 			} else {
 				reloading = AmmoUnlimited
 				score -= 25
-			}
-		} else if key == blt.TK_D && blt.Check(blt.TK_SHIFT) != 0 {
+			}*/
+		} else if key == blt.TK_C && blt.Check(blt.TK_SHIFT) != 0 {
 			if animations == AnimationsFalse {
 				animations = AnimationsTrue
 			} else {
 				animations = AnimationsFalse
 			}
-		} else if key == blt.TK_D {
+		} else if key == blt.TK_C {
 			if animations == AnimationsFalse {
 				animations = AnimationsTrue
 			} else {
