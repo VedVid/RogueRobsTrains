@@ -306,17 +306,17 @@ func MainMenu(cfg *Cfg) {
 	for {
 		blt.Clear()
 		blt.Color(blt.ColorFromName("#B87333"))
-		titleLine1 := "╦═╗ ╔═╗ ╔═╗ ║ ║ ╦═╣   ╦═╗ ╔═╗ ╦╗  ╔═╣   ═╦═ ╦═╗ ╔═╗ ╠╦╣ ╔╗╦ ╔═╣"
-		titleLine2 := "║ ║ ║ ║ ║   ║ ║ ║     ║ ║ ║ ║ ║║  ║      ║  ║ ║ ║ ║  ║  ║║║ ║  "
-		titleLine3 := "╠╦╝ ║ ║ ║ ╦ ║ ║ ╬═    ╠╦╝ ║ ║ ╠╩╗ ╚═╗    ║  ╠╦╝ ╠═╣  ║  ║║║ ╚═╗"
-		titleLine4 := "║║  ║ ║ ║ ║ ║ ║ ║     ║║  ║ ║ ║ ║   ║    ║  ║║  ║ ║  ║  ║║║   ║"
-		titleLine5 := "╩╚╝ ╚═╝ ╚═╝ ╚═╝ ╩═╣   ╩╚╝ ╚═╝ ╚═╝ ╠═╝    ╩  ╩╚╝ ╩ ╩ ╠╩╣ ╩╚╝ ╠═╝"
+		titleLine1 := "╦═╗╔═╗╔═╗║ ║╦═╣  ╦═╗╔═╗╦╗ ╔═╣  ═╦═╦═╗╔═╗╠╦╣╔╗╦╔═╣"
+		titleLine2 := "║ ║║ ║║  ║ ║║    ║ ║║ ║║║ ║     ║ ║ ║║ ║ ║ ║║║║  "
+		titleLine3 := "╠╦╝║ ║║ ╦║ ║╬═   ╠╦╝║ ║╠╩╗╚═╗   ║ ╠╦╝╠═╣ ║ ║║║╚═╗"
+		titleLine4 := "║║ ║ ║║ ║║ ║║    ║║ ║ ║║ ║  ║   ║ ║║ ║ ║ ║ ║║║  ║"
+		titleLine5 := "╩╚╝╚═╝╚═╝╚═╝╩═╣  ╩╚╝╚═╝╚═╝╠═╝   ╩ ╩╚╝╩ ╩╠╩╣╩╚╝╠═╝"
 		titlePos := 3
-		blt.Print(0, titlePos, titleLine1)
-		blt.Print(0, titlePos+1, titleLine2)
-		blt.Print(0, titlePos+2, titleLine3)
-		blt.Print(0, titlePos+3, titleLine4)
-		blt.Print(0, titlePos+4, titleLine5)
+		blt.Print(7, titlePos, titleLine1)
+		blt.Print(7, titlePos+1, titleLine2)
+		blt.Print(7, titlePos+2, titleLine3)
+		blt.Print(7, titlePos+3, titleLine4)
+		blt.Print(7, titlePos+4, titleLine5)
 		blt.Color(blt.ColorFromName("white"))
 		livesString := ""
 		if lives == livesNormal {
@@ -358,7 +358,7 @@ func MainMenu(cfg *Cfg) {
 		line4len := utf8.RuneCountInString(line4)
 		line5len := utf8.RuneCountInString(line5)
 		line6len := utf8.RuneCountInString(line6)
-		posy := (WindowSizeY / 2) - 3
+		posy := (WindowSizeY / 2)
 		blt.Print(((WindowSizeX / 2) - (line1len / 2)), posy, line1)
 		blt.Print(((WindowSizeX / 2) - (line2len / 2)), posy+1, line2)
 		//blt.Print(((WindowSizeX / 2) - (line3len / 2)), posy+2, line3)
