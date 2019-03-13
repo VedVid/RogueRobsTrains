@@ -305,6 +305,19 @@ func MainMenu(cfg *Cfg) {
 	}
 	for {
 		blt.Clear()
+		blt.Color(blt.ColorFromName("#B87333"))
+		titleLine1 := "╦═╗ ╔═╗ ╔═╗ ║ ║ ╦═╣   ╦═╗ ╔═╗ ╦╗  ╔═╣   ═╦═ ╦═╗ ╔═╗ ╠╦╣ ╔╗╦ ╔═╣"
+		titleLine2 := "║ ║ ║ ║ ║   ║ ║ ║     ║ ║ ║ ║ ║║  ║      ║  ║ ║ ║ ║  ║  ║║║ ║  "
+		titleLine3 := "╠╦╝ ║ ║ ║ ╦ ║ ║ ╬═    ╠╦╝ ║ ║ ╠╩╗ ╚═╗    ║  ╠╦╝ ╠═╣  ║  ║║║ ╚═╗"
+		titleLine4 := "║║  ║ ║ ║ ║ ║ ║ ║     ║║  ║ ║ ║ ║   ║    ║  ║║  ║ ║  ║  ║║║   ║"
+		titleLine5 := "╩╚╝ ╚═╝ ╚═╝ ╚═╝ ╩═╣   ╩╚╝ ╚═╝ ╚═╝ ╠═╝    ╩  ╩╚╝ ╩ ╩ ╠╩╣ ╩╚╝ ╠═╝"
+		titlePos := 3
+		blt.Print(0, titlePos, titleLine1)
+		blt.Print(0, titlePos+1, titleLine2)
+		blt.Print(0, titlePos+2, titleLine3)
+		blt.Print(0, titlePos+3, titleLine4)
+		blt.Print(0, titlePos+4, titleLine5)
+		blt.Color(blt.ColorFromName("white"))
 		livesString := ""
 		if lives == livesNormal {
 			livesString = "normal"
