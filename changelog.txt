@@ -1,4 +1,5 @@
 v0.0.3:
+ [new] game logo at starting screen
  [new] shell script in linux releases [AgingMinotaur]
  [new] effective range of weapon as element of ui
  [mod] more variety in revolvers
