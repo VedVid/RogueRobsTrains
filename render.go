@@ -27,9 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package main
 
 import (
-	"strconv"
-
 	blt "bearlibterminal"
+	"strconv"
 )
 
 const (
@@ -197,13 +196,13 @@ func PrintUI(c *Creature) {
 		blt.Print(UIPosX, UIPosY+pos,
 			color+strconv.Itoa(i+1)+". "+c.Equipment[i].Name)
 		for j := 0; j < c.Equipment[i].AmmoCurrent; j++ {
-			blt.Print(UIPosX+j, UIPosY+pos+1, "[color=dark yellow]|")
+			blt.Print(UIPosX+j+4+3+1, UIPosY+pos+1, "[color=dark yellow]|")
 		}
 		for k := c.Equipment[i].AmmoCurrent; k < c.Equipment[i].AmmoMax; k++ {
-			blt.Print(UIPosX+k, UIPosY+pos+1, "[color=darkest yellow]|")
+			blt.Print(UIPosX+k+4+3+1, UIPosY+pos+1, "[color=darkest yellow]|")
 		}
 		if c.Equipment[i].Cock == true {
-			cockedPosX := UIPosX + c.Equipment[i].AmmoMax + 1
+			cockedPosX := UIPosX + c.Equipment[i].AmmoMax + 1 + 4 + 3 + 1
 			cockedIcon := "Φ"
 			if c.Equipment[i].Cocked == true {
 				cockedIcon = "[color=dark green]" + cockedIcon
@@ -212,6 +211,24 @@ func PrintUI(c *Creature) {
 			}
 			blt.Print(cockedPosX, UIPosY+pos+1, cockedIcon)
 		}
+		var ranges = []string{"▇", "▇", "▇"}
+		rangesStr := ""
+		for j, _ := range ranges {
+			if c.Equipment[i].Slot == SlotWeaponMelee {
+				break
+			}
+			val := c.Equipment[i].Ranges[j]
+			if val < 25 {
+				rangesStr = rangesStr + "[color=darker red]▁[/color]"
+			} else if val < 50 {
+				rangesStr = rangesStr + "[color=darker flame]▃[/color]"
+			} else if val < 75 {
+				rangesStr = rangesStr + "[color=darker yellow]▅[/color]"
+			} else {
+				rangesStr = rangesStr + "[color=darker green]▇[/color]"
+			}
+		}
+		blt.Print(UIPosX+3, UIPosY+pos+1, rangesStr)
 		pos += 2
 	}
 	instructions := "[color=#EDEAE0]────────────────────\n1 - grab rifle\n2 - grab revolver\n3 - grab melee\nf - target/fire/cock\nr - reload\ni - inspect\ng - pick up\np - pull lever\n────────────────────"
