@@ -176,7 +176,6 @@ func HandleHighScores() {
 	hs := "High scores: "
 	blt.Print(((WindowSizeX / 2) - (utf8.RuneCountInString(hs) / 2)), 3, hs)
 	for i := 0; i < size; i++ {
-		blt.Color(blt.ColorFromName("white"))
 		if Scores.Scores[i] == Config.Score && first == true {
 			blt.Color(blt.ColorFromName("yellow"))
 			first = false
@@ -187,6 +186,7 @@ func HandleHighScores() {
 			sep = ""
 		}
 		blt.Print(((WindowSizeX/2) - 5), 5+i, sep + strconv.Itoa(i+1) + ". "+ txt)
+		blt.Color(blt.ColorFromName("white"))
 	}
 	exit := "Press <ENTER> to exit."
 	blt.Print(((WindowSizeX / 2) - (utf8.RuneCountInString(exit) / 2)), 12, exit)
