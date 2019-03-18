@@ -39,7 +39,7 @@ const (
 	WindowSizeY = 25
 	MapSizeX    = 40
 	MapSizeY    = 20
-	UIPosX      = MapSizeX+1
+	UIPosX      = MapSizeX + 1
 	UIPosY      = 0
 	UISizeX     = WindowSizeX - MapSizeX
 	UISizeY     = WindowSizeY - LogSizeY
@@ -47,7 +47,7 @@ const (
 	LogSizeY    = WindowSizeY - MapSizeY
 	LogPosX     = 0
 	LogPosY     = MapSizeY
-	GameTitle   = "Rogue Robs Trains (7DRL 2019 / 0.0.1)"
+	GameTitle   = "Rogue Robs Trains v0.0.3b"
 	FontName    = "Deferral-Square.ttf"
 	FontSize    = 14
 )
