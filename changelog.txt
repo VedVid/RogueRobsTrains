@@ -1,3 +1,9 @@
+v0.0.4:
+ [mod] less "dumb" enemies, much less melee enemies
+ [mod] melee weapons nerfed
+ [mod] updated info about range indicators in readme file
+ [fix] wrong color handling in high scores table
+
 v0.0.3b:
  [new] game logo at starting screen
  [new] shell script in linux releases [AgingMinotaur]
