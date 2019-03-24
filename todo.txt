@@ -8,3 +8,7 @@
 - auto-aim works through windows
 - show enemies weapons (in messages, through inspecting, etc)
 - range indicator for targetting as well
+- so... when dying, one could drop cocked weapon; player can swap rifles even having revolver in hand; so, it's possible to pick up and have cocked rifle while having cocked colt as well; workaround: swapping weapon should change active weapon as well
+- much smaller amount of melee enemies
+- a bit smaller amount of "dumb" enemies
+- Remingtons' curves are reversed, it seems (only remingtons?)
