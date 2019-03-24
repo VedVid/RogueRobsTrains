@@ -218,14 +218,14 @@ func (c *Creature) PickUp(o *Objects) bool {
 				oName := "[color=" + obj[i].Color + "]" + obj[i].Name + "[/color]"
 				AddMessage("You found " + oName + ".")
 			}
-			c.DropFromEquipment(&obj, obj[i].Slot)
-			c.EquipItem(obj[i], obj[i].Slot)
 			if obj[i].Slot != c.ActiveWeapon {
 				if c.Equipment[c.ActiveWeapon].Cock == true {
 					c.Equipment[c.ActiveWeapon].Cocked = false
 				}
 				c.ActiveWeapon = obj[i].Slot
 			}
+			c.DropFromEquipment(&obj, obj[i].Slot)
+			c.EquipItem(obj[i], obj[i].Slot)
 			copy(obj[i:], obj[i+1:])
 			obj[len(obj)-1] = nil
 			*o = obj[:len(obj)-1]
