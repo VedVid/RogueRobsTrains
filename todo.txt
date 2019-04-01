@@ -4,7 +4,7 @@
 - weapons should not stack (just spawn them on the nearest empty tile - like in Kornel's games)
 - ai?
 - in limited ammo mode, automaticall ypick up ammo from dead enemies
-- enemies shpuld have limited ammo in limited ammo mode :P
+- enemies should have limited ammo in limited ammo mode :P
 - auto-aim works through windows
 - show enemies weapons (in messages, through inspecting, etc)
 - range indicator for targetting as well
