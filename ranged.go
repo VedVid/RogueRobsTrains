@@ -84,6 +84,9 @@ func PrintLookingMessage(s string, b bool) {
 	   It is used to provide dynamic printing looking message:
 	   player do not need to confirm target to see what is it, but messages
 	   will not flood message log. */
+	if len(s) > LogSizeY+10 {
+		s = "Several items are lying here."
+	}
 	l := len(MsgBuf)
 	if s != "" {
 		switch {
