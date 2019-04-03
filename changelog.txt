@@ -2,6 +2,7 @@ v0.0.4:
  [mod] less "dumb" enemies, much less melee enemies
  [mod] melee weapons nerfed
  [mod] updated info about range indicators in readme file
+ [mod] level with gold-filled chests is curtain-free now
  [fix] "looking" messages longer than message log
  [fix] exploit that allowed to have both guns cocked
  [fix] wrong color handling in high scores table
