@@ -8,5 +8,4 @@
 - auto-aim works through windows
 - show enemies weapons (in messages, through inspecting, etc)
 - show weapons stats by inspecting
-- range indicator for targetting as well
 - Remingtons' curves are reversed, it seems (only remingtons?)
