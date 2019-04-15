@@ -1,4 +1,6 @@
 v0.0.4:
+ [new] range indicators during targeting
+ [mod] reworked controls support for non-qwerty keyboards [anaseto]
  [mod] less "dumb" enemies, much less melee enemies
  [mod] melee weapons nerfed
  [mod] updated info about range indicators in readme file
