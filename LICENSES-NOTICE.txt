@@ -8,4 +8,4 @@ RAWIG use following libraries and assets:
    Square true type font.
    Made by Brian Bruggeman
    Licensed under the MIT license.
-   Text included in ./licenses/Deferral-Squal/
+   Text included in ./licenses/Deferral-Square/
