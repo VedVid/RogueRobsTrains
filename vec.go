@@ -271,7 +271,7 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 				if rang <= 25 {
 					chcol = "darker red"
 				} else if rang <= 50 {
-					chcol = "darker flame"
+					chcol = "dark flame"
 				} else if rang <= 75 {
 					chcol = "darker yellow"
 				} else {
@@ -282,7 +282,7 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 				if rang <= 25 {
 					chcol = "darker red"
 				} else if rang <= 50 {
-					chcol = "darker flame"
+					chcol = "dark flame"
 				} else if rang <= 75 {
 					chcol = "darker yellow"
 				} else {
@@ -293,7 +293,7 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 				if rang <= 25 {
 					chcol = "darker red"
 				} else if rang <= 50 {
-					chcol = "darker flame"
+					chcol = "dark flame"
 				} else if rang <= 75 {
 					chcol = "darker yellow"
 				} else {
