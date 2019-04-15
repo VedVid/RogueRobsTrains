@@ -375,7 +375,11 @@ func MainMenu(cfg *Cfg) {
 			cfg.Animations = animations
 			break
 		}
-		if key == blt.TK_A && blt.Check(blt.TK_SHIFT) != 0 {
+		var r rune
+		if blt.Check(blt.TK_WCHAR) != 0 {
+			r = rune(blt.State(blt.TK_WCHAR))
+		}
+		if r == 'A' {
 			if lives == livesEasy {
 				lives = livesNormal
 				score += 25
@@ -385,7 +389,7 @@ func MainMenu(cfg *Cfg) {
 			} else {
 				continue
 			}
-		} else if key == blt.TK_A {
+		} else if r == 'a' {
 			if lives == livesNormal {
 				lives = livesEasy
 				score -= 25
@@ -395,7 +399,7 @@ func MainMenu(cfg *Cfg) {
 			} else {
 				continue
 			}
-		} else if key == blt.TK_B && blt.Check(blt.TK_SHIFT) != 0 {
+		} else if r == 'B' {
 			if monsters == MonstersEasy {
 				monsters = MonstersNormal
 				score += 25
@@ -405,7 +409,7 @@ func MainMenu(cfg *Cfg) {
 			} else {
 				continue
 			}
-		} else if key == blt.TK_B {
+		} else if r == 'b' {
 			if monsters == MonstersNormal {
 				monsters = MonstersEasy
 				score -= 25
@@ -431,13 +435,13 @@ func MainMenu(cfg *Cfg) {
 				reloading = AmmoUnlimited
 				score -= 25
 			}*/
-		} else if key == blt.TK_C && blt.Check(blt.TK_SHIFT) != 0 {
+		} else if r == 'C' {
 			if animations == AnimationsFalse {
 				animations = AnimationsTrue
 			} else {
 				animations = AnimationsFalse
 			}
-		} else if key == blt.TK_C {
+		} else if r == 'c' {
 			if animations == AnimationsFalse {
 				animations = AnimationsTrue
 			} else {
