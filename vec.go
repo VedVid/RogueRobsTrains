@@ -255,6 +255,9 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 	blt.Layer(LookLayer)
 	ch1 := "[color=" + color1 + "]" + vectorGoodSymbol
 	ch2 := "[color=" + color2 + "]" + vectorBadSymbol
+	if why == VectorWhyInspect {
+		ch2 = ch1
+	}
 	length := len(vec.TilesX)
 	for i := 0; i < length; i++ {
 		if i == 0 && length > 1 {
@@ -264,10 +267,6 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 		x := vec.TilesX[i]
 		y := vec.TilesY[i]
 		if x >= 0 && x < MapSizeX && y >= 0 && y < MapSizeY {
-			if why == VectorWhyInspect && i == 0 && length == 1 {
-				blt.Print(x, y, ch1)
-				break
-			}
 			if vec.Values[i] == true {
 				blt.Print(x, y, ch1)
 			} else {
