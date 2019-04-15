@@ -12,7 +12,7 @@
     "Consumable":false,
     "Slot":1,
     "Use":0,
-	"Ranges": [60, 70, 50],
+	"Ranges": [60, 70, 51],
 	"AmmoMax": 6,
 	"AmmoCurrent": 6,
 	"Cock": true,

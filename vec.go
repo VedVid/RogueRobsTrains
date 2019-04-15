@@ -264,6 +264,44 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 			// Do not draw over player, unless he is targeting self.
 			continue
 		}
+		if why == VectorWhyTarget {
+			chcol := "white"
+			if i <= RangeShort {
+				rang := c[0].Equipment[c[0].ActiveWeapon].Ranges[0]
+				if rang <= 25 {
+					chcol = "darker red"
+				} else if rang <= 50 {
+					chcol = "darker flame"
+				} else if rang <= 75 {
+					chcol = "darker yellow"
+				} else {
+					chcol = "darker green"
+				}
+			} else if i <= RangeMedium {
+				rang := c[0].Equipment[c[0].ActiveWeapon].Ranges[1]
+				if rang <= 25 {
+					chcol = "darker red"
+				} else if rang <= 50 {
+					chcol = "darker flame"
+				} else if rang <= 75 {
+					chcol = "darker yellow"
+				} else {
+					chcol = "darker green"
+				}
+			} else if i <= RangeLong {
+				rang := c[0].Equipment[c[0].ActiveWeapon].Ranges[2]
+				if rang <= 25 {
+					chcol = "darker red"
+				} else if rang <= 50 {
+					chcol = "darker flame"
+				} else if rang <= 75 {
+					chcol = "darker yellow"
+				} else {
+					chcol = "darker green"
+				}
+			}
+			ch1 = "[color=" + chcol + "]" + vectorGoodSymbol
+		}
 		x := vec.TilesX[i]
 		y := vec.TilesY[i]
 		if x >= 0 && x < MapSizeX && y >= 0 && y < MapSizeY {
