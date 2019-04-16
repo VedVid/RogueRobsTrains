@@ -26,12 +26,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package main
 
-import blt "bearlibterminal"
+import (
+	blt "bearlibterminal"
+)
 
 const (
 	KB_QWERTY = iota
 	KB_QWERTZ
 	KB_AZERTY
+	KB_Dvorak
 )
 
 var KeyMap map[rune]int
@@ -179,6 +182,7 @@ func InitializeKeyboardLayouts() {
 	case KB_QWERTY: KeyMap = QWERTYLayoutRunesToCodes
 	case KB_QWERTZ: KeyMap = QWERTZLayoutRunesToCodes
 	case KB_AZERTY: KeyMap = AZERTYLayoutRunesToCodes
+	case KB_Dvorak: KeyMap = DvorakLayoutRunesToCodes
 	}
 }
 
