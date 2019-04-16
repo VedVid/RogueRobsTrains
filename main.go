@@ -80,7 +80,7 @@ const (
 	AnimationsFalse = false
 )
 
-var KeyboardLayout = KB_QWERTY
+var KeyboardLayout int
 var CustomControls = false
 var MsgBuf = []string{}
 var LastTarget *Creature
@@ -268,4 +268,5 @@ func init() {
 	InitializeBLT()
 	InitializeKeyboardLayouts()
 	ReadOptionsControls()
+	ChooseKeyboardLayout()
 }

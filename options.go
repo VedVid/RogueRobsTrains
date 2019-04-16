@@ -183,6 +183,9 @@ func InitializeKeyboardLayouts() {
 	InitializeQWERTZ()
 	InitializeAZERTY()
 	InitializeDvorak()
+}
+
+func ChooseKeyboardLayout() {
 	switch KeyboardLayout {
 	case KB_QWERTY:
 		KeyMap = QWERTYLayoutRunesToCodes
@@ -395,6 +398,7 @@ func ReadOptionsControls() {
 			case "DVORAK": KeyboardLayout = KB_Dvorak
 			default:
 				fmt.Println("Wrong value in KB_LAYOUT; using QWERTY.")
+			KeyboardLayout = KB_QWERTY
 			}
 		}
 	}
