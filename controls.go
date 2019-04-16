@@ -33,7 +33,9 @@ import (
 
 const (
 	KB_QWERTY = iota
+	KB_QWERTZ
 )
+
 var HardcodedKeys = []int{
 	blt.TK_RETURN,
 	blt.TK_ENTER,
@@ -163,6 +165,7 @@ var QWERTYLayoutRunesToCodes = map[rune]int{
 	'+': blt.TK_EQUALS,
 }
 
+var QWERTZLayoutRunesToCodes map[rune]int
 
 func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	/* Function Controls is input handler.
@@ -321,7 +324,38 @@ func ReadInput() int {
 	var keyMap map[rune]int
 	switch KeyboardLayout {
 	case KB_QWERTY: keyMap = QWERTYLayoutRunesToCodes
+	case KB_QWERTZ: keyMap = QWERTZLayoutRunesToCodes
 	}
 	return keyMap[r]
 }
+
+func InitializeKeyboardLayouts() {
+	QWERTZLayoutRunesToCodes = QWERTYLayoutRunesToCodes
+	QWERTZLayoutRunesToCodes['z'] = blt.TK_Y
+	QWERTZLayoutRunesToCodes['Z'] = blt.TK_Y
+	QWERTZLayoutRunesToCodes['y'] = blt.TK_Z
+	QWERTZLayoutRunesToCodes['Y'] = blt.TK_Z
+	QWERTZLayoutRunesToCodes[';'] = blt.TK_COMMA
+	QWERTZLayoutRunesToCodes[':'] = blt.TK_PERIOD
+	QWERTZLayoutRunesToCodes['-'] = blt.TK_SLASH
+	QWERTZLayoutRunesToCodes['_'] = blt.TK_SLASH
+	QWERTZLayoutRunesToCodes['ö'] = blt.TK_SEMICOLON
+	QWERTZLayoutRunesToCodes['Ö'] = blt.TK_SEMICOLON
+	QWERTZLayoutRunesToCodes['ä'] = blt.TK_APOSTROPHE
+	QWERTZLayoutRunesToCodes['Ä'] = blt.TK_APOSTROPHE
+	QWERTZLayoutRunesToCodes['ü'] = blt.TK_LBRACKET
+	QWERTZLayoutRunesToCodes['Ü'] = blt.TK_LBRACKET
+	QWERTZLayoutRunesToCodes['+'] = blt.TK_RBRACKET
+	QWERTZLayoutRunesToCodes['*'] = blt.TK_RBRACKET
+	QWERTZLayoutRunesToCodes['"'] = blt.TK_2
+	QWERTZLayoutRunesToCodes['§'] = blt.TK_3
+	QWERTZLayoutRunesToCodes['&'] = blt.TK_6
+	QWERTZLayoutRunesToCodes['/'] = blt.TK_7
+	QWERTZLayoutRunesToCodes['('] = blt.TK_8
+	QWERTZLayoutRunesToCodes[')'] = blt.TK_9
+	QWERTZLayoutRunesToCodes['='] = blt.TK_0
+	QWERTZLayoutRunesToCodes['ß'] = blt.TK_MINUS
+	QWERTZLayoutRunesToCodes['?'] = blt.TK_MINUS
+	QWERTZLayoutRunesToCodes['´'] = blt.TK_EQUALS
+	QWERTZLayoutRunesToCodes['`'] = blt.TK_EQUALS
 }

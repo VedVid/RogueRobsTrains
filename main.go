@@ -265,4 +265,5 @@ func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	InitializeFOVTables()
 	InitializeBLT()
+	InitializeKeyboardLayouts()
 }
