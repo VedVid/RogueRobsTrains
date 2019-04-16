@@ -383,7 +383,7 @@ func ReadOptionsControls() {
 			line = strings.Replace(line, "\r", "\n", -1)
 			lines = strings.Split(line, "\n")
 			for i := 0; i < len(lines); i++ {
-				opts = append(opts, strings.TrimSpace(lines[i]))
+				opts = append(opts, strings.ToUpper(strings.TrimSpace(lines[i])))
 			}
 		}
 	}
