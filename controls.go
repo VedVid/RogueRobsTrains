@@ -34,6 +34,7 @@ import (
 const (
 	KB_QWERTY = iota
 	KB_QWERTZ
+	KB_AZERTY
 )
 
 var HardcodedKeys = []int{
@@ -166,6 +167,8 @@ var QWERTYLayoutRunesToCodes = map[rune]int{
 }
 
 var QWERTZLayoutRunesToCodes map[rune]int
+
+var AZERTYLayoutRunesToCodes map[rune]int
 
 func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	/* Function Controls is input handler.
@@ -325,11 +328,17 @@ func ReadInput() int {
 	switch KeyboardLayout {
 	case KB_QWERTY: keyMap = QWERTYLayoutRunesToCodes
 	case KB_QWERTZ: keyMap = QWERTZLayoutRunesToCodes
+	case KB_AZERTY: keyMap = AZERTYLayoutRunesToCodes
 	}
 	return keyMap[r]
 }
 
 func InitializeKeyboardLayouts() {
+	InitializeQWERTZ()
+	InitializeAZERTY()
+}
+
+func InitializeQWERTZ() {
 	QWERTZLayoutRunesToCodes = QWERTYLayoutRunesToCodes
 	QWERTZLayoutRunesToCodes['z'] = blt.TK_Y
 	QWERTZLayoutRunesToCodes['Z'] = blt.TK_Y
@@ -358,4 +367,44 @@ func InitializeKeyboardLayouts() {
 	QWERTZLayoutRunesToCodes['?'] = blt.TK_MINUS
 	QWERTZLayoutRunesToCodes['´'] = blt.TK_EQUALS
 	QWERTZLayoutRunesToCodes['`'] = blt.TK_EQUALS
+}
+
+func InitializeAZERTY() {
+	AZERTYLayoutRunesToCodes = QWERTYLayoutRunesToCodes
+	AZERTYLayoutRunesToCodes['a'] = blt.TK_Q
+	AZERTYLayoutRunesToCodes['A'] = blt.TK_Q
+	AZERTYLayoutRunesToCodes['z'] = blt.TK_W
+	AZERTYLayoutRunesToCodes['Z'] = blt.TK_W
+	AZERTYLayoutRunesToCodes['q'] = blt.TK_A
+	AZERTYLayoutRunesToCodes['Q'] = blt.TK_A
+	AZERTYLayoutRunesToCodes['w'] = blt.TK_Z
+	AZERTYLayoutRunesToCodes['W'] = blt.TK_Z
+	AZERTYLayoutRunesToCodes[','] = blt.TK_M
+	AZERTYLayoutRunesToCodes['?'] = blt.TK_M
+	AZERTYLayoutRunesToCodes[';'] = blt.TK_COMMA
+	AZERTYLayoutRunesToCodes['.'] = blt.TK_COMMA
+	AZERTYLayoutRunesToCodes[':'] = blt.TK_PERIOD
+	AZERTYLayoutRunesToCodes['/'] = blt.TK_PERIOD
+	AZERTYLayoutRunesToCodes['!'] = blt.TK_SLASH
+	AZERTYLayoutRunesToCodes['§'] = blt.TK_SLASH
+	AZERTYLayoutRunesToCodes['m'] = blt.TK_SEMICOLON
+	AZERTYLayoutRunesToCodes['M'] = blt.TK_SEMICOLON
+	AZERTYLayoutRunesToCodes['ù'] = blt.TK_APOSTROPHE
+	AZERTYLayoutRunesToCodes['%'] = blt.TK_APOSTROPHE
+	AZERTYLayoutRunesToCodes['^'] = blt.TK_LBRACKET
+	AZERTYLayoutRunesToCodes['¨'] = blt.TK_LBRACKET
+	AZERTYLayoutRunesToCodes['$'] = blt.TK_RBRACKET
+	AZERTYLayoutRunesToCodes['£'] = blt.TK_RBRACKET
+	AZERTYLayoutRunesToCodes['&'] = blt.TK_1
+	AZERTYLayoutRunesToCodes['é'] = blt.TK_2
+	AZERTYLayoutRunesToCodes['"'] = blt.TK_3
+	AZERTYLayoutRunesToCodes['\''] = blt.TK_4
+	AZERTYLayoutRunesToCodes['('] = blt.TK_5
+	AZERTYLayoutRunesToCodes['-'] = blt.TK_6
+	AZERTYLayoutRunesToCodes['è'] = blt.TK_7
+	AZERTYLayoutRunesToCodes['_'] = blt.TK_8
+	AZERTYLayoutRunesToCodes['ç'] = blt.TK_9
+	AZERTYLayoutRunesToCodes['à'] = blt.TK_0
+	AZERTYLayoutRunesToCodes[')'] = blt.TK_MINUS
+	AZERTYLayoutRunesToCodes['°'] = blt.TK_MINUS
 }
