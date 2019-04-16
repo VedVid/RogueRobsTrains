@@ -277,3 +277,22 @@ func Controls(k int, r rune, p *Creature, b *Board, c *Creatures, o *Objects) bo
 	}
 	return turnSpent
 }
+
+func ReadInput() int {
+	key := blt.Read()
+	for _, v := range HardcodedKeys {
+		if key == v {
+			return v
+		}
+	}
+	var r rune
+	if blt.Check(blt.TK_WCHAR) != 0 {
+		r = rune(blt.State(blt.TK_WCHAR))
+	}
+	for k, v := range QWERTYLayoutRunesToCodes {
+		if k[0] == r || k[1] == r {
+			return v
+		}
+	}
+	return -1 //wrong value!
+}
