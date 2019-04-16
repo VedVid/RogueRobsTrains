@@ -161,7 +161,7 @@ func main() {
 		}
 		RenderAll(*cells, *objs, *actors)
 		if blt.HasInput() == true {
-			key := blt.Read()
+			key := ReadInput()
 			if (key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0) || key == blt.TK_CLOSE {
 				err := SaveGame(*cells, *actors, *objs)
 				if err != nil {
