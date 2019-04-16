@@ -185,7 +185,7 @@ func HandleHighScores() {
 		if i == 9 {
 			sep = ""
 		}
-		blt.Print(((WindowSizeX/2) - 5), 5+i, sep + strconv.Itoa(i+1) + ". "+ txt)
+		blt.Print(((WindowSizeX / 2) - 5), 5+i, sep+strconv.Itoa(i+1)+". "+txt)
 		blt.Color(blt.ColorFromName("white"))
 	}
 	exit := "Press <ENTER> to exit."
@@ -415,22 +415,22 @@ func MainMenu(cfg *Cfg) {
 			} else {
 				continue
 			}
-		/*} else if key == blt.TK_C && blt.Check(blt.TK_SHIFT) != 0 {
-			if reloading == AmmoUnlimited {
-				reloading = AmmoLimited
-				score += 25
-			} else {
-				reloading = AmmoUnlimited
-				score -= 25
-			}
-		} else if key == blt.TK_C {
-			if reloading == AmmoUnlimited {
-				reloading = AmmoLimited
-				score += 25
-			} else {
-				reloading = AmmoUnlimited
-				score -= 25
-			}*/
+			/*} else if key == blt.TK_C && blt.Check(blt.TK_SHIFT) != 0 {
+				if reloading == AmmoUnlimited {
+					reloading = AmmoLimited
+					score += 25
+				} else {
+					reloading = AmmoUnlimited
+					score -= 25
+				}
+			} else if key == blt.TK_C {
+				if reloading == AmmoUnlimited {
+					reloading = AmmoLimited
+					score += 25
+				} else {
+					reloading = AmmoUnlimited
+					score -= 25
+				}*/
 		} else if key == blt.TK_C && blt.Check(blt.TK_SHIFT) != 0 {
 			if animations == AnimationsFalse {
 				animations = AnimationsTrue

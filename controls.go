@@ -33,24 +33,24 @@ import (
 
 const (
 	StrMoveNorthwest = "MOVE_NORTHWEST"
-	StrMoveNorth = "MOVE_NORTH"
+	StrMoveNorth     = "MOVE_NORTH"
 	StrMoveNortheast = "MOVE_NORTHEAST"
-	StrMoveWest = "MOVE_WEST"
-	StrStandStill = "STAND_STILL"
-	StrMoveEast = "MOVE_EAST"
+	StrMoveWest      = "MOVE_WEST"
+	StrStandStill    = "STAND_STILL"
+	StrMoveEast      = "MOVE_EAST"
 	StrMoveSouthwest = "MOVE_SOUTHWEST"
-	StrMoveSouth = "MOVE_SOUTH"
+	StrMoveSouth     = "MOVE_SOUTH"
 	StrMoveSoutheast = "MOVE_SOUTHEAST"
 
-	StrFire = "FIRE"
-	StrReload = "RELOAD"
+	StrFire    = "FIRE"
+	StrReload  = "RELOAD"
 	StrInspect = "INSPECT"
-	StrPickup = "PICKUP"
-	StrPull = "PULL"
+	StrPickup  = "PICKUP"
+	StrPull    = "PULL"
 
-	StrPrimary = "PRIMARY"
+	StrPrimary   = "PRIMARY"
 	StrSecondary = "SECONDARY"
-	StrMelee = "MELEE"
+	StrMelee     = "MELEE"
 )
 
 var Actions = []string{
@@ -74,66 +74,75 @@ var Actions = []string{
 }
 
 var CommandKeys = map[int]string{
-	blt.TK_UP: StrMoveNorth,
-	blt.TK_KP_8: StrMoveNorth,
-	blt.TK_K: StrMoveNorth,
-	blt.TK_W: StrMoveNorth,
-	blt.TK_RIGHT: StrMoveEast,
-	blt.TK_KP_6: StrMoveEast,
-	blt.TK_L: StrMoveEast,
-	blt.TK_D: StrMoveEast,
-	blt.TK_DOWN: StrMoveSouth,
-	blt.TK_KP_2: StrMoveSouth,
-	blt.TK_J: StrMoveSouth,
-	blt.TK_X: StrMoveSouth,
-	blt.TK_LEFT: StrMoveWest,
-	blt.TK_KP_4: StrMoveWest,
-	blt.TK_H: StrMoveWest,
-	blt.TK_A: StrMoveWest,
-	blt.TK_HOME: StrMoveNorthwest,
-	blt.TK_KP_7: StrMoveNorthwest,
-	blt.TK_Y: StrMoveNorthwest,
-	blt.TK_Q: StrMoveNorthwest,
-	blt.TK_PAGEUP: StrMoveNortheast,
-	blt.TK_KP_9: StrMoveNortheast,
-	blt.TK_U: StrMoveNortheast,
-	blt.TK_E: StrMoveNortheast,
-	blt.TK_END: StrMoveSouthwest,
-	blt.TK_KP_1: StrMoveSouthwest,
-	blt.TK_B: StrMoveSouthwest,
-	blt.TK_Z: StrMoveSouthwest,
-	blt.TK_PAGEDOWN: StrMoveSoutheast,
-	blt.TK_KP_3: StrMoveSoutheast,
-	blt.TK_N: StrMoveSoutheast,
-	blt.TK_C: StrMoveSoutheast,
-	blt.TK_SPACE: StrStandStill,
-	blt.TK_KP_5: StrStandStill,
+	blt.TK_UP:        StrMoveNorth,
+	blt.TK_KP_8:      StrMoveNorth,
+	blt.TK_K:         StrMoveNorth,
+	blt.TK_W:         StrMoveNorth,
+	blt.TK_RIGHT:     StrMoveEast,
+	blt.TK_KP_6:      StrMoveEast,
+	blt.TK_L:         StrMoveEast,
+	blt.TK_D:         StrMoveEast,
+	blt.TK_DOWN:      StrMoveSouth,
+	blt.TK_KP_2:      StrMoveSouth,
+	blt.TK_J:         StrMoveSouth,
+	blt.TK_X:         StrMoveSouth,
+	blt.TK_LEFT:      StrMoveWest,
+	blt.TK_KP_4:      StrMoveWest,
+	blt.TK_H:         StrMoveWest,
+	blt.TK_A:         StrMoveWest,
+	blt.TK_HOME:      StrMoveNorthwest,
+	blt.TK_KP_7:      StrMoveNorthwest,
+	blt.TK_Y:         StrMoveNorthwest,
+	blt.TK_Q:         StrMoveNorthwest,
+	blt.TK_PAGEUP:    StrMoveNortheast,
+	blt.TK_KP_9:      StrMoveNortheast,
+	blt.TK_U:         StrMoveNortheast,
+	blt.TK_E:         StrMoveNortheast,
+	blt.TK_END:       StrMoveSouthwest,
+	blt.TK_KP_1:      StrMoveSouthwest,
+	blt.TK_B:         StrMoveSouthwest,
+	blt.TK_Z:         StrMoveSouthwest,
+	blt.TK_PAGEDOWN:  StrMoveSoutheast,
+	blt.TK_KP_3:      StrMoveSoutheast,
+	blt.TK_N:         StrMoveSoutheast,
+	blt.TK_C:         StrMoveSoutheast,
+	blt.TK_SPACE:     StrStandStill,
+	blt.TK_KP_5:      StrStandStill,
 	blt.TK_KP_PERIOD: StrStandStill,
-	blt.TK_S: StrStandStill,
-	blt.TK_F: StrFire,
-	blt.TK_R: StrReload,
-	blt.TK_I: StrInspect,
-	blt.TK_G: StrPickup,
-	blt.TK_P: StrPull,
-	blt.TK_1: StrPrimary,
-	blt.TK_2: StrSecondary,
-	blt.TK_3: StrMelee,
+	blt.TK_S:         StrStandStill,
+	blt.TK_F:         StrFire,
+	blt.TK_R:         StrReload,
+	blt.TK_I:         StrInspect,
+	blt.TK_G:         StrPickup,
+	blt.TK_P:         StrPull,
+	blt.TK_1:         StrPrimary,
+	blt.TK_2:         StrSecondary,
+	blt.TK_3:         StrMelee,
 }
 
-func Command(com string, p *Creature, b *Board, c*Creatures, o *Objects) bool {
+func Command(com string, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	turnSpent := false
 	switch com {
-		case StrMoveNorthwest: turnSpent = p.MoveOrAttack(-1, -1, *b, o, *c)
-		case StrMoveNorth: turnSpent = p.MoveOrAttack(0, -1, *b, o, *c)
-		case StrMoveNortheast: turnSpent = p.MoveOrAttack(1, -1, *b, o, *c)
-		case StrMoveWest: turnSpent = p.MoveOrAttack(-1, 0, *b, o, *c)
-		case StrStandStill: turnSpent = true
-		case StrMoveEast: turnSpent = p.MoveOrAttack(1, 0, *b, o, *c)
-		case StrMoveSouthwest: turnSpent = p.MoveOrAttack(-1, 1, *b, o, *c)
-		case StrMoveSouth: turnSpent = p.MoveOrAttack(0, 1, *b, o, *c)
-		case StrMoveSoutheast: turnSpent = p.MoveOrAttack(1, 1, *b, o, *c)
+	case StrMoveNorthwest:
+		turnSpent = p.MoveOrAttack(-1, -1, *b, o, *c)
+	case StrMoveNorth:
+		turnSpent = p.MoveOrAttack(0, -1, *b, o, *c)
+	case StrMoveNortheast:
+		turnSpent = p.MoveOrAttack(1, -1, *b, o, *c)
+	case StrMoveWest:
+		turnSpent = p.MoveOrAttack(-1, 0, *b, o, *c)
+	case StrStandStill:
+		turnSpent = true
+	case StrMoveEast:
+		turnSpent = p.MoveOrAttack(1, 0, *b, o, *c)
+	case StrMoveSouthwest:
+		turnSpent = p.MoveOrAttack(-1, 1, *b, o, *c)
+	case StrMoveSouth:
+		turnSpent = p.MoveOrAttack(0, 1, *b, o, *c)
+	case StrMoveSoutheast:
+		turnSpent = p.MoveOrAttack(1, 1, *b, o, *c)
 
-		case StrFire:
+	case StrFire:
 		if p.ActiveWeapon != SlotWeaponMelee {
 			if p.Equipment[p.ActiveWeapon].AmmoCurrent <= 0 {
 				AddMessage("You need to reload " + p.Equipment[p.ActiveWeapon].Name + ".")

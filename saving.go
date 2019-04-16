@@ -42,22 +42,22 @@ const (
 	ObjectsPathGob   = "./" + ObjectsNameGob
 	GameNameGob      = "game.save"
 	GamePathGob      = "./" + GameNameGob
-	TimerNameGob = "timer.save"
-	TimerPathGob = "./" + TimerNameGob
-	RailsNameGob = "rails.save"
-	RailsPathGob = "./" + RailsNameGob
-	StatsNameGob = "player.save"
-	StatsPathGob = "./" + StatsNameGob
+	TimerNameGob     = "timer.save"
+	TimerPathGob     = "./" + TimerNameGob
+	RailsNameGob     = "rails.save"
+	RailsPathGob     = "./" + RailsNameGob
+	StatsNameGob     = "player.save"
+	StatsPathGob     = "./" + StatsNameGob
 )
 
 const (
 	ConfigNameGob = "config.gob"
-	ConfigPathGob = "./"+ConfigNameGob
+	ConfigPathGob = "./" + ConfigNameGob
 )
 
 const (
 	HighScoresNameGob = "highscores.gob"
-	HighScoresPathGob = "./"+HighScoresNameGob
+	HighScoresPathGob = "./" + HighScoresNameGob
 )
 
 const (

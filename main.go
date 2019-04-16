@@ -42,16 +42,16 @@ type Game struct {
 }
 
 type Cfg struct {
-	Score int
-	Lives int
-	Monsters string
-	Reloading bool
+	Score      int
+	Lives      int
+	Monsters   string
+	Reloading  bool
 	Animations bool
 }
 
 type PlayerStats struct {
 	Killed int
-	Lost int
+	Lost   int
 }
 
 type HighScores struct {
@@ -59,24 +59,24 @@ type HighScores struct {
 }
 
 const (
-	livesEasy = 15
+	livesEasy   = 15
 	livesNormal = 10
-	livesHard = 5
+	livesHard   = 5
 )
 
 const (
-	MonstersEasy = "fewer"
+	MonstersEasy   = "fewer"
 	MonstersNormal = "normal"
-	MonstersHard = "more"
+	MonstersHard   = "more"
 )
 
 const (
 	AmmoUnlimited = true
-	AmmoLimited = false
+	AmmoLimited   = false
 )
 
 const (
-	AnimationsTrue = true
+	AnimationsTrue  = true
 	AnimationsFalse = false
 )
 
@@ -97,14 +97,14 @@ func main() {
 	var objs = new(Objects)
 	var actors = new(Creatures)
 	_, firsterr := os.Stat(ConfigPathGob)
-		if firsterr == nil {
-			errcfg := LoadConfig()
-			CfgIsHere = true
-			if errcfg != nil {
-				fmt.Println("Error during loading config file.")
-				fmt.Println(errcfg)
-			}
+	if firsterr == nil {
+		errcfg := LoadConfig()
+		CfgIsHere = true
+		if errcfg != nil {
+			fmt.Println("Error during loading config file.")
+			fmt.Println(errcfg)
 		}
+	}
 	_, seconderr := os.Stat(HighScoresPathGob)
 	if seconderr != nil {
 		SaveScores()
@@ -145,11 +145,11 @@ func main() {
 			player.X, player.Y = (*actors)[0].X, (*actors)[0].Y
 			(*actors)[0] = player
 			player.HPCurrent = player.HPMax
-				player.Equipment[SlotWeaponPrimary].AmmoCurrent = player.Equipment[SlotWeaponPrimary].AmmoMax
-				player.Equipment[SlotWeaponSecondary].AmmoCurrent = player.Equipment[SlotWeaponSecondary].AmmoMax
+			player.Equipment[SlotWeaponPrimary].AmmoCurrent = player.Equipment[SlotWeaponPrimary].AmmoMax
+			player.Equipment[SlotWeaponSecondary].AmmoCurrent = player.Equipment[SlotWeaponSecondary].AmmoMax
 			player.Equipment[SlotWeaponPrimary].Cocked = false
 			player.Equipment[SlotWeaponSecondary].Cocked = false
-				G.LevelStr = G.Levels[G.LevelInt]
+			G.LevelStr = G.Levels[G.LevelInt]
 			G.Alive = len(*actors) - 1
 			for i := 0; i < len(*objs); i++ {
 				(*objs)[i] = nil
