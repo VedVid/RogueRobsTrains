@@ -31,6 +31,9 @@ import (
 	"os"
 )
 
+const (
+	KB_QWERTY = iota
+)
 var HardcodedKeys = []int{
 	blt.TK_RETURN,
 	blt.TK_ENTER,
@@ -268,7 +271,11 @@ func ReadInput() int {
 	if blt.Check(blt.TK_WCHAR) != 0 {
 		r = rune(blt.State(blt.TK_WCHAR))
 	}
-	for k, v := range QWERTYLayoutRunesToCodes {
+	var keyMap map[[2]rune]int
+	switch KeyboardLayout {
+	case KB_QWERTY: keyMap = QWERTYLayoutRunesToCodes
+	}
+	for k, v := range keyMap {
 		if k[0] == r || k[1] == r {
 			return v
 		}
