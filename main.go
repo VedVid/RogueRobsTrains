@@ -81,7 +81,7 @@ const (
 )
 
 var KeyboardLayout int
-var CustomControls = false
+var CustomControls bool
 var MsgBuf = []string{}
 var LastTarget *Creature
 var RailsMod = false

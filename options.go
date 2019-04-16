@@ -389,7 +389,8 @@ func ReadOptionsControls() {
 	}
 	for _, v := range opts {
 		var results = strings.Split(v, "=")
-		if strings.TrimSpace(results[0]) == "KB_LAYOUT" {
+		resKey := strings.TrimSpace(results[0])
+		if resKey == "KB_LAYOUT" {
 			val := strings.TrimSpace(results[1])
 			switch val {
 			case "QWERTY": KeyboardLayout = KB_QWERTY
@@ -399,6 +400,16 @@ func ReadOptionsControls() {
 			default:
 				fmt.Println("Wrong value in KB_LAYOUT; using QWERTY.")
 			KeyboardLayout = KB_QWERTY
+			}
+		} else if resKey == "CUSTOM_CONTROLS" {
+			val := strings.TrimSpace(results[1])
+			if val == "TRUE" {
+				CustomControls = true
+			} else if val == "FALSE" {
+				CustomControls = false
+			} else {
+				fmt.Println("Wrong value is CUSTOM_CONTROLS; using FALSE.")
+				CustomControls = false
 			}
 		}
 	}
