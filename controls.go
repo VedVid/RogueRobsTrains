@@ -37,7 +37,7 @@ const (
 	KB_AZERTY
 )
 
-var keyMap map[rune]int
+var KeyMap map[rune]int
 
 var HardcodedKeys = []int{
 	blt.TK_RETURN,
@@ -326,16 +326,16 @@ func ReadInput() int {
 	if blt.Check(blt.TK_WCHAR) != 0 {
 		r = rune(blt.State(blt.TK_WCHAR))
 	}
-	return keyMap[r]
+	return KeyMap[r]
 }
 
 func InitializeKeyboardLayouts() {
 	InitializeQWERTZ()
 	InitializeAZERTY()
 	switch KeyboardLayout {
-	case KB_QWERTY: keyMap = QWERTYLayoutRunesToCodes
-	case KB_QWERTZ: keyMap = QWERTZLayoutRunesToCodes
-	case KB_AZERTY: keyMap = AZERTYLayoutRunesToCodes
+	case KB_QWERTY: KeyMap = QWERTYLayoutRunesToCodes
+	case KB_QWERTZ: KeyMap = QWERTZLayoutRunesToCodes
+	case KB_AZERTY: KeyMap = AZERTYLayoutRunesToCodes
 	}
 }
 
