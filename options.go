@@ -170,9 +170,9 @@ var QWERTYLayoutRunesToCodes = map[rune]int{
 
 var DvorakLayoutRunesToCodes map[rune]int
 
-var QWERTZLayoutRunesToCodes map[rune]int
+var QWERTZLayoutRunesToCodes = map[rune]int{}
 
-var AZERTYLayoutRunesToCodes map[rune]int
+var AZERTYLayoutRunesToCodes = map[rune]int{}
 
 func InitializeKeyboardLayouts() {
 	InitializeQWERTZ()
@@ -191,7 +191,9 @@ func InitializeKeyboardLayouts() {
 }
 
 func InitializeQWERTZ() {
-	QWERTZLayoutRunesToCodes = QWERTYLayoutRunesToCodes
+	for k, v := range QWERTYLayoutRunesToCodes {
+		QWERTZLayoutRunesToCodes[k] = v
+	}
 	QWERTZLayoutRunesToCodes['z'] = blt.TK_Y
 	QWERTZLayoutRunesToCodes['Z'] = blt.TK_Y
 	QWERTZLayoutRunesToCodes['y'] = blt.TK_Z
@@ -222,7 +224,9 @@ func InitializeQWERTZ() {
 }
 
 func InitializeAZERTY() {
-	AZERTYLayoutRunesToCodes = QWERTYLayoutRunesToCodes
+	for k, v := range QWERTYLayoutRunesToCodes {
+		AZERTYLayoutRunesToCodes[k] = v
+	}
 	AZERTYLayoutRunesToCodes['a'] = blt.TK_Q
 	AZERTYLayoutRunesToCodes['A'] = blt.TK_Q
 	AZERTYLayoutRunesToCodes['z'] = blt.TK_W
