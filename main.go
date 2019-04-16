@@ -80,7 +80,7 @@ const (
 	AnimationsFalse = false
 )
 
-var KeyboardLayout = KB_QWERTY
+var KeyboardLayout = KB_QWERTZ
 var MsgBuf = []string{}
 var LastTarget *Creature
 var RailsMod = false
