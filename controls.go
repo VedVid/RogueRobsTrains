@@ -114,7 +114,7 @@ var QWERTYLayoutRunesToCodes = map[[2]rune]int{
 	[...]rune{'=', '+'}: blt.TK_EQUALS,
 }
 
-func Controls(k int, r rune, p *Creature, b *Board, c *Creatures, o *Objects) bool {
+func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	/* Function Controls is input handler.
 	   It takes integer k (key codes are basically numbers,
 	   but creating new "type key int" is not convenient)
