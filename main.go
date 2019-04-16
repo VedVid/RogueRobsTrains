@@ -267,4 +267,5 @@ func init() {
 	InitializeFOVTables()
 	InitializeBLT()
 	InitializeKeyboardLayouts()
+	ReadOptionsControls()
 }

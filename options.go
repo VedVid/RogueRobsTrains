@@ -28,6 +28,11 @@ package main
 
 import (
 	blt "bearlibterminal"
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+	"unicode/utf8"
 )
 
 const (
@@ -361,5 +366,36 @@ func InitializeDvorak() {
 }
 
 func ReadOptionsControls() {
-
+	f, err := os.Open("options_controls.cfg")
+	if err != nil {
+		panic("Can't find options_controls.cfg file!")
+	}
+	defer f.Close()
+	var opts = []string{}
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		var lines = []string{}
+		line := scanner.Text()
+		if utf8.RuneCountInString(line) > 0 && []rune(line)[0] != '#' {
+			line = strings.Replace(line, "\r", "\n", -1)
+			lines = strings.Split(line, "\n")
+			for i := 0; i < len(lines); i++ {
+				opts = append(opts, strings.TrimSpace(lines[i]))
+			}
+		}
+	}
+	for _, v := range opts {
+		var results = strings.Split(v, "=")
+		if strings.TrimSpace(results[0]) == "KB_LAYOUT" {
+			val := strings.TrimSpace(results[1])
+			switch val {
+			case "QWERTY": KeyboardLayout = KB_QWERTY
+			case "QWERTZ": KeyboardLayout = KB_QWERTZ
+			case "AZERTY": KeyboardLayout = KB_AZERTY
+			case "DVORAK": KeyboardLayout = KB_Dvorak
+			default:
+				fmt.Println("Wrong value in KB_LAYOUT; using QWERTY.")
+			}
+		}
+	}
 }
