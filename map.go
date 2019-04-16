@@ -126,8 +126,8 @@ func InitializeEmptyMap() Board {
 }
 
 func (b *Board) MoveMap() {
-	const railY1 = 7+1
-	const railY2 = 12-1
+	const railY1 = 7 + 1
+	const railY2 = 12 - 1
 	for x := 0; x < MapSizeX; x++ {
 		for y := 0; y < MapSizeY; y++ {
 			if (*b)[x][y].Name == "railroad" {

@@ -70,14 +70,10 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		}
 		PrintLookingMessage(msg, i)
 		key := blt.Read()
-		var r rune
-		if blt.Check(blt.TK_WCHAR) != 0 {
-			r = rune(blt.State(blt.TK_WCHAR))
-		}
 		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
 			break
 		}
-		CursorMovement(&targetX, &targetY, key, r)
+		CursorMovement(&targetX, &targetY, key)
 		i = true
 	}
 }
@@ -203,11 +199,7 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 		if key == blt.TK_ESCAPE {
 			break
 		}
-		var r rune
-		if blt.Check(blt.TK_WCHAR) != 0 {
-			r = rune(blt.State(blt.TK_WCHAR))
-		}
-		if r == 'F' || r == 'f' {
+		if key == blt.TK_F {
 			monsterAimed := FindMonsterByXY(targetX, targetY, cs)
 			if monsterAimed != nil && monsterAimed != c && monsterAimed.HPCurrent > 0 && valid == true {
 				LastTarget = monsterAimed
@@ -243,52 +235,33 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 			targetX, targetY = target.X, target.Y
 			continue // Switch target
 		}
-		CursorMovement(&targetX, &targetY, key, r)
+		CursorMovement(&targetX, &targetY, key)
 		i = true
 	}
 	return turnSpent
 }
 
-func CursorMovement(x, y *int, key int, r rune) {
+func CursorMovement(x, y *int, key int) {
 	/* CursorMovement is function that takes pointers to coords, and
 	   int-based user input. It uses MoveCursor function to
 	   modify original values. */
 	switch key {
-	case blt.TK_UP, blt.TK_KP_8:
+	case blt.TK_UP, blt.TK_KP_8, blt.TK_K, blt.TK_W:
 		MoveCursor(x, y, 0, -1)
-	case blt.TK_RIGHT, blt.TK_KP_6:
+	case blt.TK_RIGHT, blt.TK_KP_6, blt.TK_L, blt.TK_D:
 		MoveCursor(x, y, 1, 0)
-	case blt.TK_DOWN, blt.TK_KP_2:
+	case blt.TK_DOWN, blt.TK_KP_2, blt.TK_J, blt.TK_X:
 		MoveCursor(x, y, 0, 1)
-	case blt.TK_LEFT, blt.TK_KP_4:
+	case blt.TK_LEFT, blt.TK_KP_4, blt.TK_H, blt.TK_A:
 		MoveCursor(x, y, -1, 0)
-	case blt.TK_HOME, blt.TK_KP_7:
+	case blt.TK_HOME, blt.TK_KP_7, blt.TK_Y, blt.TK_Q:
 		MoveCursor(x, y, -1, -1)
-	case blt.TK_PAGEUP, blt.TK_KP_9:
+	case blt.TK_PAGEUP, blt.TK_KP_9, blt.TK_U, blt.TK_E:
 		MoveCursor(x, y, 1, -1)
-	case blt.TK_END, blt.TK_KP_1:
+	case blt.TK_END, blt.TK_KP_1, blt.TK_B, blt.TK_Z:
 		MoveCursor(x, y, -1, 1)
-	case blt.TK_PAGEDOWN, blt.TK_KP_3:
+	case blt.TK_PAGEDOWN, blt.TK_KP_3, blt.TK_N, blt.TK_C:
 		MoveCursor(x, y, 1, 1)
-	default:
-		switch r {
-			case 'k', 'K', 'w', 'W':
-				MoveCursor(x, y, 0, -1)
-		case 'l', 'L', 'd', 'D':
-			MoveCursor(x, y, 1, 0)
-		case 'j', 'J', 'x', 'X':
-			MoveCursor(x, y, 0, 1)
-		case 'h', 'H', 'a', 'A':
-			MoveCursor(x, y, -1, 0)
-		case 'y', 'Y', 'q', 'Q':
-			MoveCursor(x, y, -1, -1)
-		case 'u', 'U', 'e', 'E':
-			MoveCursor(x, y, 1, -1)
-		case 'b', 'B', 'z', 'Z':
-			MoveCursor(x, y, -1, 1)
-		case 'n', 'N', 'c', 'C':
-			MoveCursor(x, y, 1, 1)
-		}
 	}
 }
 

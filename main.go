@@ -42,16 +42,16 @@ type Game struct {
 }
 
 type Cfg struct {
-	Score int
-	Lives int
-	Monsters string
-	Reloading bool
+	Score      int
+	Lives      int
+	Monsters   string
+	Reloading  bool
 	Animations bool
 }
 
 type PlayerStats struct {
 	Killed int
-	Lost int
+	Lost   int
 }
 
 type HighScores struct {
@@ -59,27 +59,29 @@ type HighScores struct {
 }
 
 const (
-	livesEasy = 15
+	livesEasy   = 15
 	livesNormal = 10
-	livesHard = 5
+	livesHard   = 5
 )
 
 const (
-	MonstersEasy = "fewer"
+	MonstersEasy   = "fewer"
 	MonstersNormal = "normal"
-	MonstersHard = "more"
+	MonstersHard   = "more"
 )
 
 const (
 	AmmoUnlimited = true
-	AmmoLimited = false
+	AmmoLimited   = false
 )
 
 const (
-	AnimationsTrue = true
+	AnimationsTrue  = true
 	AnimationsFalse = false
 )
 
+var KeyboardLayout int
+var CustomControls = false
 var MsgBuf = []string{}
 var LastTarget *Creature
 var RailsMod = false
@@ -95,14 +97,14 @@ func main() {
 	var objs = new(Objects)
 	var actors = new(Creatures)
 	_, firsterr := os.Stat(ConfigPathGob)
-		if firsterr == nil {
-			errcfg := LoadConfig()
-			CfgIsHere = true
-			if errcfg != nil {
-				fmt.Println("Error during loading config file.")
-				fmt.Println(errcfg)
-			}
+	if firsterr == nil {
+		errcfg := LoadConfig()
+		CfgIsHere = true
+		if errcfg != nil {
+			fmt.Println("Error during loading config file.")
+			fmt.Println(errcfg)
 		}
+	}
 	_, seconderr := os.Stat(HighScoresPathGob)
 	if seconderr != nil {
 		SaveScores()
@@ -143,11 +145,11 @@ func main() {
 			player.X, player.Y = (*actors)[0].X, (*actors)[0].Y
 			(*actors)[0] = player
 			player.HPCurrent = player.HPMax
-				player.Equipment[SlotWeaponPrimary].AmmoCurrent = player.Equipment[SlotWeaponPrimary].AmmoMax
-				player.Equipment[SlotWeaponSecondary].AmmoCurrent = player.Equipment[SlotWeaponSecondary].AmmoMax
+			player.Equipment[SlotWeaponPrimary].AmmoCurrent = player.Equipment[SlotWeaponPrimary].AmmoMax
+			player.Equipment[SlotWeaponSecondary].AmmoCurrent = player.Equipment[SlotWeaponSecondary].AmmoMax
 			player.Equipment[SlotWeaponPrimary].Cocked = false
 			player.Equipment[SlotWeaponSecondary].Cocked = false
-				G.LevelStr = G.Levels[G.LevelInt]
+			G.LevelStr = G.Levels[G.LevelInt]
 			G.Alive = len(*actors) - 1
 			for i := 0; i < len(*objs); i++ {
 				(*objs)[i] = nil
@@ -161,32 +163,24 @@ func main() {
 		}
 		RenderAll(*cells, *objs, *actors)
 		if blt.HasInput() == true {
-			key := blt.Read()
-			var r rune
-			if blt.Check(blt.TK_WCHAR) != 0 {
-				r = rune(blt.State(blt.TK_WCHAR))
-			}
-			if key == blt.TK_CLOSE || r == 's' || r == 'S' {
+			key := ReadInput()
+			if (key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0) || key == blt.TK_CLOSE {
 				err := SaveGame(*cells, *actors, *objs)
 				if err != nil {
 					fmt.Println(err)
 				}
 				break
-			} else if r == 'q' || r == 'Q' {
+			} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 {
 				AddMessage("Do you want to quit the game?")
 				AddMessage("It will delete the saves as well. [[Y/N]]")
 				RenderAll(*cells, *objs, *actors)
 				confirm := false
 				for {
-					blt.Read()
-					var rConfirm rune
-					if blt.Check(blt.TK_WCHAR) != 0 {
-						rConfirm = rune(blt.State(blt.TK_WCHAR))
-					}
-					if rConfirm == 'y' || rConfirm == 'Y' {
+					keyConfirm := blt.Read()
+					if keyConfirm == blt.TK_Y {
 						confirm = true
 						break
-					} else if rConfirm == 'n' || rConfirm == 'N' {
+					} else if keyConfirm == blt.TK_N {
 						break
 					} else {
 						continue
@@ -199,7 +193,7 @@ func main() {
 					AddMessage("OK, then...")
 				}
 			} else {
-				turnSpent := Controls(key, r, (*actors)[0], cells, actors, objs)
+				turnSpent := Controls(key, (*actors)[0], cells, actors, objs)
 				if turnSpent == true {
 					CreaturesTakeTurn(*cells, *actors, objs)
 				}
@@ -272,4 +266,7 @@ func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	InitializeFOVTables()
 	InitializeBLT()
+	InitializeKeyboardLayouts()
+	ReadOptionsControls()
+	ChooseKeyboardLayout()
 }
