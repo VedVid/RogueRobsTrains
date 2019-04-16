@@ -127,6 +127,8 @@ var QWERTYLayoutRunesToCodes = map[rune]int{
 	'<': blt.TK_COMMA,
 	'.': blt.TK_PERIOD,
 	'>': blt.TK_PERIOD,
+	'/': blt.TK_SLASH,
+	'?': blt.TK_SLASH,
 	';': blt.TK_SEMICOLON,
 	':': blt.TK_SEMICOLON,
 	'\'': blt.TK_APOSTROPHE,
