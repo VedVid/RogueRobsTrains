@@ -70,14 +70,10 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		}
 		PrintLookingMessage(msg, i)
 		key := blt.Read()
-		var r rune
-		if blt.Check(blt.TK_WCHAR) != 0 {
-			r = rune(blt.State(blt.TK_WCHAR))
-		}
 		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
 			break
 		}
-		CursorMovement(&targetX, &targetY, key, r)
+		CursorMovement(&targetX, &targetY, key)
 		i = true
 	}
 }

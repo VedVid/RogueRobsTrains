@@ -162,31 +162,23 @@ func main() {
 		RenderAll(*cells, *objs, *actors)
 		if blt.HasInput() == true {
 			key := blt.Read()
-			var r rune
-			if blt.Check(blt.TK_WCHAR) != 0 {
-				r = rune(blt.State(blt.TK_WCHAR))
-			}
-			if key == blt.TK_CLOSE || r == 's' || r == 'S' {
+			if (key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0) || key == blt.TK_CLOSE {
 				err := SaveGame(*cells, *actors, *objs)
 				if err != nil {
 					fmt.Println(err)
 				}
 				break
-			} else if r == 'q' || r == 'Q' {
+			} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 {
 				AddMessage("Do you want to quit the game?")
 				AddMessage("It will delete the saves as well. [[Y/N]]")
 				RenderAll(*cells, *objs, *actors)
 				confirm := false
 				for {
-					blt.Read()
-					var rConfirm rune
-					if blt.Check(blt.TK_WCHAR) != 0 {
-						rConfirm = rune(blt.State(blt.TK_WCHAR))
-					}
-					if rConfirm == 'y' || rConfirm == 'Y' {
+					keyConfirm := blt.Read()
+					if keyConfirm == blt.TK_Y {
 						confirm = true
 						break
-					} else if rConfirm == 'n' || rConfirm == 'N' {
+					} else if keyConfirm == blt.TK_N {
 						break
 					} else {
 						continue
@@ -199,6 +191,10 @@ func main() {
 					AddMessage("OK, then...")
 				}
 			} else {
+				var r rune
+				if blt.Check(blt.TK_WCHAR) != 0 {
+					r = rune(blt.State(blt.TK_WCHAR))
+				}
 				turnSpent := Controls(key, r, (*actors)[0], cells, actors, objs)
 				if turnSpent == true {
 					CreaturesTakeTurn(*cells, *actors, objs)
