@@ -191,11 +191,7 @@ func main() {
 					AddMessage("OK, then...")
 				}
 			} else {
-				var r rune
-				if blt.Check(blt.TK_WCHAR) != 0 {
-					r = rune(blt.State(blt.TK_WCHAR))
-				}
-				turnSpent := Controls(key, r, (*actors)[0], cells, actors, objs)
+				turnSpent := Controls(key, (*actors)[0], cells, actors, objs)
 				if turnSpent == true {
 					CreaturesTakeTurn(*cells, *actors, objs)
 				}
