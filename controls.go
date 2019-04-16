@@ -168,6 +168,8 @@ var QWERTYLayoutRunesToCodes = map[rune]int{
 	'+': blt.TK_EQUALS,
 }
 
+var DvorakLayoutRunesToCodes map[rune]int
+
 var QWERTZLayoutRunesToCodes map[rune]int
 
 var AZERTYLayoutRunesToCodes map[rune]int
@@ -332,6 +334,7 @@ func ReadInput() int {
 func InitializeKeyboardLayouts() {
 	InitializeQWERTZ()
 	InitializeAZERTY()
+	InitializeDvorak()
 	switch KeyboardLayout {
 	case KB_QWERTY: KeyMap = QWERTYLayoutRunesToCodes
 	case KB_QWERTZ: KeyMap = QWERTZLayoutRunesToCodes
@@ -408,4 +411,99 @@ func InitializeAZERTY() {
 	AZERTYLayoutRunesToCodes['à'] = blt.TK_0
 	AZERTYLayoutRunesToCodes[')'] = blt.TK_MINUS
 	AZERTYLayoutRunesToCodes['°'] = blt.TK_MINUS
+}
+
+func InitializeDvorak() {
+	DvorakLayoutRunesToCodes = map[rune]int {
+		'\'': blt.TK_Q,
+		'"': blt.TK_Q,
+		',': blt.TK_W,
+		'<': blt.TK_W,
+		'.': blt.TK_E,
+		'>': blt.TK_E,
+		'p': blt.TK_R,
+		'P': blt.TK_R,
+		'y': blt.TK_T,
+		'Y': blt.TK_T,
+		'f': blt.TK_Y,
+		'F': blt.TK_Y,
+		'g': blt.TK_U,
+		'G': blt.TK_U,
+		'c': blt.TK_I,
+		'C': blt.TK_I,
+		'r': blt.TK_O,
+		'R': blt.TK_O,
+		'l': blt.TK_P,
+		'L': blt.TK_P,
+		'a': blt.TK_A,
+		'A': blt.TK_A,
+		'o': blt.TK_S,
+		'O': blt.TK_S,
+		'e': blt.TK_D,
+		'E': blt.TK_D,
+		'u': blt.TK_F,
+		'U': blt.TK_F,
+		'i': blt.TK_G,
+		'I': blt.TK_G,
+		'd': blt.TK_H,
+		'D': blt.TK_H,
+		'h': blt.TK_J,
+		'H': blt.TK_J,
+		't': blt.TK_K,
+		'T': blt.TK_K,
+		'n': blt.TK_L,
+		'N': blt.TK_L,
+		';': blt.TK_Z,
+		':': blt.TK_Z,
+		'q': blt.TK_X,
+		'Q': blt.TK_X,
+		'j': blt.TK_C,
+		'J': blt.TK_C,
+		'k': blt.TK_V,
+		'K': blt.TK_V,
+		'x': blt.TK_B,
+		'X': blt.TK_B,
+		'b': blt.TK_N,
+		'B': blt.TK_N,
+		'm': blt.TK_M,
+		'M': blt.TK_M,
+		'w': blt.TK_COMMA,
+		'W': blt.TK_COMMA,
+		'v': blt.TK_PERIOD,
+		'V': blt.TK_PERIOD,
+		'z': blt.TK_SLASH,
+		'Z': blt.TK_SLASH,
+		's': blt.TK_SEMICOLON,
+		'S': blt.TK_SEMICOLON,
+		'-': blt.TK_APOSTROPHE,
+		'_': blt.TK_APOSTROPHE,
+		'/': blt.TK_LBRACKET,
+		'?': blt.TK_LBRACKET,
+		'=': blt.TK_RBRACKET,
+		'+': blt.TK_RBRACKET,
+		'1': blt.TK_1,
+		'!': blt.TK_1,
+		'2': blt.TK_2,
+		'@': blt.TK_2,
+		'3': blt.TK_3,
+		'#': blt.TK_3,
+		'4': blt.TK_4,
+		'$': blt.TK_4,
+		'5': blt.TK_5,
+		'%': blt.TK_5,
+		'6': blt.TK_6,
+		'^': blt.TK_6,
+		'7': blt.TK_7,
+		'&': blt.TK_7,
+		'8': blt.TK_8,
+		'*': blt.TK_8,
+		'9': blt.TK_9,
+		'(': blt.TK_9,
+		'0': blt.TK_0,
+		')': blt.TK_0,
+		'[': blt.TK_MINUS,
+		'{': blt.TK_MINUS,
+		']': blt.TK_EQUALS,
+		'}': blt.TK_EQUALS,
+	}
 }
