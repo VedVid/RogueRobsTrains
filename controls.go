@@ -32,177 +32,108 @@ import (
 )
 
 const (
-	KB_QWERTY = iota
-	KB_QWERTZ
-	KB_AZERTY
+	StrMoveNorthwest = "MOVE_NORTHWEST"
+	StrMoveNorth = "MOVE_NORTH"
+	StrMoveNortheast = "MOVE_NORTHEAST"
+	StrMoveWest = "MOVE_WEST"
+	StrStandStill = "STAND_STILL"
+	StrMoveEast = "MOVE_EAST"
+	StrMoveSouthwest = "MOVE_SOUTHWEST"
+	StrMoveSouth = "MOVE_SOUTH"
+	StrMoveSoutheast = "MOVE_SOUTHEAST"
+
+	StrFire = "FIRE"
+	StrReload = "RELOAD"
+	StrInspect = "INSPECT"
+	StrPickup = "PICKUP"
+	StrPull = "PULL"
+
+	StrPrimary = "PRIMARY"
+	StrSecondary = "SECONDARY"
+	StrMelee = "MELEE"
 )
 
-var KeyMap map[rune]int
-
-var HardcodedKeys = []int{
-	blt.TK_RETURN,
-	blt.TK_ENTER,
-	blt.TK_ESCAPE,
-	blt.TK_BACKSPACE,
-	blt.TK_TAB,
-	blt.TK_SPACE,
-	blt.TK_PAUSE,
-	blt.TK_INSERT,
-	blt.TK_HOME,
-	blt.TK_PAGEUP,
-	blt.TK_DELETE,
-	blt.TK_END,
-	blt.TK_PAGEDOWN,
-	blt.TK_RIGHT,
-	blt.TK_LEFT,
-	blt.TK_DOWN,
-	blt.TK_UP,
-	blt.TK_KP_DIVIDE,
-	blt.TK_KP_MULTIPLY,
-	blt.TK_KP_MINUS,
-	blt.TK_KP_PLUS,
-	blt.TK_KP_ENTER,
-	blt.TK_KP_1,
-	blt.TK_KP_2,
-	blt.TK_KP_3,
-	blt.TK_KP_4,
-	blt.TK_KP_5,
-	blt.TK_KP_6,
-	blt.TK_KP_7,
-	blt.TK_KP_8,
-	blt.TK_KP_9,
-	blt.TK_KP_0,
-	blt.TK_KP_PERIOD,
+var Actions = []string{
+	StrMoveNorthwest,
+	StrMoveNorth,
+	StrMoveNortheast,
+	StrMoveWest,
+	StrStandStill,
+	StrMoveEast,
+	StrMoveSouthwest,
+	StrMoveSouth,
+	StrMoveSoutheast,
+	StrFire,
+	StrReload,
+	StrInspect,
+	StrPickup,
+	StrPull,
+	StrPrimary,
+	StrSecondary,
+	StrMelee,
 }
 
-var QWERTYLayoutRunesToCodes = map[rune]int{
-	'q': blt.TK_Q,
-	'Q': blt.TK_Q,
-	'w': blt.TK_W,
-	'W': blt.TK_W,
-	'e': blt.TK_E,
-	'E': blt.TK_E,
-	'r': blt.TK_R,
-	'R': blt.TK_R,
-	't': blt.TK_T,
-	'T': blt.TK_T,
-	'y': blt.TK_Y,
-	'Y': blt.TK_Y,
-	'u': blt.TK_U,
-	'U': blt.TK_U,
-	'i': blt.TK_I,
-	'I': blt.TK_I,
-	'o': blt.TK_O,
-	'O': blt.TK_O,
-	'p': blt.TK_P,
-	'P': blt.TK_P,
-	'a': blt.TK_A,
-	'A': blt.TK_A,
-	's': blt.TK_S,
-	'S': blt.TK_S,
-	'd': blt.TK_D,
-	'D': blt.TK_D,
-	'f': blt.TK_F,
-	'F': blt.TK_F,
-	'g': blt.TK_G,
-	'G': blt.TK_G,
-	'h': blt.TK_H,
-	'H': blt.TK_H,
-	'j': blt.TK_J,
-	'J': blt.TK_J,
-	'k': blt.TK_K,
-	'K': blt.TK_K,
-	'l': blt.TK_L,
-	'L': blt.TK_L,
-	'z': blt.TK_Z,
-	'Z': blt.TK_Z,
-	'x': blt.TK_X,
-	'X': blt.TK_X,
-	'c': blt.TK_C,
-	'C': blt.TK_C,
-	'v': blt.TK_V,
-	'V': blt.TK_V,
-	'b': blt.TK_B,
-	'B': blt.TK_B,
-	'n': blt.TK_N,
-	'N': blt.TK_N,
-	'm': blt.TK_M,
-	'M': blt.TK_M,
-	',': blt.TK_COMMA,
-	'<': blt.TK_COMMA,
-	'.': blt.TK_PERIOD,
-	'>': blt.TK_PERIOD,
-	'/': blt.TK_SLASH,
-	'?': blt.TK_SLASH,
-	';': blt.TK_SEMICOLON,
-	':': blt.TK_SEMICOLON,
-	'\'': blt.TK_APOSTROPHE,
-	'"': blt.TK_APOSTROPHE,
-	'[': blt.TK_LBRACKET,
-	'{': blt.TK_LBRACKET,
-	']': blt.TK_RBRACKET,
-	'}': blt.TK_RBRACKET,
-	'1': blt.TK_1,
-	'!': blt.TK_1,
-	'2': blt.TK_2,
-	'@': blt.TK_2,
-	'3': blt.TK_3,
-	'#': blt.TK_3,
-	'4': blt.TK_4,
-	'$': blt.TK_4,
-	'5': blt.TK_5,
-	'%': blt.TK_5,
-	'6': blt.TK_6,
-	'^': blt.TK_6,
-	'7': blt.TK_7,
-	'&': blt.TK_7,
-	'8': blt.TK_8,
-	'*': blt.TK_8,
-	'9': blt.TK_9,
-	'(': blt.TK_9,
-	'0': blt.TK_0,
-	')': blt.TK_0,
-	'-': blt.TK_MINUS,
-	'_': blt.TK_MINUS,
-	'=': blt.TK_EQUALS,
-	'+': blt.TK_EQUALS,
+var CommandKeys = map[int]string{
+	blt.TK_UP: StrMoveNorth,
+	blt.TK_KP_8: StrMoveNorth,
+	blt.TK_K: StrMoveNorth,
+	blt.TK_W: StrMoveNorth,
+	blt.TK_RIGHT: StrMoveEast,
+	blt.TK_KP_6: StrMoveEast,
+	blt.TK_L: StrMoveEast,
+	blt.TK_D: StrMoveEast,
+	blt.TK_DOWN: StrMoveSouth,
+	blt.TK_KP_2: StrMoveSouth,
+	blt.TK_J: StrMoveSouth,
+	blt.TK_X: StrMoveSouth,
+	blt.TK_LEFT: StrMoveWest,
+	blt.TK_KP_4: StrMoveWest,
+	blt.TK_H: StrMoveWest,
+	blt.TK_A: StrMoveWest,
+	blt.TK_HOME: StrMoveNorthwest,
+	blt.TK_KP_7: StrMoveNorthwest,
+	blt.TK_Y: StrMoveNorthwest,
+	blt.TK_Q: StrMoveNorthwest,
+	blt.TK_PAGEUP: StrMoveNortheast,
+	blt.TK_KP_9: StrMoveNortheast,
+	blt.TK_U: StrMoveNortheast,
+	blt.TK_E: StrMoveNortheast,
+	blt.TK_END: StrMoveSouthwest,
+	blt.TK_KP_1: StrMoveSouthwest,
+	blt.TK_B: StrMoveSouthwest,
+	blt.TK_Z: StrMoveSouthwest,
+	blt.TK_PAGEDOWN: StrMoveSoutheast,
+	blt.TK_KP_3: StrMoveSoutheast,
+	blt.TK_N: StrMoveSoutheast,
+	blt.TK_C: StrMoveSoutheast,
+	blt.TK_SPACE: StrStandStill,
+	blt.TK_KP_5: StrStandStill,
+	blt.TK_KP_PERIOD: StrStandStill,
+	blt.TK_S: StrStandStill,
+	blt.TK_F: StrFire,
+	blt.TK_R: StrReload,
+	blt.TK_I: StrInspect,
+	blt.TK_G: StrPickup,
+	blt.TK_P: StrPull,
+	blt.TK_1: StrPrimary,
+	blt.TK_2: StrSecondary,
+	blt.TK_3: StrMelee,
 }
 
-var DvorakLayoutRunesToCodes map[rune]int
-
-var QWERTZLayoutRunesToCodes map[rune]int
-
-var AZERTYLayoutRunesToCodes map[rune]int
-
-func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
-	/* Function Controls is input handler.
-	   It takes integer k (key codes are basically numbers,
-	   but creating new "type key int" is not convenient)
-	   and Creature p (which is player).
-	   Controls handle input, then returns integer value that depends
-	   if player spent turn by action or not. */
+func Command(com string, p *Creature, b *Board, c*Creatures, o *Objects) bool {
 	turnSpent := false
-	switch k {
-	case blt.TK_UP, blt.TK_KP_8, blt.TK_K, blt.TK_W:
-		turnSpent = p.MoveOrAttack(0, -1, *b, o, *c)
-	case blt.TK_RIGHT, blt.TK_KP_6, blt.TK_L, blt.TK_D:
-		turnSpent = p.MoveOrAttack(1, 0, *b, o, *c)
-	case blt.TK_DOWN, blt.TK_KP_2, blt.TK_J, blt.TK_X:
-		turnSpent = p.MoveOrAttack(0, 1, *b, o, *c)
-	case blt.TK_LEFT, blt.TK_KP_4, blt.TK_H, blt.TK_A:
-		turnSpent = p.MoveOrAttack(-1, 0, *b, o, *c)
-	case blt.TK_HOME, blt.TK_KP_7, blt.TK_Y, blt.TK_Q:
-		turnSpent = p.MoveOrAttack(-1, -1, *b, o, *c)
-	case blt.TK_PAGEUP, blt.TK_KP_9, blt.TK_U, blt.TK_E:
-		turnSpent = p.MoveOrAttack(1, -1, *b, o, *c)
-	case blt.TK_END, blt.TK_KP_1, blt.TK_B, blt.TK_Z:
-		turnSpent = p.MoveOrAttack(-1, 1, *b, o, *c)
-	case blt.TK_PAGEDOWN, blt.TK_KP_3, blt.TK_N, blt.TK_C:
-		turnSpent = p.MoveOrAttack(1, 1, *b, o, *c)
-	case blt.TK_SPACE, blt.TK_KP_5, blt.TK_PERIOD, blt.TK_S:
-		turnSpent = true // Pass a turn.
+	switch com {
+		case StrMoveNorthwest: turnSpent = p.MoveOrAttack(-1, -1, *b, o, *c)
+		case StrMoveNorth: turnSpent = p.MoveOrAttack(0, -1, *b, o, *c)
+		case StrMoveNortheast: turnSpent = p.MoveOrAttack(1, -1, *b, o, *c)
+		case StrMoveWest: turnSpent = p.MoveOrAttack(-1, 0, *b, o, *c)
+		case StrStandStill: turnSpent = true
+		case StrMoveEast: turnSpent = p.MoveOrAttack(1, 0, *b, o, *c)
+		case StrMoveSouthwest: turnSpent = p.MoveOrAttack(-1, 1, *b, o, *c)
+		case StrMoveSouth: turnSpent = p.MoveOrAttack(0, 1, *b, o, *c)
+		case StrMoveSoutheast: turnSpent = p.MoveOrAttack(1, 1, *b, o, *c)
 
-	case blt.TK_F:
+		case StrFire:
 		if p.ActiveWeapon != SlotWeaponMelee {
 			if p.Equipment[p.ActiveWeapon].AmmoCurrent <= 0 {
 				AddMessage("You need to reload " + p.Equipment[p.ActiveWeapon].Name + ".")
@@ -226,7 +157,8 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 		} else {
 			AddMessage("You are using melee weapon.")
 		}
-	case blt.TK_R:
+
+	case StrReload:
 		if Config.Reloading == AmmoLimited {
 			AddMessage("You do not have more ammo!")
 		} else {
@@ -250,11 +182,14 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 				}
 			}
 		}
-	case blt.TK_I:
+
+	case StrInspect:
 		p.Look(*b, *o, *c) // Looking is free action.
-	case blt.TK_G:
+
+	case StrPickup:
 		turnSpent = p.PickUp(o)
-	case blt.TK_P:
+
+	case StrPull:
 		minX := p.X - 1
 		if minX < 0 {
 			minX = p.X
@@ -289,7 +224,8 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			blt.Close()
 			os.Exit(0)
 		}
-	case blt.TK_1:
+
+	case StrPrimary:
 		if p.ActiveWeapon != SlotWeaponPrimary {
 			if p.Equipment[p.ActiveWeapon].Cock == true {
 				p.Equipment[p.ActiveWeapon].Cocked = false
@@ -297,7 +233,8 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			p.ActiveWeapon = SlotWeaponPrimary
 			turnSpent = true
 		}
-	case blt.TK_2:
+
+	case StrSecondary:
 		if p.ActiveWeapon != SlotWeaponSecondary {
 			if p.Equipment[p.ActiveWeapon].Cock == true {
 				p.Equipment[p.ActiveWeapon].Cocked = false
@@ -305,7 +242,8 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			p.ActiveWeapon = SlotWeaponSecondary
 			turnSpent = true
 		}
-	case blt.TK_3:
+
+	case StrMelee:
 		if p.ActiveWeapon != SlotWeaponMelee {
 			if p.Equipment[p.ActiveWeapon].Cock == true {
 				p.Equipment[p.ActiveWeapon].Cocked = false
@@ -314,6 +252,16 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			turnSpent = true
 		}
 	}
+	return turnSpent
+}
+
+func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
+	turnSpent := false
+	var command string
+	if CustomControls == false {
+		command = CommandKeys[k]
+	}
+	turnSpent = Command(command, p, b, c, o)
 	return turnSpent
 }
 
@@ -329,181 +277,4 @@ func ReadInput() int {
 		r = rune(blt.State(blt.TK_WCHAR))
 	}
 	return KeyMap[r]
-}
-
-func InitializeKeyboardLayouts() {
-	InitializeQWERTZ()
-	InitializeAZERTY()
-	InitializeDvorak()
-	switch KeyboardLayout {
-	case KB_QWERTY: KeyMap = QWERTYLayoutRunesToCodes
-	case KB_QWERTZ: KeyMap = QWERTZLayoutRunesToCodes
-	case KB_AZERTY: KeyMap = AZERTYLayoutRunesToCodes
-	}
-}
-
-func InitializeQWERTZ() {
-	QWERTZLayoutRunesToCodes = QWERTYLayoutRunesToCodes
-	QWERTZLayoutRunesToCodes['z'] = blt.TK_Y
-	QWERTZLayoutRunesToCodes['Z'] = blt.TK_Y
-	QWERTZLayoutRunesToCodes['y'] = blt.TK_Z
-	QWERTZLayoutRunesToCodes['Y'] = blt.TK_Z
-	QWERTZLayoutRunesToCodes[';'] = blt.TK_COMMA
-	QWERTZLayoutRunesToCodes[':'] = blt.TK_PERIOD
-	QWERTZLayoutRunesToCodes['-'] = blt.TK_SLASH
-	QWERTZLayoutRunesToCodes['_'] = blt.TK_SLASH
-	QWERTZLayoutRunesToCodes['ö'] = blt.TK_SEMICOLON
-	QWERTZLayoutRunesToCodes['Ö'] = blt.TK_SEMICOLON
-	QWERTZLayoutRunesToCodes['ä'] = blt.TK_APOSTROPHE
-	QWERTZLayoutRunesToCodes['Ä'] = blt.TK_APOSTROPHE
-	QWERTZLayoutRunesToCodes['ü'] = blt.TK_LBRACKET
-	QWERTZLayoutRunesToCodes['Ü'] = blt.TK_LBRACKET
-	QWERTZLayoutRunesToCodes['+'] = blt.TK_RBRACKET
-	QWERTZLayoutRunesToCodes['*'] = blt.TK_RBRACKET
-	QWERTZLayoutRunesToCodes['"'] = blt.TK_2
-	QWERTZLayoutRunesToCodes['§'] = blt.TK_3
-	QWERTZLayoutRunesToCodes['&'] = blt.TK_6
-	QWERTZLayoutRunesToCodes['/'] = blt.TK_7
-	QWERTZLayoutRunesToCodes['('] = blt.TK_8
-	QWERTZLayoutRunesToCodes[')'] = blt.TK_9
-	QWERTZLayoutRunesToCodes['='] = blt.TK_0
-	QWERTZLayoutRunesToCodes['ß'] = blt.TK_MINUS
-	QWERTZLayoutRunesToCodes['?'] = blt.TK_MINUS
-	QWERTZLayoutRunesToCodes['´'] = blt.TK_EQUALS
-	QWERTZLayoutRunesToCodes['`'] = blt.TK_EQUALS
-}
-
-func InitializeAZERTY() {
-	AZERTYLayoutRunesToCodes = QWERTYLayoutRunesToCodes
-	AZERTYLayoutRunesToCodes['a'] = blt.TK_Q
-	AZERTYLayoutRunesToCodes['A'] = blt.TK_Q
-	AZERTYLayoutRunesToCodes['z'] = blt.TK_W
-	AZERTYLayoutRunesToCodes['Z'] = blt.TK_W
-	AZERTYLayoutRunesToCodes['q'] = blt.TK_A
-	AZERTYLayoutRunesToCodes['Q'] = blt.TK_A
-	AZERTYLayoutRunesToCodes['w'] = blt.TK_Z
-	AZERTYLayoutRunesToCodes['W'] = blt.TK_Z
-	AZERTYLayoutRunesToCodes[','] = blt.TK_M
-	AZERTYLayoutRunesToCodes['?'] = blt.TK_M
-	AZERTYLayoutRunesToCodes[';'] = blt.TK_COMMA
-	AZERTYLayoutRunesToCodes['.'] = blt.TK_COMMA
-	AZERTYLayoutRunesToCodes[':'] = blt.TK_PERIOD
-	AZERTYLayoutRunesToCodes['/'] = blt.TK_PERIOD
-	AZERTYLayoutRunesToCodes['!'] = blt.TK_SLASH
-	AZERTYLayoutRunesToCodes['§'] = blt.TK_SLASH
-	AZERTYLayoutRunesToCodes['m'] = blt.TK_SEMICOLON
-	AZERTYLayoutRunesToCodes['M'] = blt.TK_SEMICOLON
-	AZERTYLayoutRunesToCodes['ù'] = blt.TK_APOSTROPHE
-	AZERTYLayoutRunesToCodes['%'] = blt.TK_APOSTROPHE
-	AZERTYLayoutRunesToCodes['^'] = blt.TK_LBRACKET
-	AZERTYLayoutRunesToCodes['¨'] = blt.TK_LBRACKET
-	AZERTYLayoutRunesToCodes['$'] = blt.TK_RBRACKET
-	AZERTYLayoutRunesToCodes['£'] = blt.TK_RBRACKET
-	AZERTYLayoutRunesToCodes['&'] = blt.TK_1
-	AZERTYLayoutRunesToCodes['é'] = blt.TK_2
-	AZERTYLayoutRunesToCodes['"'] = blt.TK_3
-	AZERTYLayoutRunesToCodes['\''] = blt.TK_4
-	AZERTYLayoutRunesToCodes['('] = blt.TK_5
-	AZERTYLayoutRunesToCodes['-'] = blt.TK_6
-	AZERTYLayoutRunesToCodes['è'] = blt.TK_7
-	AZERTYLayoutRunesToCodes['_'] = blt.TK_8
-	AZERTYLayoutRunesToCodes['ç'] = blt.TK_9
-	AZERTYLayoutRunesToCodes['à'] = blt.TK_0
-	AZERTYLayoutRunesToCodes[')'] = blt.TK_MINUS
-	AZERTYLayoutRunesToCodes['°'] = blt.TK_MINUS
-}
-
-func InitializeDvorak() {
-	DvorakLayoutRunesToCodes = map[rune]int {
-		'\'': blt.TK_Q,
-		'"': blt.TK_Q,
-		',': blt.TK_W,
-		'<': blt.TK_W,
-		'.': blt.TK_E,
-		'>': blt.TK_E,
-		'p': blt.TK_R,
-		'P': blt.TK_R,
-		'y': blt.TK_T,
-		'Y': blt.TK_T,
-		'f': blt.TK_Y,
-		'F': blt.TK_Y,
-		'g': blt.TK_U,
-		'G': blt.TK_U,
-		'c': blt.TK_I,
-		'C': blt.TK_I,
-		'r': blt.TK_O,
-		'R': blt.TK_O,
-		'l': blt.TK_P,
-		'L': blt.TK_P,
-		'a': blt.TK_A,
-		'A': blt.TK_A,
-		'o': blt.TK_S,
-		'O': blt.TK_S,
-		'e': blt.TK_D,
-		'E': blt.TK_D,
-		'u': blt.TK_F,
-		'U': blt.TK_F,
-		'i': blt.TK_G,
-		'I': blt.TK_G,
-		'd': blt.TK_H,
-		'D': blt.TK_H,
-		'h': blt.TK_J,
-		'H': blt.TK_J,
-		't': blt.TK_K,
-		'T': blt.TK_K,
-		'n': blt.TK_L,
-		'N': blt.TK_L,
-		';': blt.TK_Z,
-		':': blt.TK_Z,
-		'q': blt.TK_X,
-		'Q': blt.TK_X,
-		'j': blt.TK_C,
-		'J': blt.TK_C,
-		'k': blt.TK_V,
-		'K': blt.TK_V,
-		'x': blt.TK_B,
-		'X': blt.TK_B,
-		'b': blt.TK_N,
-		'B': blt.TK_N,
-		'm': blt.TK_M,
-		'M': blt.TK_M,
-		'w': blt.TK_COMMA,
-		'W': blt.TK_COMMA,
-		'v': blt.TK_PERIOD,
-		'V': blt.TK_PERIOD,
-		'z': blt.TK_SLASH,
-		'Z': blt.TK_SLASH,
-		's': blt.TK_SEMICOLON,
-		'S': blt.TK_SEMICOLON,
-		'-': blt.TK_APOSTROPHE,
-		'_': blt.TK_APOSTROPHE,
-		'/': blt.TK_LBRACKET,
-		'?': blt.TK_LBRACKET,
-		'=': blt.TK_RBRACKET,
-		'+': blt.TK_RBRACKET,
-		'1': blt.TK_1,
-		'!': blt.TK_1,
-		'2': blt.TK_2,
-		'@': blt.TK_2,
-		'3': blt.TK_3,
-		'#': blt.TK_3,
-		'4': blt.TK_4,
-		'$': blt.TK_4,
-		'5': blt.TK_5,
-		'%': blt.TK_5,
-		'6': blt.TK_6,
-		'^': blt.TK_6,
-		'7': blt.TK_7,
-		'&': blt.TK_7,
-		'8': blt.TK_8,
-		'*': blt.TK_8,
-		'9': blt.TK_9,
-		'(': blt.TK_9,
-		'0': blt.TK_0,
-		')': blt.TK_0,
-		'[': blt.TK_MINUS,
-		'{': blt.TK_MINUS,
-		']': blt.TK_EQUALS,
-		'}': blt.TK_EQUALS,
-	}
 }
