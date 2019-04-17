@@ -430,23 +430,8 @@ func ReadOptionsControls() {
 
 func addKeyToCustomLayout(resKey string, resValue string) {
 	var tempMap = map[rune]int{}
-	switch KeyboardLayout {
-	case KB_QWERTY:
-		for k, v := range QWERTYLayoutRunesToCodes {
-			tempMap[k] = v
-		}
-	case KB_QWERTZ:
-		for k, v := range QWERTZLayoutRunesToCodes {
-			tempMap[k] = v
-		}
-	case KB_AZERTY:
-		for k, v := range AZERTYLayoutRunesToCodes {
-			tempMap[k] = v
-		}
-	case KB_Dvorak:
-		for k, v := range DvorakLayoutRunesToCodes {
-			tempMap[k] = v
-		}
+	for k, v := range QWERTYLayoutRunesToCodes { //bc BLT uses QWERTY internally
+		tempMap[k] = v
 	}
 	var s string
 	valid := false
