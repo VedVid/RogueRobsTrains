@@ -421,7 +421,10 @@ func ReadOptionsControls() {
 		var results= strings.Split(v, "=")
 		resKey := strings.TrimSpace(results[0])
 		resValue := strings.TrimSpace(results[1])
-		addKeyToCustomLayout(resKey, resValue)
+		if utf8.RuneCountInString(resKey) > 0 && []rune(resKey)[0] != '#' &&
+			resKey != "KB_LAYOUT" && resKey != "CUSTOM_CONTROLS" {
+			addKeyToCustomLayout(resKey, resValue)
+		}
 	}
 }
 
