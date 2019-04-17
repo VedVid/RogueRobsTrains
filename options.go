@@ -374,10 +374,10 @@ func ReadOptionsControls() {
 		panic("Can't find options_controls.cfg file!")
 	}
 	defer f.Close()
-	var opts = []string{}
+	var opts= []string{}
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
-		var lines = []string{}
+		var lines= []string{}
 		line := scanner.Text()
 		if utf8.RuneCountInString(line) > 0 && []rune(line)[0] != '#' {
 			line = strings.Replace(line, "\r", "\n", -1)
@@ -388,18 +388,102 @@ func ReadOptionsControls() {
 		}
 	}
 	for _, v := range opts {
-		var results = strings.Split(v, "=")
-		if strings.TrimSpace(results[0]) == "KB_LAYOUT" {
+		var results= strings.Split(v, "=")
+		resKey := strings.TrimSpace(results[0])
+		if resKey == "KB_LAYOUT" {
 			val := strings.TrimSpace(results[1])
 			switch val {
-			case "QWERTY": KeyboardLayout = KB_QWERTY
-			case "QWERTZ": KeyboardLayout = KB_QWERTZ
-			case "AZERTY": KeyboardLayout = KB_AZERTY
-			case "DVORAK": KeyboardLayout = KB_Dvorak
+			case "QWERTY":
+				KeyboardLayout = KB_QWERTY
+			case "QWERTZ":
+				KeyboardLayout = KB_QWERTZ
+			case "AZERTY":
+				KeyboardLayout = KB_AZERTY
+			case "DVORAK":
+				KeyboardLayout = KB_Dvorak
 			default:
 				fmt.Println("Wrong value in KB_LAYOUT; using QWERTY.")
-			KeyboardLayout = KB_QWERTY
+				KeyboardLayout = KB_QWERTY
+			}
+		} else if resKey == "CUSTOM_CONTROLS" {
+			val := strings.TrimSpace(results[1])
+			if val == "TRUE" {
+				CustomControls = true
+			} else if val == "FALSE" {
+				CustomControls = false
+			} else {
+				fmt.Println("Wrong value is CUSTOM_CONTROLS; using FALSE.")
+				CustomControls = false
 			}
 		}
 	}
+	for _, v := range opts {
+		var results= strings.Split(v, "=")
+		resKey := strings.TrimSpace(results[0])
+		resValue := strings.TrimSpace(results[1])
+		if utf8.RuneCountInString(resKey) > 0 && []rune(resKey)[0] != '#' &&
+			resKey != "KB_LAYOUT" && resKey != "CUSTOM_CONTROLS" {
+			addKeyToCustomLayout(resKey, resValue)
+		}
+	}
+}
+
+func addKeyToCustomLayout(resKey string, resValue string) {
+	var tempMap = map[rune]int{}
+	for k, v := range QWERTYLayoutRunesToCodes { //bc BLT uses QWERTY internally
+		tempMap[k] = v
+	}
+	var s string
+	valid := false
+	for _, v := range Actions {
+		if resKey == v {
+			valid = true
+		}
+	}
+	if valid == true {
+		s = resKey
+	} else {
+		panic("Wrong value: " + resKey)
+	}
+	var i int
+	switch resValue {
+	case "RETURN": i = blt.TK_RETURN
+	case "ENTER": i = blt.TK_ENTER
+	case "TAB": i = blt.TK_TAB
+	case "SPACE": i = blt.TK_SPACE
+	case "PAUSE": i = blt.TK_PAUSE
+	case "INSERT": i = blt.TK_INSERT
+	case "HOME": i = blt.TK_HOME
+	case "PAGEUP": i = blt.TK_PAGEUP
+	case "DELETE": i = blt.TK_DELETE
+	case "END": i = blt.TK_END
+	case "PAGEDOWN": i = blt.TK_PAGEDOWN
+	case "RIGHT": i = blt.TK_RIGHT
+	case "LEFT": i = blt.TK_LEFT
+	case "DOWN": i = blt.TK_DOWN
+	case "UP": i = blt.TK_UP
+	case "KP_DIVIDE": i = blt.TK_KP_DIVIDE
+	case "KP_MULTIPLY": i = blt.TK_KP_MULTIPLY
+	case "KP_MINUS": i = blt.TK_KP_MINUS
+	case "KP_PLUS": i = blt.TK_KP_PLUS
+	case "KP_ENTER": i = blt.TK_KP_ENTER
+	case "KP_1": i = blt.TK_KP_1
+	case "KP_2": i = blt.TK_KP_2
+	case "KP_3": i = blt.TK_KP_3
+	case "KP_4": i = blt.TK_KP_4
+	case "KP_5": i = blt.TK_KP_5
+	case "KP_6": i = blt.TK_KP_6
+	case "KP_7": i = blt.TK_KP_7
+	case "KP_8": i = blt.TK_KP_8
+	case "KP_9": i = blt.TK_KP_9
+	case "KP_0": i = blt.TK_KP_0
+	case "KP_PERIOD": i = blt.TK_KP_PERIOD
+	default:
+		if utf8.RuneCountInString(resValue) == 1 {
+			i = tempMap[[]rune(resValue)[0]]
+		} else {
+			panic("Wrong value: " + resValue)
+		}
+	}
+	CustomCommandKeys[i] = s
 }

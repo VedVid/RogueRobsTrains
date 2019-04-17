@@ -120,6 +120,8 @@ var CommandKeys = map[int]string{
 	blt.TK_3:         StrMelee,
 }
 
+var CustomCommandKeys = map[int]string{}
+
 func Command(com string, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	turnSpent := false
 	switch com {
@@ -269,6 +271,8 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	var command string
 	if CustomControls == false {
 		command = CommandKeys[k]
+	} else {
+		command = CustomCommandKeys[k]
 	}
 	turnSpent = Command(command, p, b, c, o)
 	return turnSpent
