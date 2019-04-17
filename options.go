@@ -429,12 +429,24 @@ func ReadOptionsControls() {
 }
 
 func addKeyToCustomLayout(resKey string, resValue string) {
-	var tempMap map[rune]int
+	var tempMap = map[rune]int{}
 	switch KeyboardLayout {
-	case KB_QWERTY: tempMap = QWERTYLayoutRunesToCodes
-	case KB_QWERTZ: tempMap = QWERTZLayoutRunesToCodes
-	case KB_AZERTY: tempMap = AZERTYLayoutRunesToCodes
-	case KB_Dvorak: tempMap = DvorakLayoutRunesToCodes
+	case KB_QWERTY:
+		for k, v := range QWERTYLayoutRunesToCodes {
+			tempMap[k] = v
+		}
+	case KB_QWERTZ:
+		for k, v := range QWERTZLayoutRunesToCodes {
+			tempMap[k] = v
+		}
+	case KB_AZERTY:
+		for k, v := range AZERTYLayoutRunesToCodes {
+			tempMap[k] = v
+		}
+	case KB_Dvorak:
+		for k, v := range DvorakLayoutRunesToCodes {
+			tempMap[k] = v
+		}
 	}
 	var s string
 	valid := false
