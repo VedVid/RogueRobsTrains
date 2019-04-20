@@ -76,7 +76,7 @@ func RuneCountInBltString(s string) int {
 				internal = true
 			}
 		} else {
-			if v == ']' && nextRune != ']' && prevRune !=  ']' {
+			if v == ']' && nextRune != ']' && prevRune != ']' {
 				internal = false
 			}
 		}
