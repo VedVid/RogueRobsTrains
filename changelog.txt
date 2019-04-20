@@ -1,8 +1,8 @@
 v0.0.4:
- [new] support for QWERTZ and AZERTY keyboard layouts
+ [new] support for QWERTZ and AZERTY keyboard layouts [anaseto]
  [new] experimental support for DVORAK keyboard layout
  [new] range indicators during targeting
- [mod] reworked controls support for non-qwerty keyboards [anaseto]
+ [mod] inspecting shows weapon stats now
  [mod] less "dumb" enemies, much less melee enemies
  [mod] melee weapons nerfed
  [mod] revolvers are more varied
