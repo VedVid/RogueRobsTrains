@@ -62,18 +62,32 @@ func RuneCountInBltString(s string) int {
 	length := 0
 	var r = []rune(s)
 	internal := false
-	for _, v := range r {
+	for i, v := range r {
+		nextRune := ' '
+		prevRune := ' '
+		if i < len(r)-1 {
+			nextRune = r[i+1]
+		}
+		if i > 0 {
+			prevRune = r[i-1]
+		}
 		if internal == false {
-			if v == '[' {
+			if v == '[' && nextRune != '[' && prevRune != '[' {
 				internal = true
 			}
 		} else {
-			if v == ']' {
+			if v == ']' && nextRune != ']' && prevRune !=  ']' {
 				internal = false
 			}
 		}
-		if internal == false && v != ']' {
-			length++
+		if internal == false {
+			if v != ']' {
+				length++
+			} else {
+				if prevRune == ']' || nextRune == ']' {
+					length++
+				}
+			}
 		}
 	}
 	return length
