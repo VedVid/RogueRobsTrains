@@ -172,7 +172,7 @@ func GetAllStringsFromTile(x, y int, b Board, c Creatures, o Objects) []string {
 	for _, vo := range o {
 		if vo.X == x && vo.Y == y {
 			oName := "[color=" + vo.Color + "]" + vo.Name
-			if vo.Ranges[0] != 0 {
+			if vo.Ranges[0] != 0 && (vo.Ranges[1] != 0 || vo.Ranges[2] != 0) {
 				rangesStr := ""
 				for i, _ := range vo.Ranges {
 					val := vo.Ranges[i]
