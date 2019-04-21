@@ -186,6 +186,9 @@ func GetAllStringsFromTile(x, y int, b Board, c Creatures, o Objects) []string {
 						rangesStr = rangesStr + "[color=darker green]▇[/color]"
 					}
 				}
+				if vo.Cock == true {
+					rangesStr = rangesStr + "[color=dark red]" + CockedIcon + "[/color]"
+				}
 				oName = oName + "([/color]" + rangesStr + "[color=" + vo.Color + "])[/color]"
 			} else {
 				oName = oName + "[/color]"
