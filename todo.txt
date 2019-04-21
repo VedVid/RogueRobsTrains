@@ -9,3 +9,4 @@
 - show enemies weapons (in messages, through inspecting, etc)
 - show weapons stats by inspecting
 - Remingtons' curves are reversed, it seems (only remingtons?)
+- looking should use [tab] as well
