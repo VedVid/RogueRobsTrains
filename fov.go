@@ -163,10 +163,25 @@ func GetAllStringsFromTile(x, y int, b Board, c Creatures, o Objects) []string {
 	   tile names if there are objects present ("You see Monster and Objects here."),
 	   otherwise it returns name of tile ("You see floor here."). */
 	var s = []string{}
+	var corpses = []bool{}
+	corpsesSwitch := false
 	for _, vc := range c {
 		if vc.X == x && vc.Y == y {
-			cName := "[color=" + vc.Color + "]" + vc.Name + "[/color]"
-			s = append(s, cName)
+			if vc.Name == "corpse" {
+				corpses = append(corpses, true)
+			}
+		}
+	}
+	if len(corpses) > 1 {
+		corpsesSwitch = true
+		s = append(s, "bodies")
+	}
+	for _, vc := range c {
+		if vc.X == x && vc.Y == y {
+			if corpsesSwitch == false || vc.Name != "corpse" {
+				cName := "[color=" + vc.Color + "]" + vc.Name + "[/color]"
+				s = append(s, cName)
+			}
 		}
 	}
 	for _, vo := range o {
