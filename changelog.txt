@@ -2,6 +2,7 @@ v0.0.4:
  [new] support for QWERTZ and AZERTY keyboard layouts [anaseto]
  [new] experimental support for DVORAK keyboard layout
  [new] range indicators during targeting
+ [mod] renaming dead enemies to simple "corpse" from "corpse of <name>"
  [mod] inspecting shows weapon stats now
  [mod] less "dumb" enemies, much less melee enemies
  [mod] melee weapons nerfed

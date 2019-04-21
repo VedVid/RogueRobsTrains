@@ -357,7 +357,7 @@ func (c *Creature) Die(o *Objects) {
 	   Die() has *Creature as receiver.
 	   Receiver properties changes to fit better to corpse. */
 	c.Layer = DeadLayer
-	c.Name = "corpse of " + c.Name
+	c.Name = "corpse"
 	c.Color = "dark red"
 	c.ColorDark = "dark red"
 	c.Char = CorpseChar
