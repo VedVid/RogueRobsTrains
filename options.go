@@ -78,6 +78,7 @@ var HardcodedKeys = []int{
 	blt.TK_KP_9,
 	blt.TK_KP_0,
 	blt.TK_KP_PERIOD,
+	blt.TK_CLOSE, //Do not use in config file!
 }
 
 var QWERTYLayoutRunesToCodes = map[rune]int{
