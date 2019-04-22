@@ -176,7 +176,7 @@ func main() {
 				RenderAll(*cells, *objs, *actors)
 				confirm := false
 				for {
-					keyConfirm := blt.Read()
+					keyConfirm := ReadInput()
 					if keyConfirm == blt.TK_Y {
 						confirm = true
 						break

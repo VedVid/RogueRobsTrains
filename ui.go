@@ -192,7 +192,7 @@ func HandleHighScores() {
 	blt.Print(((WindowSizeX / 2) - (utf8.RuneCountInString(exit) / 2)), 12, exit)
 	for {
 		blt.Refresh()
-		key := blt.Read()
+		key := ReadInput()
 		if key == blt.TK_ENTER || key == blt.TK_SPACE || key == blt.TK_ESCAPE || key == blt.TK_CLOSE {
 			break
 		}
@@ -242,7 +242,7 @@ func PrintVictoryScreen() {
 		blt.Print(((WindowSizeX / 2) - (line8len / 2)), posy+8, line8)
 		blt.Print(((WindowSizeX / 2) - (line9len / 2)), posy+10, line9)
 		blt.Refresh()
-		key := blt.Read()
+		key := ReadInput()
 		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE || key == blt.TK_CLOSE {
 			break
 		}
@@ -282,7 +282,7 @@ func DeadScreen() {
 		blt.Print(((WindowSizeX / 2) - (line8len / 2)), posy+6, line8)
 		blt.Print(((WindowSizeX / 2) - (line6len / 2)), posy+8, line6)
 		blt.Refresh()
-		key := blt.Read()
+		key := ReadInput()
 		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE || key == blt.TK_CLOSE {
 			break
 		}
@@ -366,7 +366,7 @@ func MainMenu(cfg *Cfg) {
 		blt.Print(((WindowSizeX / 2) - (line5len / 2)), posy+4, line5)
 		blt.Print(((WindowSizeX / 2) - (line6len / 2)), posy+6, line6)
 		blt.Refresh()
-		key := blt.Read()
+		key := ReadInput()
 		if key == blt.TK_ENTER {
 			cfg.Lives = lives
 			cfg.Monsters = monsters

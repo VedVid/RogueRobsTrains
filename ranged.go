@@ -69,7 +69,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 			msg = "You don't know what is here."
 		}
 		PrintLookingMessage(msg, i)
-		key := blt.Read()
+		key := ReadInput()
 		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
 			break
 		}
@@ -195,7 +195,7 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 			msg := "There is " + cName + " here."
 			PrintLookingMessage(msg, i)
 		}
-		key := blt.Read()
+		key := ReadInput()
 		if key == blt.TK_ESCAPE {
 			break
 		}
