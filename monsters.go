@@ -286,8 +286,18 @@ func (c *Creature) PickUp(o *Objects) bool {
 				blt.Print(5+2, 5+2+i, OrderToCharacter(i) + ") " + weaponStr)
 			} //printing finished
 			blt.Refresh()
-			key := ReadInput()
-			ord := KeyToOrder(key)
+			var key int
+			var ord int
+			for {
+				key = ReadInput()
+				if key == blt.TK_ESCAPE {
+					return turnSpent
+				}
+				ord = KeyToOrder(key)
+				if ord < len(allObjects) {
+					break
+				}
+			}
 			weapon := allObjects[ord]
 			wName := "[color=" + weapon.Color + "]" + weapon.Name + "[/color]"
 			AddMessage("You found " + wName + ".")
