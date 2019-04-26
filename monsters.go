@@ -233,26 +233,26 @@ func (c *Creature) PickUp(o *Objects) bool {
 					case 5:
 						blt.Layer(MenuLayer+1)
 						if x == 5 {
-							blt.Print(x, y, "[color=black]╔[/color]")
-						} else if x == MapSizeX-5 {
-							blt.Print(x, y, "[color=black]╗[/color]")
+							blt.Print(x, y, "[color=#a0785a]╔[/color]")
+						} else if x == MapSizeX-5-1 {
+							blt.Print(x, y, "[color=#a0785a]╗[/color]")
 						} else {
-							blt.Print(x, y, "[color=black]═[/color]")
+							blt.Print(x, y, "[color=#a0785a]═[/color]")
 						}
-					case MapSizeY-5:
+					case MapSizeY-5-1:
 						blt.Layer(MenuLayer+1)
 						if x == 5 {
-							blt.Print(x, y, "[color=black]╚[/color]")
-						} else if x == MapSizeX-5 {
-							blt.Print(x, y, "[color=black]╝[/color]")
+							blt.Print(x, y, "[color=#a0785a]╚[/color]")
+						} else if x == MapSizeX-5-1 {
+							blt.Print(x, y, "[color=#a0785a]╝[/color]")
 						} else {
-							blt.Print(x, y, "[color=black]═[/color]")
+							blt.Print(x, y, "[color=#a0785a]═[/color]")
 						}
 					default:
 						switch x {
-						case 5, MapSizeX-5:
+						case 5, MapSizeX-5-1:
 							blt.Layer(MenuLayer+1)
-							blt.Print(x, y, "[color=black]║[/color]")
+							blt.Print(x, y, "[color=#a0785a]║[/color]")
 						}
 					}
 				}
