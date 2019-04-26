@@ -30,6 +30,8 @@ import (
 	"errors"
 	"fmt"
 	"unicode/utf8"
+
+	blt "bearlibterminal"
 )
 
 const (
@@ -212,25 +214,113 @@ func (c *Creature) PickUp(o *Objects) bool {
 	   successful attempt. */
 	turnSpent := false
 	obj := *o
+	var allObjects = Objects{}
+	var is = []int{}
 	for i := 0; i < len(obj); i++ {
 		if obj[i].X == c.X && obj[i].Y == c.Y && obj[i].Pickable == true {
-			if c.AIType == PlayerAI {
-				oName := "[color=" + obj[i].Color + "]" + obj[i].Name + "[/color]"
-				AddMessage("You found " + oName + ".")
-			}
-			if obj[i].Slot != c.ActiveWeapon {
+			allObjects = append(allObjects, obj[i])
+			is = append(is, i)
+		}
+	}
+	if c.AIType == PlayerAI {
+		if len(allObjects) > 1 {
+			// Print menu
+			for x := 5; x < MapSizeX-5; x++ {
+				for y := 5; y < MapSizeY-5; y++ {
+					blt.Layer(MenuLayer)
+					blt.Print(x, y, "[color=black]▒[/color]")
+					switch y {
+					case 5:
+						blt.Layer(MenuLayer+1)
+						if x == 5 {
+							blt.Print(x, y, "[color=black]╔[/color]")
+						} else if x == MapSizeX-5 {
+							blt.Print(x, y, "[color=black]╗[/color]")
+						} else {
+							blt.Print(x, y, "[color=black]═[/color]")
+						}
+					case MapSizeY-5:
+						blt.Layer(MenuLayer+1)
+						if x == 5 {
+							blt.Print(x, y, "[color=black]╚[/color]")
+						} else if x == MapSizeX-5 {
+							blt.Print(x, y, "[color=black]╝[/color]")
+						} else {
+							blt.Print(x, y, "[color=black]═[/color]")
+						}
+					default:
+						switch x {
+						case 5, MapSizeX-5:
+							blt.Layer(MenuLayer+1)
+							blt.Print(x, y, "[color=black]║[/color]")
+						}
+					}
+				}
+			} //printing finished
+			//print objects
+			for i, v := range allObjects {
+				blt.Layer(MenuLayer+1)
+				weaponStr := ""
+				weaponStr = weaponStr + "[color=" + v.Color + "]"
+				weaponStr = weaponStr + "([/color]"
+				if v.Ranges[0] != 0 && (v.Ranges[1] != 0 || v.Ranges[2] != 0) {
+					rangesStr := ""
+					for i, _ := range v.Ranges {
+						val := v.Ranges[i]
+						if val < 25 {
+							rangesStr = rangesStr + "[color=darker red]▁[/color]"
+						} else if val < 50 {
+							rangesStr = rangesStr + "[color=darker flame]▃[/color]"
+						} else if val < 75 {
+							rangesStr = rangesStr + "[color=darker yellow]▅[/color]"
+						} else {
+							rangesStr = rangesStr + "[color=darker green]▇[/color]"
+						}
+					}
+					if v.Cock == true {
+						rangesStr = rangesStr + "[color=dark red]" + CockedIcon + "[/color]"
+					}
+					weaponStr = weaponStr + rangesStr
+				}
+				weaponStr = weaponStr + "[color=" + v.Color + "])[/color]"
+				blt.Print(5+2, 5+2+i, OrderToCharacter(i) + ") " + weaponStr)
+			} //printing finished
+			blt.Refresh()
+			key := ReadInput()
+			ord := KeyToOrder(key)
+			weapon := allObjects[ord]
+			wName := "[color=" + weapon.Color + "]" + weapon.Name + "[/color]"
+			AddMessage("You found " + wName + ".")
+			if weapon.Slot != c.ActiveWeapon {
 				if c.Equipment[c.ActiveWeapon].Cock == true {
 					c.Equipment[c.ActiveWeapon].Cocked = false
 				}
-				c.ActiveWeapon = obj[i].Slot
+				c.ActiveWeapon = weapon.Slot
 			}
-			c.DropFromEquipment(&obj, obj[i].Slot)
-			c.EquipItem(obj[i], obj[i].Slot)
-			copy(obj[i:], obj[i+1:])
+			c.DropFromEquipment(&obj, weapon.Slot)
+			c.EquipItem(weapon, weapon.Slot)
+			copy(obj[is[ord]:], obj[is[ord]+1:])
 			obj[len(obj)-1] = nil
 			*o = obj[:len(obj)-1]
 			turnSpent = true
-			break
+		}
+	} else {
+		for i := 0; i < len(obj); i++ {
+			if obj[i].X == c.X && obj[i].Y == c.Y && obj[i].Pickable == true {
+				if obj[i].Slot != c.ActiveWeapon {
+					if c.Equipment[c.ActiveWeapon].Cock == true {
+						c.Equipment[c.ActiveWeapon].Cocked = false
+					}
+					c.ActiveWeapon = obj[i].Slot
+				}
+				c.DropFromEquipment(&obj, obj[i].Slot)
+				c.EquipItem(obj[i], obj[i].Slot)
+				copy(obj[i:], obj[i+1:])
+				obj[len(obj)-1] = nil
+				*o = obj[:len(obj)-1]
+				turnSpent = true
+				break
+			}
 		}
 	}
 	return turnSpent

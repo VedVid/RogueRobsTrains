@@ -46,6 +46,7 @@ const (
 	CreaturesLayer
 	PlayerLayer
 	LookLayer
+	MenuLayer
 )
 
 const CockedIcon = "Φ"
