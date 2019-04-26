@@ -2,6 +2,6 @@
 
 Topics: western, Old West, trains.
 
-RRT is developed with my own [RAWIG](https://github.com/VedVid/RAWIG) roguelike template, [BearLibTerminal](http://foo.wyrd.name/en:bearlibterminal) library and [Deferral-Square](https://github.com/brianbruggeman/Deferral) font.
+RRT is developed with my own [RAWIG](https://github.com/VedVid/RAWIG) roguelike template, [BearLibTerminal](http://foo.wyrd.name/en:bearlibterminal) library made by Cfyz, and [Deferral-Square](https://github.com/brianbruggeman/Deferral) font made by Brian Bruggeman.
 
 Thanks to [anaseto](https://github.com/anaseto) for contribution!
