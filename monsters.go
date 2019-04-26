@@ -300,7 +300,7 @@ func (c *Creature) PickUp(o *Objects) bool {
 			blt.Print(5+2, startY+2+i, OrderToCharacter(i)+") "+weaponStr)
 			maxI++
 		} //printing finished
-		blt.Print(5+2, 5+2+maxI+2, "Press [[ESCAPE]] to cancel.")
+		blt.Print(5+2, startY+2+maxI+1, "Press [[ESCAPE]] to cancel.")
 		blt.Refresh()
 		var key int
 		var ord int
