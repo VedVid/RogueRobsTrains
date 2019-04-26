@@ -225,10 +225,20 @@ func (c *Creature) PickUp(o *Objects) bool {
 	if c.AIType == PlayerAI {
 		if len(allObjects) > 1 {
 			// Print menu
-			centerY := MapSizeY / 2
-			startY := centerY - 4
-			endY := centerY + 4 + 1
-
+			var elements = []string{
+				"top frame",
+				"spacing",
+				"ESCAPE",
+				"spacing",
+				"bottom frame",
+			}
+			for _, v := range allObjects {
+				elements = append(elements, v.Name)
+			}
+			elements = append(elements, "just something else...")
+			sizeY := len(elements)
+			startY := (MapSizeY/2) - (sizeY / 2)
+			endY := (MapSizeY/2) + (sizeY / 2 + (sizeY%2))
 			for x := 5; x < MapSizeX-5; x++ {
 				for y := startY; y < endY; y++ {
 					blt.Layer(MenuLayer)
