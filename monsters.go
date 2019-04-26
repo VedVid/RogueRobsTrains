@@ -258,6 +258,7 @@ func (c *Creature) PickUp(o *Objects) bool {
 				}
 			} //printing finished
 			//print objects
+			maxI := 0
 			for i, v := range allObjects {
 				blt.Layer(MenuLayer+1)
 				weaponStr := ""
@@ -284,7 +285,9 @@ func (c *Creature) PickUp(o *Objects) bool {
 					weaponStr = weaponStr + rangesStr
 				}
 				blt.Print(5+2, 5+2+i, OrderToCharacter(i) + ") " + weaponStr)
+				maxI++
 			} //printing finished
+			blt.Print(5+2, 5+2+maxI+1, "Press [[ESCAPE]] to cancel.")
 			blt.Refresh()
 			var key int
 			var ord int
