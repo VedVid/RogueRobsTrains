@@ -228,7 +228,7 @@ func (c *Creature) PickUp(o *Objects) bool {
 			for x := 5; x < MapSizeX-5; x++ {
 				for y := 5; y < MapSizeY-5; y++ {
 					blt.Layer(MenuLayer)
-					blt.Print(x, y, "[color=black]▒[/color]")
+					blt.Print(x, y, "[color=black]▓[/color]")
 					switch y {
 					case 5:
 						blt.Layer(MenuLayer+1)
@@ -262,9 +262,9 @@ func (c *Creature) PickUp(o *Objects) bool {
 				blt.Layer(MenuLayer+1)
 				weaponStr := ""
 				weaponStr = weaponStr + "[color=" + v.Color + "]"
-				weaponStr = weaponStr + "([/color]"
+				weaponStr = weaponStr + v.Name
 				if v.Ranges[0] != 0 && (v.Ranges[1] != 0 || v.Ranges[2] != 0) {
-					rangesStr := ""
+					rangesStr := "([/color]"
 					for i, _ := range v.Ranges {
 						val := v.Ranges[i]
 						if val < 25 {
@@ -280,9 +280,9 @@ func (c *Creature) PickUp(o *Objects) bool {
 					if v.Cock == true {
 						rangesStr = rangesStr + "[color=dark red]" + CockedIcon + "[/color]"
 					}
+					rangesStr = rangesStr + "[color=" + v.Color + "])[/color]"
 					weaponStr = weaponStr + rangesStr
 				}
-				weaponStr = weaponStr + "[color=" + v.Color + "])[/color]"
 				blt.Print(5+2, 5+2+i, OrderToCharacter(i) + ") " + weaponStr)
 			} //printing finished
 			blt.Refresh()
