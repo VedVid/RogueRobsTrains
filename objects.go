@@ -241,7 +241,7 @@ func (o *Object) UseItem(c *Creature) (bool, error) {
 		break
 	}
 	if err == nil {
-		AddMessage("You used " + o.Name + ".")
+		AddMessage("You used [color=" + o.Color + "]" + o.Name + "[/color].")
 		err2 := DestroyItem(o, c)
 		if err2 != nil {
 			fmt.Println(err2)

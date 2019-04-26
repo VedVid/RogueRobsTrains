@@ -147,7 +147,7 @@ func Command(com string, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	case StrFire:
 		if p.ActiveWeapon != SlotWeaponMelee {
 			if p.Equipment[p.ActiveWeapon].AmmoCurrent <= 0 {
-				AddMessage("You need to reload " + p.Equipment[p.ActiveWeapon].Name + ".")
+				AddMessage("You need to reload [color=" + p.Equipment[p.ActiveWeapon].Color + "]" + p.Equipment[p.ActiveWeapon].Name + "[/color].")
 			} else {
 				if (p.Equipment[p.ActiveWeapon].Cock == true &&
 					p.Equipment[p.ActiveWeapon].Cocked == true) ||
@@ -162,7 +162,7 @@ func Command(com string, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 				} else {
 					p.Equipment[p.ActiveWeapon].Cocked = true
 					turnSpent = true
-					AddMessage("You cocked " + p.Equipment[p.ActiveWeapon].Name + ".")
+					AddMessage("You cocked [color=" + p.Equipment[p.ActiveWeapon].Color + "]" + p.Equipment[p.ActiveWeapon].Name + "[/color].")
 				}
 			}
 		} else {
@@ -182,7 +182,7 @@ func Command(com string, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 				} else {
 					if p.Equipment[p.ActiveWeapon].Cocked == true {
 						p.Equipment[p.ActiveWeapon].Cocked = false
-						AddMessage("You uncocked " + p.Equipment[p.ActiveWeapon].Name + ".")
+						AddMessage("You uncocked [color=" + p.Equipment[p.ActiveWeapon].Color + "]" + p.Equipment[p.ActiveWeapon].Name + "[/color].")
 						turnSpent = true
 					} else {
 						if p.Equipment[p.ActiveWeapon].AmmoCurrent < p.Equipment[p.ActiveWeapon].AmmoMax {
