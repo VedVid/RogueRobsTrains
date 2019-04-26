@@ -276,7 +276,7 @@ func (c *Creature) PickUp(o *Objects) bool {
 			blt.Layer(MenuLayer + 1)
 			weaponStr := ""
 			weaponStr = weaponStr + "[color=" + v.Color + "]"
-			weaponStr = weaponStr + v.Name
+			weaponStr = weaponStr + v.Char + " " + v.Name
 			if v.Ranges[0] != 0 && (v.Ranges[1] != 0 || v.Ranges[2] != 0) {
 				rangesStr := "([/color]"
 				for i, _ := range v.Ranges {
