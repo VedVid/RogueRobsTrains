@@ -27,9 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package main
 
 import (
-	"strconv"
-
 	blt "bearlibterminal"
+	"strconv"
 )
 
 func SetGlyph(path, number, filter string, size int) string {
@@ -57,4 +56,39 @@ func SetColor(name, number string) string {
 
 func SetBkColor(color string) {
 	blt.BkColor(blt.ColorFromName("black"))
+}
+
+func RuneCountInBltString(s string) int {
+	length := 0
+	var r = []rune(s)
+	internal := false
+	for i, v := range r {
+		nextRune := ' '
+		prevRune := ' '
+		if i < len(r)-1 {
+			nextRune = r[i+1]
+		}
+		if i > 0 {
+			prevRune = r[i-1]
+		}
+		if internal == false {
+			if v == '[' && nextRune != '[' && prevRune != '[' {
+				internal = true
+			}
+		} else {
+			if v == ']' && nextRune != ']' && prevRune != ']' {
+				internal = false
+			}
+		}
+		if internal == false {
+			if v != ']' {
+				length++
+			} else {
+				if prevRune == ']' || nextRune == ']' {
+					length++
+				}
+			}
+		}
+	}
+	return length
 }

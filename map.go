@@ -126,8 +126,8 @@ func InitializeEmptyMap() Board {
 }
 
 func (b *Board) MoveMap() {
-	const railY1 = 7+1
-	const railY2 = 12-1
+	const railY1 = 7 + 1
+	const railY2 = 12 - 1
 	for x := 0; x < MapSizeX; x++ {
 		for y := 0; y < MapSizeY; y++ {
 			if (*b)[x][y].Name == "railroad" {
@@ -327,7 +327,9 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 		err = errors.New("Length of MonstersCoords and MonstersTypes does not match. " + txt)
 	}
 	var enemies = []string{"dumbMelee.json", "patherMelee.json", "patherMelee.json", "dumbRanged.json",
-		"dumbRanged.json", "patherRanged.json", "patherRanged.json", "patherRanged.json"}
+		"dumbRanged.json", "patherRanged.json", "patherRanged.json", "patherRanged.json", "dumbRanged.json",
+		"dumbRanged.json", "PatherRanged.json", "patherRanged.json", "patherRanged.json", "patherRanged.json",
+		"patherRanged.json", "patherRanged.json", "patherRanged.json", "patherRanged.json", "patherRanged.json"}
 	var creatures = Creatures{}
 	for k := 0; k < len(coords); k++ {
 		if aiTypes[k] == "player" {

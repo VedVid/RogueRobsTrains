@@ -32,10 +32,13 @@ import (
 )
 
 const (
-	vectorSymbol       = "X" // Maybe vectorSymbol should be customized, as colors?
+	vectorGoodSymbol   = "□"
+	vectorBadSymbol    = "✗"
 	VectorColorNeutral = "white"
 	VectorColorGood    = "green"
 	VectorColorBad     = "red"
+	VectorWhyInspect   = "inspect"
+	VectorWhyTarget    = "target"
 )
 
 type Vector struct {
@@ -240,7 +243,7 @@ Loop:
 	return valid, tile, monster, object
 }
 
-func PrintVector(vec *Vector, color1, color2 string, b Board, o Objects, c Creatures) {
+func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Objects, c Creatures) {
 	/* Function PrintVector has to take Vector, and (unfortunately,
 	   due to flawed game architecture) Board, "global" Objects, and
 	   Creatures.
@@ -250,13 +253,54 @@ func PrintVector(vec *Vector, color1, color2 string, b Board, o Objects, c Creat
 	blt.Clear()
 	RenderAll(b, o, c)
 	blt.Layer(LookLayer)
-	ch1 := "[color=" + color1 + "]" + vectorSymbol
-	ch2 := "[color=" + color2 + "]" + vectorSymbol
+	ch1 := "[color=" + color1 + "]" + vectorGoodSymbol
+	ch2 := "[color=" + color2 + "]" + vectorBadSymbol
+	if why == VectorWhyInspect {
+		ch2 = ch1
+	}
 	length := len(vec.TilesX)
 	for i := 0; i < length; i++ {
 		if i == 0 && length > 1 {
 			// Do not draw over player, unless he is targeting self.
 			continue
+		}
+		if why == VectorWhyTarget {
+			chcol := "white"
+			if i <= RangeShort {
+				rang := c[0].Equipment[c[0].ActiveWeapon].Ranges[0]
+				if rang <= 25 {
+					chcol = "darker red"
+				} else if rang <= 50 {
+					chcol = "dark flame"
+				} else if rang <= 75 {
+					chcol = "darker yellow"
+				} else {
+					chcol = "darker green"
+				}
+			} else if i <= RangeMedium {
+				rang := c[0].Equipment[c[0].ActiveWeapon].Ranges[1]
+				if rang <= 25 {
+					chcol = "darker red"
+				} else if rang <= 50 {
+					chcol = "dark flame"
+				} else if rang <= 75 {
+					chcol = "darker yellow"
+				} else {
+					chcol = "darker green"
+				}
+			} else if i <= RangeLong {
+				rang := c[0].Equipment[c[0].ActiveWeapon].Ranges[2]
+				if rang <= 25 {
+					chcol = "darker red"
+				} else if rang <= 50 {
+					chcol = "dark flame"
+				} else if rang <= 75 {
+					chcol = "darker yellow"
+				} else {
+					chcol = "darker green"
+				}
+			}
+			ch1 = "[color=" + chcol + "]" + vectorGoodSymbol
 		}
 		x := vec.TilesX[i]
 		y := vec.TilesY[i]

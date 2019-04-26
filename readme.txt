@@ -12,7 +12,8 @@ Game is made with use of RAWIG roguelike template (https://github.com/VedVid/RAW
 
 In "Rogue Robs Trains" player is bandit that boarded train transport of gold. You must kill everyone and stop train.
 
-The core of the game is ranged combat mechanics. Two important factors are distance from target (rifles are most efficient on long (>20 tiles) range, revolvers on medium (>10 and <= 20 tiles) range.
+The core of the game is ranged combat mechanics. Two important factors are distance from target. There is range indicator for every equipped weapon, showed as three bars:
+for short (<=10), medium (>10, <=20) and long (>20) distance.
 Additionally, player has to remember that some weapons needs to be cocked before every shot, and sometimes reloading takes much more time than expected...
 
 Animation option is off by default as experimental feature that does not blend with architecture well.

@@ -31,38 +31,123 @@ import (
 	"os"
 )
 
-func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
-	/* Function Controls is input handler.
-	   It takes integer k (key codes are basically numbers,
-	   but creating new "type key int" is not convenient)
-	   and Creature p (which is player).
-	   Controls handle input, then returns integer value that depends
-	   if player spent turn by action or not. */
-	turnSpent := false
-	switch k {
-	case blt.TK_UP, blt.TK_KP_8, blt.TK_K, blt.TK_W:
-		turnSpent = p.MoveOrAttack(0, -1, *b, o, *c)
-	case blt.TK_RIGHT, blt.TK_KP_6, blt.TK_L, blt.TK_D:
-		turnSpent = p.MoveOrAttack(1, 0, *b, o, *c)
-	case blt.TK_DOWN, blt.TK_KP_2, blt.TK_J, blt.TK_X:
-		turnSpent = p.MoveOrAttack(0, 1, *b, o, *c)
-	case blt.TK_LEFT, blt.TK_KP_4, blt.TK_H, blt.TK_A:
-		turnSpent = p.MoveOrAttack(-1, 0, *b, o, *c)
-	case blt.TK_HOME, blt.TK_KP_7, blt.TK_Y, blt.TK_Q:
-		turnSpent = p.MoveOrAttack(-1, -1, *b, o, *c)
-	case blt.TK_PAGEUP, blt.TK_KP_9, blt.TK_U, blt.TK_E:
-		turnSpent = p.MoveOrAttack(1, -1, *b, o, *c)
-	case blt.TK_END, blt.TK_KP_1, blt.TK_B, blt.TK_Z:
-		turnSpent = p.MoveOrAttack(-1, 1, *b, o, *c)
-	case blt.TK_PAGEDOWN, blt.TK_KP_3, blt.TK_N, blt.TK_C:
-		turnSpent = p.MoveOrAttack(1, 1, *b, o, *c)
-	case blt.TK_SPACE, blt.TK_KP_5, blt.TK_PERIOD, blt.TK_S:
-		turnSpent = true // Pass a turn.
+const (
+	StrMoveNorthwest = "MOVE_NORTHWEST"
+	StrMoveNorth     = "MOVE_NORTH"
+	StrMoveNortheast = "MOVE_NORTHEAST"
+	StrMoveWest      = "MOVE_WEST"
+	StrStandStill    = "STAND_STILL"
+	StrMoveEast      = "MOVE_EAST"
+	StrMoveSouthwest = "MOVE_SOUTHWEST"
+	StrMoveSouth     = "MOVE_SOUTH"
+	StrMoveSoutheast = "MOVE_SOUTHEAST"
 
-	case blt.TK_F:
+	StrFire    = "FIRE"
+	StrReload  = "RELOAD"
+	StrInspect = "INSPECT"
+	StrPickup  = "PICKUP"
+	StrPull    = "PULL"
+
+	StrPrimary   = "PRIMARY"
+	StrSecondary = "SECONDARY"
+	StrMelee     = "MELEE"
+)
+
+var Actions = []string{
+	StrMoveNorthwest,
+	StrMoveNorth,
+	StrMoveNortheast,
+	StrMoveWest,
+	StrStandStill,
+	StrMoveEast,
+	StrMoveSouthwest,
+	StrMoveSouth,
+	StrMoveSoutheast,
+	StrFire,
+	StrReload,
+	StrInspect,
+	StrPickup,
+	StrPull,
+	StrPrimary,
+	StrSecondary,
+	StrMelee,
+}
+
+var CommandKeys = map[int]string{
+	blt.TK_UP:        StrMoveNorth,
+	blt.TK_KP_8:      StrMoveNorth,
+	blt.TK_K:         StrMoveNorth,
+	blt.TK_W:         StrMoveNorth,
+	blt.TK_RIGHT:     StrMoveEast,
+	blt.TK_KP_6:      StrMoveEast,
+	blt.TK_L:         StrMoveEast,
+	blt.TK_D:         StrMoveEast,
+	blt.TK_DOWN:      StrMoveSouth,
+	blt.TK_KP_2:      StrMoveSouth,
+	blt.TK_J:         StrMoveSouth,
+	blt.TK_X:         StrMoveSouth,
+	blt.TK_LEFT:      StrMoveWest,
+	blt.TK_KP_4:      StrMoveWest,
+	blt.TK_H:         StrMoveWest,
+	blt.TK_A:         StrMoveWest,
+	blt.TK_HOME:      StrMoveNorthwest,
+	blt.TK_KP_7:      StrMoveNorthwest,
+	blt.TK_Y:         StrMoveNorthwest,
+	blt.TK_Q:         StrMoveNorthwest,
+	blt.TK_PAGEUP:    StrMoveNortheast,
+	blt.TK_KP_9:      StrMoveNortheast,
+	blt.TK_U:         StrMoveNortheast,
+	blt.TK_E:         StrMoveNortheast,
+	blt.TK_END:       StrMoveSouthwest,
+	blt.TK_KP_1:      StrMoveSouthwest,
+	blt.TK_B:         StrMoveSouthwest,
+	blt.TK_Z:         StrMoveSouthwest,
+	blt.TK_PAGEDOWN:  StrMoveSoutheast,
+	blt.TK_KP_3:      StrMoveSoutheast,
+	blt.TK_N:         StrMoveSoutheast,
+	blt.TK_C:         StrMoveSoutheast,
+	blt.TK_SPACE:     StrStandStill,
+	blt.TK_KP_5:      StrStandStill,
+	blt.TK_KP_PERIOD: StrStandStill,
+	blt.TK_S:         StrStandStill,
+	blt.TK_F:         StrFire,
+	blt.TK_R:         StrReload,
+	blt.TK_I:         StrInspect,
+	blt.TK_G:         StrPickup,
+	blt.TK_P:         StrPull,
+	blt.TK_1:         StrPrimary,
+	blt.TK_2:         StrSecondary,
+	blt.TK_3:         StrMelee,
+}
+
+var CustomCommandKeys = map[int]string{}
+
+func Command(com string, p *Creature, b *Board, c *Creatures, o *Objects) bool {
+	turnSpent := false
+	switch com {
+	case StrMoveNorthwest:
+		turnSpent = p.MoveOrAttack(-1, -1, *b, o, *c)
+	case StrMoveNorth:
+		turnSpent = p.MoveOrAttack(0, -1, *b, o, *c)
+	case StrMoveNortheast:
+		turnSpent = p.MoveOrAttack(1, -1, *b, o, *c)
+	case StrMoveWest:
+		turnSpent = p.MoveOrAttack(-1, 0, *b, o, *c)
+	case StrStandStill:
+		turnSpent = true
+	case StrMoveEast:
+		turnSpent = p.MoveOrAttack(1, 0, *b, o, *c)
+	case StrMoveSouthwest:
+		turnSpent = p.MoveOrAttack(-1, 1, *b, o, *c)
+	case StrMoveSouth:
+		turnSpent = p.MoveOrAttack(0, 1, *b, o, *c)
+	case StrMoveSoutheast:
+		turnSpent = p.MoveOrAttack(1, 1, *b, o, *c)
+
+	case StrFire:
 		if p.ActiveWeapon != SlotWeaponMelee {
 			if p.Equipment[p.ActiveWeapon].AmmoCurrent <= 0 {
-				AddMessage("You need to reload " + p.Equipment[p.ActiveWeapon].Name + ".")
+				AddMessage("You need to reload [color=" + p.Equipment[p.ActiveWeapon].Color + "]" + p.Equipment[p.ActiveWeapon].Name + "[/color].")
 			} else {
 				if (p.Equipment[p.ActiveWeapon].Cock == true &&
 					p.Equipment[p.ActiveWeapon].Cocked == true) ||
@@ -77,13 +162,14 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 				} else {
 					p.Equipment[p.ActiveWeapon].Cocked = true
 					turnSpent = true
-					AddMessage("You cocked " + p.Equipment[p.ActiveWeapon].Name + ".")
+					AddMessage("You cocked [color=" + p.Equipment[p.ActiveWeapon].Color + "]" + p.Equipment[p.ActiveWeapon].Name + "[/color].")
 				}
 			}
 		} else {
 			AddMessage("You are using melee weapon.")
 		}
-	case blt.TK_R:
+
+	case StrReload:
 		if Config.Reloading == AmmoLimited {
 			AddMessage("You do not have more ammo!")
 		} else {
@@ -96,7 +182,7 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 				} else {
 					if p.Equipment[p.ActiveWeapon].Cocked == true {
 						p.Equipment[p.ActiveWeapon].Cocked = false
-						AddMessage("You uncocked " + p.Equipment[p.ActiveWeapon].Name + ".")
+						AddMessage("You uncocked [color=" + p.Equipment[p.ActiveWeapon].Color + "]" + p.Equipment[p.ActiveWeapon].Name + "[/color].")
 						turnSpent = true
 					} else {
 						if p.Equipment[p.ActiveWeapon].AmmoCurrent < p.Equipment[p.ActiveWeapon].AmmoMax {
@@ -107,11 +193,14 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 				}
 			}
 		}
-	case blt.TK_I:
+
+	case StrInspect:
 		p.Look(*b, *o, *c) // Looking is free action.
-	case blt.TK_G:
+
+	case StrPickup:
 		turnSpent = p.PickUp(o)
-	case blt.TK_P:
+
+	case StrPull:
 		minX := p.X - 1
 		if minX < 0 {
 			minX = p.X
@@ -146,7 +235,8 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			blt.Close()
 			os.Exit(0)
 		}
-	case blt.TK_1:
+
+	case StrPrimary:
 		if p.ActiveWeapon != SlotWeaponPrimary {
 			if p.Equipment[p.ActiveWeapon].Cock == true {
 				p.Equipment[p.ActiveWeapon].Cocked = false
@@ -154,7 +244,8 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			p.ActiveWeapon = SlotWeaponPrimary
 			turnSpent = true
 		}
-	case blt.TK_2:
+
+	case StrSecondary:
 		if p.ActiveWeapon != SlotWeaponSecondary {
 			if p.Equipment[p.ActiveWeapon].Cock == true {
 				p.Equipment[p.ActiveWeapon].Cocked = false
@@ -162,7 +253,8 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 			p.ActiveWeapon = SlotWeaponSecondary
 			turnSpent = true
 		}
-	case blt.TK_3:
+
+	case StrMelee:
 		if p.ActiveWeapon != SlotWeaponMelee {
 			if p.Equipment[p.ActiveWeapon].Cock == true {
 				p.Equipment[p.ActiveWeapon].Cocked = false
@@ -172,4 +264,30 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 		}
 	}
 	return turnSpent
+}
+
+func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
+	turnSpent := false
+	var command string
+	if CustomControls == false {
+		command = CommandKeys[k]
+	} else {
+		command = CustomCommandKeys[k]
+	}
+	turnSpent = Command(command, p, b, c, o)
+	return turnSpent
+}
+
+func ReadInput() int {
+	key := blt.Read()
+	for _, v := range HardcodedKeys {
+		if key == v {
+			return v
+		}
+	}
+	var r rune
+	if blt.Check(blt.TK_WCHAR) != 0 {
+		r = rune(blt.State(blt.TK_WCHAR))
+	}
+	return KeyMap[r]
 }

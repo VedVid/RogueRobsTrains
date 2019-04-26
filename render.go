@@ -46,7 +46,10 @@ const (
 	CreaturesLayer
 	PlayerLayer
 	LookLayer
+	MenuLayer
 )
+
+const CockedIcon = "Φ"
 
 func PrintBoard(b Board, c Creatures) {
 	/* Function PrintBoard is used in RenderAll function.
@@ -203,11 +206,11 @@ func PrintUI(c *Creature) {
 		}
 		if c.Equipment[i].Cock == true {
 			cockedPosX := UIPosX + c.Equipment[i].AmmoMax + 1 + 4 + 3 + 1
-			cockedIcon := "Φ"
+			cockedIcon := CockedIcon
 			if c.Equipment[i].Cocked == true {
-				cockedIcon = "[color=dark green]" + cockedIcon
+				cockedIcon = "[color=dark green]" + CockedIcon
 			} else {
-				cockedIcon = "[color=dark red]" + cockedIcon
+				cockedIcon = "[color=dark red]" + CockedIcon
 			}
 			blt.Print(cockedPosX, UIPosY+pos+1, cockedIcon)
 		}

@@ -30,6 +30,8 @@ import (
 	"errors"
 	"fmt"
 	"unicode/utf8"
+
+	blt "bearlibterminal"
 )
 
 const (
@@ -212,19 +214,142 @@ func (c *Creature) PickUp(o *Objects) bool {
 	   successful attempt. */
 	turnSpent := false
 	obj := *o
+	var allObjects = Objects{}
+	var is = []int{}
 	for i := 0; i < len(obj); i++ {
 		if obj[i].X == c.X && obj[i].Y == c.Y && obj[i].Pickable == true {
-			if c.AIType == PlayerAI {
-				oName := "[color=" + obj[i].Color + "]" + obj[i].Name + "[/color]"
-				AddMessage("You found " + oName + ".")
+			allObjects = append(allObjects, obj[i])
+			is = append(is, i)
+		}
+	}
+	if c.AIType == PlayerAI {
+		if len(allObjects) > 1 {
+			// Print menu
+			var elements = []string{
+				"top frame",
+				"spacing",
+				"ESCAPE",
+				"spacing",
+				"bottom frame",
 			}
-			c.DropFromEquipment(&obj, obj[i].Slot)
-			c.EquipItem(obj[i], obj[i].Slot)
-			copy(obj[i:], obj[i+1:])
+			for _, v := range allObjects {
+				elements = append(elements, v.Name)
+			}
+			elements = append(elements, "just something else...")
+			sizeY := len(elements)
+			startY := (MapSizeY/2) - (sizeY / 2)
+			endY := (MapSizeY/2) + (sizeY / 2 + (sizeY%2))
+			for x := 5; x < MapSizeX-5; x++ {
+				for y := startY; y < endY; y++ {
+					blt.Layer(MenuLayer)
+					blt.Print(x, y, "[color=black]▓[/color]")
+					switch y {
+					case startY:
+						blt.Layer(MenuLayer+1)
+						if x == 5 {
+							blt.Print(x, y, "[color=#a0785a]╔[/color]")
+						} else if x == MapSizeX-5-1 {
+							blt.Print(x, y, "[color=#a0785a]╗[/color]")
+						} else {
+							blt.Print(x, y, "[color=#a0785a]═[/color]")
+						}
+					case endY-1:
+						blt.Layer(MenuLayer+1)
+						if x == 5 {
+							blt.Print(x, y, "[color=#a0785a]╚[/color]")
+						} else if x == MapSizeX-5-1 {
+							blt.Print(x, y, "[color=#a0785a]╝[/color]")
+						} else {
+							blt.Print(x, y, "[color=#a0785a]═[/color]")
+						}
+					default:
+						switch x {
+						case 5, MapSizeX-5-1:
+							blt.Layer(MenuLayer+1)
+							blt.Print(x, y, "[color=#a0785a]║[/color]")
+						}
+					}
+				}
+			} //printing finished
+			//print objects
+			maxI := 0
+			for i, v := range allObjects {
+				blt.Layer(MenuLayer+1)
+				weaponStr := ""
+				weaponStr = weaponStr + "[color=" + v.Color + "]"
+				weaponStr = weaponStr + v.Name
+				if v.Ranges[0] != 0 && (v.Ranges[1] != 0 || v.Ranges[2] != 0) {
+					rangesStr := "([/color]"
+					for i, _ := range v.Ranges {
+						val := v.Ranges[i]
+						if val < 25 {
+							rangesStr = rangesStr + "[color=darker red]▁[/color]"
+						} else if val < 50 {
+							rangesStr = rangesStr + "[color=darker flame]▃[/color]"
+						} else if val < 75 {
+							rangesStr = rangesStr + "[color=darker yellow]▅[/color]"
+						} else {
+							rangesStr = rangesStr + "[color=darker green]▇[/color]"
+						}
+					}
+					if v.Cock == true {
+						rangesStr = rangesStr + "[color=dark red]" + CockedIcon + "[/color]"
+					}
+					rangesStr = rangesStr + "[color=" + v.Color + "])[/color]"
+					weaponStr = weaponStr + rangesStr
+				}
+				blt.Print(5+2, startY+2+i, OrderToCharacter(i) + ") " + weaponStr)
+				maxI++
+			} //printing finished
+			blt.Print(5+2, 5+2+maxI+2, "Press [[ESCAPE]] to cancel.")
+			blt.Refresh()
+			var key int
+			var ord int
+			for {
+				key = ReadInput()
+				if key == blt.TK_ESCAPE {
+					return turnSpent
+				}
+				ord = KeyToOrder(key)
+				if ord < len(allObjects) && ord >= 0 {
+					break
+				} else {
+					continue
+				}
+			}
+			weapon := allObjects[ord]
+			wName := "[color=" + weapon.Color + "]" + weapon.Name + "[/color]"
+			AddMessage("You found " + wName + ".")
+			if weapon.Slot != c.ActiveWeapon {
+				if c.Equipment[c.ActiveWeapon].Cock == true {
+					c.Equipment[c.ActiveWeapon].Cocked = false
+				}
+				c.ActiveWeapon = weapon.Slot
+			}
+			c.DropFromEquipment(&obj, weapon.Slot)
+			c.EquipItem(weapon, weapon.Slot)
+			copy(obj[is[ord]:], obj[is[ord]+1:])
 			obj[len(obj)-1] = nil
 			*o = obj[:len(obj)-1]
 			turnSpent = true
-			break
+		}
+	} else {
+		for i := 0; i < len(obj); i++ {
+			if obj[i].X == c.X && obj[i].Y == c.Y && obj[i].Pickable == true {
+				if obj[i].Slot != c.ActiveWeapon {
+					if c.Equipment[c.ActiveWeapon].Cock == true {
+						c.Equipment[c.ActiveWeapon].Cocked = false
+					}
+					c.ActiveWeapon = obj[i].Slot
+				}
+				c.DropFromEquipment(&obj, obj[i].Slot)
+				c.EquipItem(obj[i], obj[i].Slot)
+				copy(obj[i:], obj[i+1:])
+				obj[len(obj)-1] = nil
+				*o = obj[:len(obj)-1]
+				turnSpent = true
+				break
+			}
 		}
 	}
 	return turnSpent
@@ -320,7 +445,7 @@ func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
 	// Equip item...
 	c.Equipment[slot] = o
 	if c.AIType == PlayerAI {
-		AddMessage("You equipped " + o.Name + ".")
+		AddMessage("You equipped [color=" + o.Color + "]" + o.Name + "[/color].")
 	}
 	turnSpent = true
 	return turnSpent, err
@@ -351,7 +476,7 @@ func (c *Creature) Die(o *Objects) {
 	   Die() has *Creature as receiver.
 	   Receiver properties changes to fit better to corpse. */
 	c.Layer = DeadLayer
-	c.Name = "corpse of " + c.Name
+	c.Name = "corpse"
 	c.Color = "dark red"
 	c.ColorDark = "dark red"
 	c.Char = CorpseChar

@@ -163,15 +163,51 @@ func GetAllStringsFromTile(x, y int, b Board, c Creatures, o Objects) []string {
 	   tile names if there are objects present ("You see Monster and Objects here."),
 	   otherwise it returns name of tile ("You see floor here."). */
 	var s = []string{}
+	var corpses = []bool{}
+	corpsesSwitch := false
 	for _, vc := range c {
 		if vc.X == x && vc.Y == y {
-			cName := "[color=" + vc.Color + "]" + vc.Name + "[/color]"
-			s = append(s, cName)
+			if vc.Name == "corpse" {
+				corpses = append(corpses, true)
+			}
+		}
+	}
+	if len(corpses) > 1 {
+		corpsesSwitch = true
+		s = append(s, "bodies")
+	}
+	for _, vc := range c {
+		if vc.X == x && vc.Y == y {
+			if corpsesSwitch == false || vc.Name != "corpse" {
+				cName := "[color=" + vc.Color + "]" + vc.Name + "[/color]"
+				s = append(s, cName)
+			}
 		}
 	}
 	for _, vo := range o {
 		if vo.X == x && vo.Y == y {
-			oName := "[color=" + vo.Color + "]" + vo.Name + "[/color]"
+			oName := "[color=" + vo.Color + "]" + vo.Name
+			if vo.Ranges[0] != 0 && (vo.Ranges[1] != 0 || vo.Ranges[2] != 0) {
+				rangesStr := ""
+				for i, _ := range vo.Ranges {
+					val := vo.Ranges[i]
+					if val < 25 {
+						rangesStr = rangesStr + "[color=darker red]▁[/color]"
+					} else if val < 50 {
+						rangesStr = rangesStr + "[color=darker flame]▃[/color]"
+					} else if val < 75 {
+						rangesStr = rangesStr + "[color=darker yellow]▅[/color]"
+					} else {
+						rangesStr = rangesStr + "[color=darker green]▇[/color]"
+					}
+				}
+				if vo.Cock == true {
+					rangesStr = rangesStr + "[color=dark red]" + CockedIcon + "[/color]"
+				}
+				oName = oName + "([/color]" + rangesStr + "[color=" + vo.Color + "])[/color]"
+			} else {
+				oName = oName + "[/color]"
+			}
 			s = append(s, oName)
 		}
 	}

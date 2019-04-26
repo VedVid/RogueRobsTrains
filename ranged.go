@@ -55,7 +55,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		}
 		_ = ComputeVector(vec)
 		_, _, _, _ = ValidateVector(vec, b, cs, o)
-		PrintVector(vec, VectorColorNeutral, VectorColorNeutral, b, o, cs)
+		PrintVector(vec, VectorWhyInspect, VectorColorNeutral, VectorColorNeutral, b, o, cs)
 		if b[targetX][targetY].Explored == true {
 			if IsInFOV(b, c.X, c.Y, targetX, targetY) == true {
 				s := GetAllStringsFromTile(targetX, targetY, b, cs, o)
@@ -69,7 +69,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 			msg = "You don't know what is here."
 		}
 		PrintLookingMessage(msg, i)
-		key := blt.Read()
+		key := ReadInput()
 		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
 			break
 		}
@@ -84,6 +84,9 @@ func PrintLookingMessage(s string, b bool) {
 	   It is used to provide dynamic printing looking message:
 	   player do not need to confirm target to see what is it, but messages
 	   will not flood message log. */
+	if RuneCountInBltString(s) > LogSizeX {
+		s = "Several items are lying here."
+	}
 	l := len(MsgBuf)
 	if s != "" {
 		switch {
@@ -186,13 +189,13 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 		}
 		_ = ComputeVector(vec)
 		valid, _, monsterHit, _ := ValidateVector(vec, b, targets, *o)
-		PrintVector(vec, VectorColorGood, VectorColorBad, b, *o, cs)
+		PrintVector(vec, VectorWhyTarget, VectorColorGood, VectorColorBad, b, *o, cs)
 		if monsterHit != nil {
 			cName := "[color=" + monsterHit.Color + "]" + monsterHit.Name + "[/color]"
 			msg := "There is " + cName + " here."
 			PrintLookingMessage(msg, i)
 		}
-		key := blt.Read()
+		key := ReadInput()
 		if key == blt.TK_ESCAPE {
 			break
 		}

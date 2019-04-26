@@ -1,8 +1,14 @@
-- it's far too easy to lure enemies into melee; what if enemies (aware of player - it should be check if enemy saw player entering other room) would shoot through doors / curtains, with accuracy penalty?
+//- it's far too easy to lure enemies into melee; what if enemies (aware of player - it should be check if enemy saw player entering other room) would shoot through doors / curtains, with accuracy penalty?
 - choose size of font
-- weapons should differ more (done for pistols)
-- weapons should not stack (just spawn them on the nearest empty tile - like in Kornel's games)
-- ai?
-- in limited ammo mode, automaticall ypick up ammo from dead enemies
-- enemies shpuld have limited ammo nin limited ammo mode :P
-- auto-aim works through windows
+- choose animation speed
+- weapons should differ more (done for pistols and melee weapons) (weaker repeaters?)
+//- weapons should not stack (just spawn them on the nearest empty tile - like in Kornel's games)
+//- ai?
+//- in limited ammo mode, automatically pick up ammo from dead enemies
+//- enemies should have limited ammo in limited ammo mode :P
+//- auto-aim works through windows
+- show enemies weapons (in messages, through inspecting, etc)
+- show weapons stats by inspecting
+- Remingtons' curves are reversed, it seems (only remingtons?)
+- looking should use [tab] as well
+- change all these "NAME cocks weapon" "NAME misses", "NAME dies" etc with "You hear cocking", "You hear scream!" etc if source is out of fov
