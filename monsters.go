@@ -416,7 +416,7 @@ func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
 	// Equip item...
 	c.Equipment[slot] = o
 	if c.AIType == PlayerAI {
-		AddMessage("You equipped " + o.Name + ".")
+		AddMessage("You equipped [color=" + o.Color + "]" + o.Name + "[/color].")
 	}
 	turnSpent = true
 	return turnSpent, err
