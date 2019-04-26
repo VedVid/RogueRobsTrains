@@ -11,3 +11,4 @@
 - show weapons stats by inspecting
 - Remingtons' curves are reversed, it seems (only remingtons?)
 - looking should use [tab] as well
+- change all these "NAME cocks weapon" "NAME misses", "NAME dies" etc with "You hear cocking", "You hear scream!" etc if source is out of fov
