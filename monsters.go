@@ -225,12 +225,16 @@ func (c *Creature) PickUp(o *Objects) bool {
 	if c.AIType == PlayerAI {
 		if len(allObjects) > 1 {
 			// Print menu
+			centerY := MapSizeY / 2
+			startY := centerY - 4
+			endY := centerY + 4 + 1
+
 			for x := 5; x < MapSizeX-5; x++ {
-				for y := 5; y < MapSizeY-5; y++ {
+				for y := startY; y < endY; y++ {
 					blt.Layer(MenuLayer)
 					blt.Print(x, y, "[color=black]▓[/color]")
 					switch y {
-					case 5:
+					case startY:
 						blt.Layer(MenuLayer+1)
 						if x == 5 {
 							blt.Print(x, y, "[color=#a0785a]╔[/color]")
@@ -239,7 +243,7 @@ func (c *Creature) PickUp(o *Objects) bool {
 						} else {
 							blt.Print(x, y, "[color=#a0785a]═[/color]")
 						}
-					case MapSizeY-5-1:
+					case endY-1:
 						blt.Layer(MenuLayer+1)
 						if x == 5 {
 							blt.Print(x, y, "[color=#a0785a]╚[/color]")
@@ -284,10 +288,10 @@ func (c *Creature) PickUp(o *Objects) bool {
 					rangesStr = rangesStr + "[color=" + v.Color + "])[/color]"
 					weaponStr = weaponStr + rangesStr
 				}
-				blt.Print(5+2, 5+2+i, OrderToCharacter(i) + ") " + weaponStr)
+				blt.Print(5+2, startY+2+i, OrderToCharacter(i) + ") " + weaponStr)
 				maxI++
 			} //printing finished
-			blt.Print(5+2, 5+2+maxI+1, "Press [[ESCAPE]] to cancel.")
+			blt.Print(5+2, 5+2+maxI+2, "Press [[ESCAPE]] to cancel.")
 			blt.Refresh()
 			var key int
 			var ord int
@@ -297,8 +301,10 @@ func (c *Creature) PickUp(o *Objects) bool {
 					return turnSpent
 				}
 				ord = KeyToOrder(key)
-				if ord < len(allObjects) {
+				if ord < len(allObjects) && ord >= 0 {
 					break
+				} else {
+					continue
 				}
 			}
 			weapon := allObjects[ord]
