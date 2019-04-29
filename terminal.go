@@ -47,7 +47,7 @@ const (
 	LogSizeY    = WindowSizeY - MapSizeY
 	LogPosX     = 0
 	LogPosY     = MapSizeY
-	GameTitle   = "Rogue Robs Trains v0.0.4"
+	GameTitle   = "Rogue Robs Trains v0.0.4b"
 	FontName    = "Deferral-Square.ttf"
 	FontSize    = 14
 )
