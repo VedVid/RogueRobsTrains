@@ -31,12 +31,16 @@ import (
 	"errors"
 	"math"
 	"math/rand"
-	"sort"
 )
 
 const (
 	// Values to catch errors.
 	WrongIndexValue = -1
+)
+
+const (
+	maxInt = int(^uint(0) >> 1)
+	minInt = -maxInt - 1
 )
 
 func RoundFloatToInt(x float64) int {
@@ -99,8 +103,13 @@ func FindObjectIndex(item *Object, arr Objects) (int, error) {
 }
 
 func FindMaxInSlice(arr []int) int {
-	sort.Ints(arr)
-	return arr[len(arr)-1]
+	num := minInt
+	for _, v := range arr {
+		if v >= num {
+			num = v
+		}
+	}
+	return num
 }
 
 func FindCreatureIndex(creature *Creature, arr Creatures) (int, error) {
