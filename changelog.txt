@@ -1,4 +1,4 @@
-v0.0.4c:
+v0.0.4:
  [new] support for QWERTZ and AZERTY keyboard layouts [anaseto]
  [new] experimental support for DVORAK keyboard layout
  [new] range indicators during targeting
