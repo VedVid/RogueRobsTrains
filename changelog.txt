@@ -8,7 +8,7 @@ v0.0.4:
  [mod] less "dumb" enemies, much less melee enemies
  [mod] melee weapons nerfed
  [mod] revolvers are more varied
- [mod] rifles differ more
+ [mod] rifles differ more (repeaters slightly nerfed)
  [mod] updated info about range indicators in readme file
  [mod] level with gold-filled chests is curtain-free now
  [fix] "looking" messages longer than message log

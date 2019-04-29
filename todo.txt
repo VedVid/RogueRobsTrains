@@ -1,6 +1,5 @@
 - choose size of font
 - choose animation speed
-- weapons should differ more (done for pistols and melee weapons) (weaker repeaters?)
 //- auto-aim works through windows
 - show enemies weapons (in messages, through inspecting, etc)
 - looking should use [tab] as well
