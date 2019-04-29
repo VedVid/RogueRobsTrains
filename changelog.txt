@@ -14,6 +14,7 @@ v0.0.4:
  [fix] "looking" messages longer than message log
  [fix] exploit that allowed to have both guns cocked
  [fix] wrong color handling in high scores table
+ [fix] enemies weapons' stats were sorted from smallest
 
 v0.0.3b:
  [new] game logo at starting screen
