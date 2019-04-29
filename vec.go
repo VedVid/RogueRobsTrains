@@ -302,6 +302,17 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 				} else {
 					chcol = "darker green"
 				}
+			} else { // For now, it's just extending long range, but should be handled differently
+				rang := c[0].Equipment[c[0].ActiveWeapon].Ranges[2]
+				if rang <= 25 {
+					chcol = "darker red"
+				} else if rang <= 50 {
+					chcol = "dark flame"
+				} else if rang <= 75 {
+					chcol = "darker yellow"
+				} else {
+					chcol = "darker green"
+				}
 			}
 			ch1 = "[color=" + chcol + "]" + vectorGoodSymbol
 		}
