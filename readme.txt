@@ -36,14 +36,15 @@ a-s-d   or   h-.-l   or   left-space-right   or   kp4-kp5-kp6
 z x c        b j n         end  down pgdn         kp1-kp2-kp3
 
 Special actions:
-1 - change weapon to rifle
-2 - change weapon to revolver
-3 - change weapon to melee
-f - target / fire / cock weapon
-r - reload / uncock weapon
-i - inspect
-g - pick up
-p - pull lever
+1     - change weapon to rifle
+2     - change weapon to revolver
+3     - change weapon to melee
+f     - target / fire / cock weapon
+[tab] - switch target
+r     - reload / uncock weapon
+i     - inspect
+g     - pick up
+p     - pull lever
 
 <SHIFT> + S - save game
 <SHIFT> + Q - quit game
