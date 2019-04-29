@@ -238,32 +238,32 @@ func (c *Creature) PickUp(o *Objects) bool {
 		sizeY := len(elements)
 		startY := (MapSizeY / 2) - (sizeY / 2)
 		endY := (MapSizeY / 2) + (sizeY/2 + (sizeY % 2))
-		for x := 5; x < MapSizeX-5; x++ {
+		for x := 4; x < MapSizeX-4; x++ {
 			for y := startY; y < endY; y++ {
 				blt.Layer(MenuLayer)
 				blt.Print(x, y, "[color=black]▓[/color]")
 				switch y {
 				case startY:
 					blt.Layer(MenuLayer + 1)
-					if x == 5 {
+					if x == 4 {
 						blt.Print(x, y, "[color=#a0785a]╔[/color]")
-					} else if x == MapSizeX-5-1 {
+					} else if x == MapSizeX-4-1 {
 						blt.Print(x, y, "[color=#a0785a]╗[/color]")
 					} else {
 						blt.Print(x, y, "[color=#a0785a]═[/color]")
 					}
 				case endY - 1:
 					blt.Layer(MenuLayer + 1)
-					if x == 5 {
+					if x == 4 {
 						blt.Print(x, y, "[color=#a0785a]╚[/color]")
-					} else if x == MapSizeX-5-1 {
+					} else if x == MapSizeX-4-1 {
 						blt.Print(x, y, "[color=#a0785a]╝[/color]")
 					} else {
 						blt.Print(x, y, "[color=#a0785a]═[/color]")
 					}
 				default:
 					switch x {
-					case 5, MapSizeX - 5 - 1:
+					case 4, MapSizeX - 4 - 1:
 						blt.Layer(MenuLayer + 1)
 						blt.Print(x, y, "[color=#a0785a]║[/color]")
 					}
@@ -297,10 +297,10 @@ func (c *Creature) PickUp(o *Objects) bool {
 				rangesStr = rangesStr + "[color=" + v.Color + "])[/color]"
 				weaponStr = weaponStr + rangesStr
 			}
-			blt.Print(5+2, startY+2+i, OrderToCharacter(i)+") "+weaponStr)
+			blt.Print(4+2, startY+2+i, OrderToCharacter(i)+") "+weaponStr)
 			maxI++
 		} //printing finished
-		blt.Print(5+2, startY+2+maxI+1, "Press [[ESCAPE]] to cancel.")
+		blt.Print(4+2, startY+2+maxI+1, "Press [[ESCAPE]] to cancel.")
 		blt.Refresh()
 		var key int
 		var ord int
