@@ -234,7 +234,7 @@ func PrintUI(c *Creature) {
 		blt.Print(UIPosX+3, UIPosY+pos+1, rangesStr)
 		pos += 2
 	}
-	instructions := "[color=#EDEAE0]────────────────────\n1 - grab rifle |\n2 - grab revolver -\n3 - grab melee }\nf - target/fire/cock\nTAB - switch target\nr - reload\ni - inspect\ng - pick up\np - pull lever\n────────────────────"
+	instructions := "[color=#EDEAE0]─────────────────────\n1:   grab rifle |\n2:   grab revolver -\n3:   grab melee }\nf:   target/fire/cock\nTAB: switch target\nr:   reload\ni:   inspect\ng:   pick up\np:   pull lever\n─────────────────────"
 	blt.Print(UIPosX, UIPosY+pos, instructions)
 }
 
