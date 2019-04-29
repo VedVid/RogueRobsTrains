@@ -1,4 +1,4 @@
-**Rogue Robs Trains** is 7DRL 2019 entry. The original version is tagged as [7drl_release](https://github.com/VedVid/RogueRobsTrains/releases/tag/7drl_release). Game is still under development, but next 0.0.4 release is supposed to be the final one. 
+**Rogue Robs Trains** is 7DRL 2019 entry. The original version is tagged as [7drl_release](https://github.com/VedVid/RogueRobsTrains/releases/tag/7drl_release). Game is still under development, but next 0.0.5 release is supposed to be the final one. 
 
 Topics: western, Old West, trains.
 
