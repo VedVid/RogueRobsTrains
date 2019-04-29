@@ -252,7 +252,6 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 	   to set coordinates of printing line symbol. */
 	blt.Clear()
 	RenderAll(b, o, c)
-	blt.Layer(LookLayer)
 	ch1 := "[color=" + color1 + "]" + vectorGoodSymbol
 	ch2 := "[color=" + color2 + "]" + vectorBadSymbol
 	if why == VectorWhyInspect {
@@ -260,10 +259,12 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 	}
 	length := len(vec.TilesX)
 	for i := 0; i < length; i++ {
+		blt.Layer(LookLayer)
 		if i == 0 && length > 1 {
 			// Do not draw over player, unless he is targeting self.
 			continue
 		}
+		sub := 0
 		if why == VectorWhyTarget {
 			chcol := "white"
 			if i <= RangeShort {
@@ -277,6 +278,7 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 				} else {
 					chcol = "darker green"
 				}
+				sub = 1
 			} else if i <= RangeMedium {
 				rang := c[0].Equipment[c[0].ActiveWeapon].Ranges[1]
 				if rang <= 25 {
@@ -288,6 +290,7 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 				} else {
 					chcol = "darker green"
 				}
+				sub = 2
 			} else if i <= RangeLong {
 				rang := c[0].Equipment[c[0].ActiveWeapon].Ranges[2]
 				if rang <= 25 {
@@ -309,6 +312,16 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 				blt.Print(x, y, ch1)
 			} else {
 				blt.Print(x, y, ch2)
+			}
+			for s := 1; s <= sub; s++ {
+				blt.Layer(LookLayer+s)
+				offX := 0
+				if s == 1 {
+					offX = -(FontSize/3)
+				} else if s == 3 {
+					offX = FontSize/3
+				}
+				blt.PutExt(x, y, x+offX, 0, ':', [4]uint32{})
 			}
 		}
 	}
